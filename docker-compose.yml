@@ -20,6 +20,20 @@ services:
     volumes:
       - property-management-data:/var/lib/postgresql/data
 
+  frontend:
+    build:
+      context: ./frontend # Use an image built from the specified dockerfile in the `polling-app-client` directory.
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
+    volumes:
+      - '/app/node_modules'
+    restart: always
+    ports:
+      - "3001:3000" # Map the exposed port 3000 on the container to port 9090 on the host machine
+    depends_on:
+      - web
+
 volumes:
   property-management-data:
     name: property-management-data
