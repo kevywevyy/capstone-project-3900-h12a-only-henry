@@ -27,7 +27,7 @@ public class AgentController {
         return agentDao.getAgents();
     }
 
-    @GetMapping("/{agentId")
+    @GetMapping("/{agentId}")
     public Agent getAgent(
             @PathVariable("agentId") Long agentId
     ) {
