@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS estates(
     n_bedrooms INTEGER NOT NULL,
     n_bathrooms INTEGER NOT NULL,
     price INTEGER NOT NUll,
-    inspection_dates DATE[],
+    inspection_dates DATE,
 
     PRIMARY KEY(id),
         CONSTRAINT fk_agent

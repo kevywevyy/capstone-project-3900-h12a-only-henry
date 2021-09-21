@@ -3,13 +3,10 @@ package com.ris.rentalinspectionsystem.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class Estate {
-
-    private final Long id;
+public class EstateRegistrationRequest {
     private final Long agent_id;
     private final String address;
     private final Double latitude;
@@ -20,8 +17,7 @@ public class Estate {
     private final Date inspection_dates;
 
     @JsonCreator
-    public Estate(
-            @JsonProperty("id") Long id,
+    public EstateRegistrationRequest(
             @JsonProperty("agent_id") Long agent_id,
             @JsonProperty("address") String address,
             @JsonProperty("latitude") Double latitude,
@@ -31,7 +27,6 @@ public class Estate {
             @JsonProperty("price") Integer price,
             @JsonProperty("inspection_dates") Date inspection_dates
     ) {
-        this.id = id;
         this.agent_id = agent_id;
         this.address = address;
         this.latitude = latitude;
@@ -43,11 +38,6 @@ public class Estate {
     }
 
     // Getters
-    @JsonProperty("id")
-    public Long getId() {
-        return id;
-    }
-
     @JsonProperty("agent_id")
     public Long getAgent_id() {
         return agent_id;
@@ -90,9 +80,8 @@ public class Estate {
 
     @Override
     public String toString() {
-        return "Estate{" +
-                "id=" + id +
-                ", agent_id=" + agent_id +
+        return "EstateRegistrationRequest{" +
+                "agent_id=" + agent_id +
                 ", address='" + address + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
@@ -107,12 +96,12 @@ public class Estate {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Estate estate = (Estate) o;
-        return id.equals(estate.id) && agent_id.equals(estate.agent_id) && address.equals(estate.address) && latitude.equals(estate.latitude) && longitude.equals(estate.longitude) && n_bedrooms.equals(estate.n_bedrooms) && n_bathrooms.equals(estate.n_bathrooms) && price.equals(estate.price) && inspection_dates.equals(estate.inspection_dates);
+        EstateRegistrationRequest that = (EstateRegistrationRequest) o;
+        return agent_id.equals(that.agent_id) && address.equals(that.address) && latitude.equals(that.latitude) && longitude.equals(that.longitude) && n_bedrooms.equals(that.n_bedrooms) && n_bathrooms.equals(that.n_bathrooms) && price.equals(that.price) && Objects.equals(inspection_dates, that.inspection_dates);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, agent_id, address, latitude, longitude, n_bedrooms, n_bathrooms, price);
+        return Objects.hash(agent_id, address, latitude, longitude, n_bedrooms, n_bathrooms, price, inspection_dates);
     }
 }
