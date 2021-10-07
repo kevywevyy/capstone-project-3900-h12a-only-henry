@@ -22,7 +22,7 @@ public class EstateController {
     @GetMapping("")
     public List<Estate> getEstates() { return estateDao.getEstates(); }
 
-    @GetMapping("/{estateId")
+    @GetMapping("/{estateId}")
     public Estate getEstate(
             @PathVariable("estateId") Long estateId
     ) {
