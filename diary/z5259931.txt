@@ -1,0 +1,12 @@
+Week 1
+We formed our group and decided to tackle Project 7. During the tutorial, we brainstormed
+various features together as a group and discussed whether how appropriate and realistic
+it was to implement.
+
+Week 2
+We created user stories based on the features we discussed last week and begun working
+on the Balsamiq wireframes. 
+
+Week 3
+Collaborated together on the proposal and worked on setting up the frontend of the Project
+and researching the tools we were planning to use.
