@@ -2,6 +2,7 @@ package com.ris.rentalinspectionsystem.controller;
 
 import com.ris.rentalinspectionsystem.dao.AgentDao;
 import com.ris.rentalinspectionsystem.model.Agent;
+import com.ris.rentalinspectionsystem.model.Enquiry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,13 @@ public class AgentController {
         } catch (DbActionExecutionException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    @PostMapping("/{agentId}/enquiries")
+    public Enquiry contactAgent(
+            @PathVariable Long agentId,
+            @Valid @RequestBody Enquiry enquiry
+    ) {
+        return enquiry;
     }
 }
