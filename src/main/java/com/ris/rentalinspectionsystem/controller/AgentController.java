@@ -3,7 +3,6 @@ package com.ris.rentalinspectionsystem.controller;
 import com.ris.rentalinspectionsystem.dao.AgentDao;
 import com.ris.rentalinspectionsystem.model.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
