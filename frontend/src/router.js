@@ -3,13 +3,9 @@ import styled from "styled-components";
 import { Redirect, Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import PropertyView from "./components/property/PropertyView";
+import Page from "./components/atoms/Page";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-
-const Page = styled.div`
-  width: 100vh;
-  height: 100vw;
-`;
 
 export const paths = [
   {
