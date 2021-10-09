@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS agents(
-    id BIGSERIAL NOT NULL,
-    username VARCHAR NOT NULL UNIQUE,
-    password VARCHAR NOT NULL,
-
-    PRIMARY KEY(id)
-
-);

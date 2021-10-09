@@ -1,5 +1,6 @@
 package com.ris.rentalinspectionsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -13,19 +14,32 @@ public class Agent {
 
     @Id
     @Null
-    private final Long id;
+    private Long id;
     @NotNull
-    private final String username;
+    @JsonProperty("first_name")
+    private final String firstName;
     @NotNull
-    private final String password;
+    @JsonProperty("last_name")
+    private final String lastName;
+    @NotNull
+    private final String email;
+    private final String phone;
+    @NotNull
+    private final String address;
 
     public Agent(
             Long id,
-            String username,
-            String password
+            String firstName,
+            String lastName,
+            String email,
+            String phone,
+            String address
     ) {
         this.id = id;
-        this.username = username;
-        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 }
