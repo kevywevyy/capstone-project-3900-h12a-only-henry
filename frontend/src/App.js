@@ -1,7 +1,6 @@
-import './App.css';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Table = styled.div`
   display: grid;
@@ -12,29 +11,32 @@ const Table = styled.div`
 
   height: 100%;
   width: 100%;
-`
+`;
 
-const TableHeader = styled.h1`
-`
+const TableHeader = styled.h1``;
 
 const TableContent = styled.div`
   /* margin: 8px 0 0 0; */
-`
+`;
 
 function App() {
-  const [data, setData] = useState([{
-    id: 1,
-    username: "Mike",
-    password: "blah"
-  }, {
-    id: 2,
-    username: "Mike",
-    password: "blah"
-  }, {
-    id: 3,
-    username: "Mike",
-    password: "blah"
-  }]);
+  const [data, setData] = useState([
+    {
+      id: 1,
+      username: "Mike",
+      password: "blah",
+    },
+    {
+      id: 2,
+      username: "Mike",
+      password: "blah",
+    },
+    {
+      id: 3,
+      username: "Mike",
+      password: "blah",
+    },
+  ]);
 
   useEffect(async () => {
     const result = await axios.get("http://localhost:8080/api/agent");
@@ -57,22 +59,20 @@ function App() {
   return (
     <>
       {!data.length && <div>Loading...</div>}
-      {!!data.length && <Table>
-        <TableHeader>ID</TableHeader>
-        <TableHeader>Username</TableHeader>
-        <TableHeader>Password</TableHeader>
-        {data.map(d => <>
-          <TableContent key={d.id}>
-            {`${d.id}`}
-          </TableContent>
-          <TableContent key={d.id}>
-            {`${d.username}`}
-          </TableContent>
-          <TableContent key={d.id}>
-            {`${d.password}`}
-          </TableContent>
-        </>)}
-      </Table>}
+      {!!data.length && (
+        <Table>
+          <TableHeader>ID</TableHeader>
+          <TableHeader>Username</TableHeader>
+          <TableHeader>Password</TableHeader>
+          {data.map((d) => (
+            <>
+              <TableContent key={d.id}>{`${d.id}`}</TableContent>
+              <TableContent key={d.id}>{`${d.username}`}</TableContent>
+              <TableContent key={d.id}>{`${d.password}`}</TableContent>
+            </>
+          ))}
+        </Table>
+      )}
     </>
   );
 }
