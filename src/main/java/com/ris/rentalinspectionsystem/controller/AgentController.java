@@ -3,6 +3,7 @@ package com.ris.rentalinspectionsystem.controller;
 import com.ris.rentalinspectionsystem.dao.AgentDao;
 import com.ris.rentalinspectionsystem.model.Agent;
 import com.ris.rentalinspectionsystem.model.Enquiry;
+import com.ris.rentalinspectionsystem.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,12 @@ import java.util.List;
 public class AgentController {
 
     private final AgentDao agentDao;
+    private final EmailService emailService;
 
     @Autowired
-    public AgentController(AgentDao agentDao) {
+    public AgentController(AgentDao agentDao, EmailService emailService) {
         this.agentDao = agentDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("")
@@ -63,6 +66,9 @@ public class AgentController {
             @PathVariable Long agentId,
             @Valid @RequestBody Enquiry enquiry
     ) {
+        Agent agent = agentDao.getAgent(agentId);
+        emailService.sendEnquiry(agent, enquiry);
+
         return enquiry;
     }
 }

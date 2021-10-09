@@ -11,6 +11,8 @@ public class Enquiry {
     @NotNull
     private final Topic topic;
     @NotNull
+    private final String address;
+    @NotNull
     private final String message;
     @NotNull
     @JsonProperty("first_name")
@@ -24,6 +26,7 @@ public class Enquiry {
 
     public Enquiry(
             String topic,
+            String address,
             String message,
             String firstName,
             String lastName,
@@ -31,26 +34,11 @@ public class Enquiry {
             String phone
     ) {
         this.topic = Topic.fromString(topic);
+        this.address = address;
         this.message = message;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-    }
-}
-
-
-enum Topic {
-    SCHEDULE_INSPECTION,
-    RENTAL_RATE,
-    OTHER;
-
-    public static Topic fromString(String s) {
-        for (Topic topic : Topic.values()) {
-            if (topic.name().equalsIgnoreCase(s)) {
-                return topic;
-            }
-        }
-        return null;
     }
 }
