@@ -17,61 +17,61 @@ public class Estate {
     @Id
     @Null
     private Long id;
-    @Null
-    private Long agent_id;
+    @NotNull
+    private Long agentId;
     @NotNull
     private final String title;
     @NotNull
     private final String description;
     @NotNull
-    private final String property_type;
+    private final String propertyType;
     @NotNull
     private final String address;
     @NotNull
-    private final Integer n_bedrooms;
+    private final Integer nBedrooms;
     @NotNull
-    private final Integer n_bathrooms;
+    private final Integer nBathrooms;
     @NotNull
-    private final Integer n_garages;
+    private final Integer nGarages;
     @NotNull
-    private final Integer land_sqm;
+    private final Integer landSqm;
     @NotNull
     private final Integer price;
     private final String images;
-    private final Date inspection_dates;
+    private final Date inspectionDates;
     @NotNull
-    private final Boolean open_status;
+    private final Boolean openStatus;
 
     @JsonCreator
     public Estate(
             @JsonProperty("id") Long id,
-            @JsonProperty("agent_id") Long agent_id,
+            @JsonProperty("agent_id") Long agentId,
             @JsonProperty("title") String title,
             @JsonProperty("description") String description,
-            @JsonProperty("property_type") String property_type,
+            @JsonProperty("property_type") String propertyType,
             @JsonProperty("address") String address,
-            @JsonProperty("n_bedrooms") Integer n_bedrooms,
-            @JsonProperty("n_bathrooms") Integer n_bathrooms,
-            @JsonProperty("n_garages") Integer n_garages,
-            @JsonProperty("land_sqm") Integer land_sqm,
+            @JsonProperty("n_bedrooms") Integer nBedrooms,
+            @JsonProperty("n_bathrooms") Integer nBathrooms,
+            @JsonProperty("n_garages") Integer nGarages,
+            @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
-            @JsonProperty("inspection_dates") Date inspection_dates,
-            @JsonProperty("open_status") Boolean open_status
+            @JsonProperty("inspection_dates") Date inspectionDates,
+            @JsonProperty("open_status") Boolean openStatus
     ) {
         this.id = id;
-        this.agent_id = agent_id;
+        this.agentId = agentId;
         this.title = title;
         this.description = description;
-        this.property_type = property_type;
+        this.propertyType = propertyType;
         this.address = address;
-        this.n_bedrooms = n_bedrooms;
-        this.n_bathrooms = n_bathrooms;
-        this.n_garages = n_garages;
-        this.land_sqm = land_sqm;
+        this.nBedrooms = nBedrooms;
+        this.nBathrooms = nBathrooms;
+        this.nGarages = nGarages;
+        this.landSqm = landSqm;
         this.price = price;
         this.images = images;
-        this.inspection_dates = inspection_dates;
-        this.open_status = open_status;
+        this.inspectionDates = inspectionDates;
+        this.openStatus = openStatus;
     }
 }

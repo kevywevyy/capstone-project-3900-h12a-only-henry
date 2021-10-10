@@ -22,16 +22,16 @@ public class EstateDao {
     }
 
     public Estate getEstate(Long agentId, Long estateId) {
-        return estatesRepository.findByAgentIdAndEstateId(agentId, estateId);
+        return estatesRepository.findByIdAndAgentId(agentId, estateId);
     }
 
     public Estate createEstate(Long agentId, Estate estate) {
-        estate.setAgent_id(agentId);
+        estate.setAgentId(agentId);
         return estatesRepository.save(estate);
     }
 
     public Estate putEstate(Long agentId, Long estateId, Estate estate) {
-        estate.setAgent_id(agentId);
+        estate.setAgentId(agentId);
         estate.setId(estateId);
         return estatesRepository.save(estate);
     }

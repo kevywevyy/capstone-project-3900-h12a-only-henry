@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EstatesRepository extends CrudRepository<Estate, Long> {
-    Estate findByAgentIdAndEstateId(Long agentId, Long estateId);
+    Estate findByIdAndAgentId(Long agent_id, Long id);
 }
