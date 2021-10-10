@@ -24,8 +24,5 @@ CREATE TABLE IF NOT EXISTS estates(
     inspection_dates DATE,
     open_status BOOLEAN NOT NULL,
 
-    PRIMARY KEY(id),
-        CONSTRAINT fk_agent
-            FOREIGN KEY(agent_id)
-                REFERENCES agents(id)
+    PRIMARY KEY(id)
 );
