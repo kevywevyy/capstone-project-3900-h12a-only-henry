@@ -1,8 +1,7 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
-import Router from "./router";
+import App from "./App";
 import GlobalStyle from "./styles/global.css";
 
 const darkTheme = createTheme({
@@ -15,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
-      <Router />
+      <App />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

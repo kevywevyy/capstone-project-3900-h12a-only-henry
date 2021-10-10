@@ -44,7 +44,8 @@ function useAPI(func, initialState = {}) {
       const result = await func();
       dispatch({ type: "SUCCESS", data: result });
     } catch (e) {
-      dispatch({ type: "ERROR", error: e });
+      console.log("error is", e);
+      dispatch({ type: "ERROR", data: e.toString() });
     }
   };
 

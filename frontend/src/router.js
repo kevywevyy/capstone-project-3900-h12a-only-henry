@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Redirect, Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import PropertyView from "./components/property/PropertyView";
