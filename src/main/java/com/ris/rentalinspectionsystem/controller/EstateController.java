@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/estate")
+@RequestMapping("/api/agent/{agentId}/estates")
 public class EstateController {
     private final EstateDao estateDao;
 
@@ -20,21 +20,23 @@ public class EstateController {
     public EstateController(EstateDao estateDao) { this.estateDao = estateDao; }
 
     @GetMapping("")
-    public List<Estate> getEstates() { return estateDao.getEstates(); }
+    public List<Estate> getEstates(@PathVariable("agentId") Long agentId) { return estateDao.getEstates(agentId); }
 
     @GetMapping("/{estateId}")
     public Estate getEstate(
+            @PathVariable("agentId") Long agentId,
             @PathVariable("estateId") Long estateId
     ) {
-        return estateDao.getEstate(estateId);
+        return estateDao.getEstate(agentId, estateId);
     }
 
     @PostMapping("")
     public void createEstate(
+            @PathVariable("agentId") Long agentId,
             @Valid @RequestBody Estate estate
     ) {
         try {
-            estateDao.createEstate(estate);
+            estateDao.createEstate(agentId, estate);
         } catch (DbActionExecutionException e) { // not sure if it's this exception yet
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -42,11 +44,12 @@ public class EstateController {
 
     @PostMapping("{estateId}")
     public Estate updateEstate (
-            @PathVariable Long estateId,
+            @PathVariable("agentId") Long agentId,
+            @PathVariable("estateId") Long estateId,
             @Valid @RequestBody Estate estate
     ) {
         try {
-            return estateDao.putEstate(estateId, estate);
+            return estateDao.putEstate(agentId, estateId, estate);
         } catch (DbActionExecutionException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

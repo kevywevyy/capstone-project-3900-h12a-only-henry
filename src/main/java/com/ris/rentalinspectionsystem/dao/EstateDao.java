@@ -13,23 +13,25 @@ public class EstateDao {
     private final EstatesRepository estatesRepository;
 
     @Autowired
-    public EstateDao(estatesRepository estatesRepository) {
+    public EstateDao(EstatesRepository estatesRepository) {
         this.estatesRepository = estatesRepository;
     }
 
-    public List<Estate> getEstates() {
-        return (List<Estate>) estatesRepository.findAll();
+    public List<Estate> getEstates(Long id) {
+        return (List<Estate>) estatesRepository.findById(id).orElse(null);
     }
 
-    public Estate getEstate(Long id) {
-        return estatesRepository.findById(id).orElse(null);
+    public Estate getEstate(Long agentId, Long estateId) {
+        return estatesRepository.findByAgentIdAndEstateId(agentId, estateId);
     }
 
-    public Estate createEstate(Estate estate) {
+    public Estate createEstate(Long agentId, Estate estate) {
+        estate.setAgent_id(agentId);
         return estatesRepository.save(estate);
     }
 
-    public Estate putEstate(Long estateId, Estate estate) {
+    public Estate putEstate(Long agentId, Long estateId, Estate estate) {
+        estate.setAgent_id(agentId);
         estate.setId(estateId);
         return estatesRepository.save(estate);
     }
