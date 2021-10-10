@@ -51,7 +51,7 @@ public class AgentController {
             @Valid @RequestBody Agent agent
     ) {
         try {
-            return agentDao.putAgent(new Agent(agentId, agent.getUsername(), agent.getPassword()));
+            return agentDao.putAgent(agentId, agent);
         } catch (DbActionExecutionException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
