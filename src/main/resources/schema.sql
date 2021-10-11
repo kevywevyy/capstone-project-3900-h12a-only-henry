@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS agents
 (
-    id         BIGSERIAL,
+    id         BIGSERIAL PRIMARY KEY,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
     email      VARCHAR NOT NULL,
@@ -24,5 +24,6 @@ CREATE TABLE IF NOT EXISTS estates(
     inspection_dates DATE,
     open_status BOOLEAN NOT NULL,
 
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(agent_id) REFERENCES agents(id)
 );

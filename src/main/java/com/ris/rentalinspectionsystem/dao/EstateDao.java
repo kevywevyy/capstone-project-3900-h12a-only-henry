@@ -18,11 +18,11 @@ public class EstateDao {
     }
 
     public List<Estate> getEstates(Long id) {
-        return (List<Estate>) estatesRepository.findById(id).orElse(null);
+        return estatesRepository.findAllByAgentId(id);
     }
 
     public Estate getEstate(Long agentId, Long estateId) {
-        return estatesRepository.findByIdAndAgentId(agentId, estateId);
+        return estatesRepository.findByAgentIdAndId(agentId, estateId);
     }
 
     public Estate createEstate(Long agentId, Estate estate) {

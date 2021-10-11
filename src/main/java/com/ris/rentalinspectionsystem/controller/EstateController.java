@@ -31,12 +31,12 @@ public class EstateController {
     }
 
     @PostMapping("")
-    public void createEstate(
+    public Estate createEstate(
             @PathVariable("agentId") Long agentId,
             @Valid @RequestBody Estate estate
     ) {
         try {
-            estateDao.createEstate(agentId, estate);
+            return estateDao.createEstate(agentId, estate);
         } catch (DbActionExecutionException e) { // not sure if it's this exception yet
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
