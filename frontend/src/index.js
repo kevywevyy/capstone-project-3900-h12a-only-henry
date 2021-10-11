@@ -6,7 +6,7 @@ import GlobalStyle from "./styles/global.css";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
   },
 });
 

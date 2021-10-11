@@ -1,6 +1,6 @@
-import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 import userContext from "../../lib/context";
@@ -29,21 +29,26 @@ const userTypes = [
 ];
 
 function Register() {
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [type, setType] = useState("");
   const history = useHistory();
   const { setUserContext } = useContext(userContext);
 
   const register = useCallback(() => {
     return API.register({
-      username,
+      firstName,
+      lastName,
       password,
       email,
+      address,
       type,
     });
-  }, [username, password, email, type]);
+  }, [firstName, lastName, password, email, address, type]);
 
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
@@ -57,15 +62,24 @@ function Register() {
 
   return (
     <RegisterForm>
-      <Typography variant="h6">Register</Typography>
       <TextField
         required
-        label="Username"
+        label="First Name"
         type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
         sx={{
-          marginTop: "16px",
+          marginTop: "8px",
+        }}
+      />
+      <TextField
+        required
+        label="Last Name"
+        type="text"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        sx={{
+          marginTop: "8px",
         }}
       />
       <TextField
@@ -84,6 +98,25 @@ function Register() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        sx={{
+          marginTop: "8px",
+        }}
+      />
+      <TextField
+        required
+        label="Address"
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        sx={{
+          marginTop: "8px",
+        }}
+      />
+      <TextField
+        label="Phone"
+        type="text"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
         sx={{
           marginTop: "8px",
         }}
@@ -112,14 +145,6 @@ function Register() {
         }}
       >
         {!inProgress ? "Register" : "Loading..."}
-      </Button>
-      <Button
-        onClick={() => history.push("/login")}
-        sx={{
-          marginTop: "8px",
-        }}
-      >
-        Already have an account? Login here
       </Button>
       {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>}
     </RegisterForm>

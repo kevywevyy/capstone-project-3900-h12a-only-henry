@@ -1,9 +1,9 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
-import userContext, { useUserContext } from "../../lib/context";
+import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 
@@ -18,37 +18,42 @@ const LoginForm = styled.div`
 `;
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUserContext } = useUserContext(userContext);
+  const { setUserContext } = useContext(userContext);
   const history = useHistory();
 
-  const login = useCallback(() => {
-    return API.login({
-      username,
-      password,
-    });
-  }, [username, password]);
+  // TODO: Uncomment once backend has support logging in
+  // const login = useCallback(() => {
+  //   return API.login({
+  //     email,
+  //     password,
+  //   });
+  // }, [email, password]);
 
-  const [{ inProgress, error, data }, makeRequest] = useAPI(login);
+  // const [{ inProgress, error, data }, makeRequest] = useAPI(login);
 
-  useEffect(() => {
-    if (data && data.token) {
-      // Updates state of user by setting a token
-      setUserContext({ token: data.token });
-      history.push("/");
-    }
-  }, [data, history, setUserContext]);
+  // useEffect(() => {
+  //   if (data && data.token) {
+  //     // Updates state of user by setting a token
+  //     setUserContext({ token: data.token });
+  //     history.push("/");
+  //   }
+  // }, [data, history, setUserContext]);
+
+  const stubLogin = () => {
+    setUserContext({ token: "1" });
+    history.push("/");
+  };
 
   return (
     <LoginForm>
-      <Typography variant="h2">Rental Inspection System</Typography>
       <TextField
         required
-        label="Username"
+        label="Email"
         type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         sx={{
           marginTop: "16px",
         }}
@@ -63,13 +68,11 @@ function Login() {
           marginTop: "8px",
         }}
       />
-      <Button onClick={makeRequest}>
-        {!inProgress ? "Login" : "Loading..."}
+      <Button onClick={stubLogin} sx={{ marginTop: "8px" }}>
+        {/* {!inProgress ? "Login" : "Loading..."} */}
+        Login
       </Button>
-      <Button onClick={() => history.push("/register")}>
-        Don't have an account? Register here
-      </Button>
-      {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>}
+      {/* {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>} */}
     </LoginForm>
   );
 }

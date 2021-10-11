@@ -1,4 +1,4 @@
-import { post } from "./request";
+import { get, post, patch } from "./request";
 
 class api {
   constructor(host) {
@@ -15,13 +15,13 @@ class api {
 
   async register(body) {
     return post({
-      url: `${this.host}/agent/register`,
+      url: `${this.host}/agent`,
       body,
     });
   }
 
   async getProperties(agentId) {
-    return post({
+    return get({
       url: `${this.host}/agent/${agentId}/estates`,
     });
   }
@@ -31,6 +31,21 @@ class api {
       url: `${this.host}/agent/${agentId}/estates`,
       body,
     });
+  }
+
+  async editProperty(agentId, estateId, updatedState) {
+    return patch({
+      url: `${this.host}/agent/${agentId}/estates/${estateId}`,
+      body: updatedState,
+    });
+  }
+
+  async closeProperty(agentId, estateId) {
+    return this.editProperty(agentId, estateId, { open: false });
+  }
+
+  async openProperty(agentId, estateId) {
+    return this.editProperty(agentId, estateId, { open: true });
   }
 
   async sendEmail(agentId, body) {

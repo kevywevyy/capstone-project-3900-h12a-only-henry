@@ -34,3 +34,12 @@ export const get = async (params) => {
     headers: params.headers,
   });
 };
+
+export const patch = async (params) => {
+  return request({
+    method: "patch",
+    url: params.url,
+    headers: params.headers,
+    data: params.body,
+  });
+};

@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 import API from "../services/api";
-
-const USER_KEY = "USER";
+import { USER_KEY } from "../const";
 
 const userContext = createContext({
   user: { token: "" },
