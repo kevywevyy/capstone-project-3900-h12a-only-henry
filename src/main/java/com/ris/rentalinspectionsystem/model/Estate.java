@@ -28,11 +28,11 @@ public class Estate {
     @NotNull
     private final String address;
     @NotNull
-    private final Integer nBedrooms;
+    private final Integer bedrooms;
     @NotNull
-    private final Integer nBathrooms;
+    private final Integer bathrooms;
     @NotNull
-    private final Integer nGarages;
+    private final Integer garages;
     @NotNull
     private final Integer landSqm;
     @NotNull
@@ -50,9 +50,9 @@ public class Estate {
             @JsonProperty("description") String description,
             @JsonProperty("property_type") String propertyType,
             @JsonProperty("address") String address,
-            @JsonProperty("n_bedrooms") Integer nBedrooms,
-            @JsonProperty("n_bathrooms") Integer nBathrooms,
-            @JsonProperty("n_garages") Integer nGarages,
+            @JsonProperty("bedrooms") Integer bedrooms,
+            @JsonProperty("bathrooms") Integer bathrooms,
+            @JsonProperty("garages") Integer garages,
             @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
@@ -65,9 +65,9 @@ public class Estate {
         this.description = description;
         this.propertyType = propertyType;
         this.address = address;
-        this.nBedrooms = nBedrooms;
-        this.nBathrooms = nBathrooms;
-        this.nGarages = nGarages;
+        this.bedrooms = bedrooms;
+        this.bathrooms = bathrooms;
+        this.garages = garages;
         this.landSqm = landSqm;
         this.price = price;
         this.images = images;
