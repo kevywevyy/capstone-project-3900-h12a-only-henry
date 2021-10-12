@@ -17,7 +17,7 @@ public class Estate {
     @Id
     @Null
     private Long id;
-    @NotNull
+    @Null
     private Long agentId;
     @NotNull
     private final String title;
@@ -40,7 +40,7 @@ public class Estate {
     private final String images;
     private final Date inspectionDates;
     @NotNull
-    private final Boolean openStatus;
+    private final Boolean open;
 
     @JsonCreator
     public Estate(
@@ -57,7 +57,7 @@ public class Estate {
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
             @JsonProperty("inspection_dates") Date inspectionDates,
-            @JsonProperty("open_status") Boolean openStatus
+            @JsonProperty("open") Boolean open
     ) {
         this.id = id;
         this.agentId = agentId;
@@ -72,6 +72,6 @@ public class Estate {
         this.price = price;
         this.images = images;
         this.inspectionDates = inspectionDates;
-        this.openStatus = openStatus;
+        this.open = open;
     }
 }
