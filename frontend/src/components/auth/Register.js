@@ -41,6 +41,7 @@ function Register() {
 
   const register = useCallback(() => {
     return API.register({
+      id: null,
       firstName,
       lastName,
       password,

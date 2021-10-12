@@ -36,7 +36,9 @@ function PropertyView() {
     useAPI(fetchAllProperties);
 
   useEffect(() => {
-    makeAPIRequest();
+    if (!inProgress) {
+      makeAPIRequest();
+    }
   }, [makeAPIRequest]);
 
   useEffect(() => {
