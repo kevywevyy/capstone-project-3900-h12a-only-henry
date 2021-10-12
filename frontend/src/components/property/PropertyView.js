@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Typography, Button, Box } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Box,
+  Divider,
+  CircularProgress,
+} from "@mui/material";
 import styled from "styled-components";
 import PropertyCard from "./PropertyCard";
 import { useHistory } from "react-router-dom";
+import API from "../../services/api";
+import userContext from "../../lib/context";
+import useAPI from "../../services/useApi";
 
 const PropertyViewContainer = styled.div`
   display: flex;
@@ -16,27 +25,37 @@ const PropertyViewContainer = styled.div`
 
 function PropertyView() {
   const history = useHistory();
+  const { user } = useContext(userContext);
+  const [properties, setProperties] = useState([]);
 
-  const estateStub = {
-    title: "Amazing home in a lush neighborhood",
-    property_type: "house",
-    bedrooms: 3,
-    bathrooms: 1,
-    garages: 1,
-    address: "30 Bristol Road, Hurstville",
-    land_sqm: "300",
-    price: 1000,
-    images:
-      "https://image.shutterstock.com/image-photo/blue-tiny-house-wooden-porch-600w-1639433239.jpg",
-    open: true,
-  };
+  const fetchAllProperties = useCallback(() => {
+    return API.getAllProperties(user.token);
+  }, [user]);
+
+  const [{ inProgress, error, data }, makeAPIRequest] =
+    useAPI(fetchAllProperties);
+
+  useEffect(() => {
+    makeAPIRequest();
+  }, [makeAPIRequest]);
+
+  useEffect(() => {
+    if (!inProgress && !error && !!data) {
+      setProperties(data);
+    }
+  }, [inProgress, error, data]);
+
+  console.log(inProgress, error, properties);
 
   return (
     <PropertyViewContainer>
+      {inProgress && <CircularProgress />}
       <Box sx={{ display: "flex" }}>
         <Typography variant="h4">Open Properties</Typography>
         <Button
           onClick={() => history.push("/property/add")}
+          color="secondary"
+          variant="outlined"
           sx={{
             marginLeft: "8px",
           }}
@@ -45,15 +64,31 @@ function PropertyView() {
           Add
         </Button>
       </Box>
-      <PropertyCard estate={estateStub} />
-      <PropertyCard estate={estateStub} />
-      <PropertyCard estate={estateStub} />
-      <PropertyCard estate={estateStub} />
+      <Divider sx={{ marginTop: "8px" }} />
+      {!properties.filter((p) => p.open).length && (
+        <Typography variant="body1" marginTop={1}>
+          No open properties
+        </Typography>
+      )}
+      {properties
+        .filter((p) => p.open)
+        .map((p) => (
+          <PropertyCard property={p} />
+        ))}
       <Typography variant="h4" sx={{ marginTop: "32px" }}>
         Closed Properties
       </Typography>
-      <PropertyCard estate={estateStub} />
-      <PropertyCard estate={estateStub} />
+      <Divider sx={{ marginTop: "8px" }} />
+      {!properties.filter((p) => !p.open).length && (
+        <Typography variant="body1" marginTop={1}>
+          No closed properties
+        </Typography>
+      )}
+      {properties
+        .filter((p) => !p.open)
+        .map((p) => (
+          <PropertyCard property={p} />
+        ))}
     </PropertyViewContainer>
   );
 }

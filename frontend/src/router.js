@@ -13,6 +13,8 @@ import {
   SUBNAV_HEIGHT,
 } from "./const";
 import Navbar from "./components/navbar/Navbar";
+import PropertyDetails from "./components/property/PropertyDetails";
+import PropertyEdit from "./components/property/PropertyEdit";
 
 const Page = styled.div`
   width: 100vw;
@@ -21,16 +23,18 @@ const Page = styled.div`
 
 export const paths = [
   {
-    path: "/",
-    exact: true,
-    component: Login,
-    name: "Login",
-  },
-  {
     path: "/register",
     exact: true,
+    strict: true,
     component: Register,
     name: "Register",
+  },
+  {
+    path: "/",
+    exact: true,
+    strict: true,
+    component: Login,
+    name: "Login",
   },
 ];
 
@@ -38,10 +42,45 @@ export const managerPaths = [
   {
     path: "/",
     exact: true,
+    strict: true,
     component: PropertyView,
     name: "Properties",
   },
+  {
+    path: "/property/:estateId/edit",
+    exact: true,
+    strict: true,
+    component: PropertyEdit,
+    name: "Editing Property",
+  },
+  {
+    path: "/property/:estateId",
+    exact: true,
+    strict: true,
+    component: PropertyDetails,
+    name: "Property Details",
+  },
+  // {
+  //   path: "/property/add",
+  //   exact: true,
+  //   component
+  // }
 ];
+
+// Page Layout
+function Layout({ Content, user, activePath }) {
+  return (
+    <>
+      <Navbar
+        role={!!user.token ? ROLE_MANAGER : ROLE_GUEST}
+        path={activePath}
+      />
+      <Page>
+        <Content />
+      </Page>
+    </>
+  );
+}
 
 export const inspectorPaths = [{}];
 
@@ -53,23 +92,19 @@ function Router() {
 
   return (
     <BrowserRouter>
-      <Navbar
-        role={!!user.token ? ROLE_MANAGER : ROLE_GUEST}
-        path={activePath}
-      />
-      <Page>
-        <Switch>
-          {activePath.map((p, i) => (
-            <Route
-              path={p.path}
-              exact={p.exact}
-              component={p.component}
-              key={`ris-path-${i}`}
-            />
-          ))}
-          <Redirect to="/" />
-        </Switch>
-      </Page>
+      <Switch>
+        {activePath.map((p, i) => (
+          <Route
+            path={p.path}
+            exact={p.exact}
+            strict={p.strict}
+            key={`ris-path-${i}`}
+          >
+            <Layout Content={p.component} user={user} activePath={activePath} />
+          </Route>
+        ))}
+        <Redirect to="/" />
+      </Switch>
     </BrowserRouter>
   );
 }

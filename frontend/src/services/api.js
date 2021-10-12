@@ -20,16 +20,25 @@ class api {
     });
   }
 
-  async getProperties(agentId) {
+  async getAllProperties(agentId) {
     return get({
       url: `${this.host}/agent/${agentId}/estates`,
+    });
+  }
+
+  async getProperty(agentId, estateId) {
+    return get({
+      url: `${this.host}/agent/${agentId}/estates/${estateId}`,
     });
   }
 
   async addProperty(agentId, body) {
     return post({
       url: `${this.host}/agent/${agentId}/estates`,
-      body,
+      body: {
+        agent_id: agentId,
+        ...body,
+      },
     });
   }
 
