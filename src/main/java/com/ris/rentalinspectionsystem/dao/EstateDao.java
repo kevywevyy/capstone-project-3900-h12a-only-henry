@@ -39,12 +39,22 @@ public class EstateDao {
         List<String> queryArgs = new ArrayList<>();
 
         for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
-            if (queryParam.getKey().equals("land_sqm_min")) {
-                queryArgs.add(String.format("%s >= :%s", "land_sqm", queryParam.getKey()));
-            } else if (queryParam.getKey().equals("land_sqm_max")) {
-                queryArgs.add(String.format("%s <= :%s", "land_sqm", queryParam.getKey()));
-            } else {
-                queryArgs.add(String.format("%s = :%s", queryParam.getKey(), queryParam.getKey()));
+            switch (queryParam.getKey()) {
+                case "land_sqm_min":
+                    queryArgs.add(String.format("%s >= :%s", "land_sqm", queryParam.getKey()));
+                    break;
+                case "land_sqm_max":
+                    queryArgs.add(String.format("%s <= :%s", "land_sqm", queryParam.getKey()));
+                    break;
+                case "price_min":
+                    queryArgs.add(String.format("%s >= :%s", "price", queryParam.getKey()));
+                    break;
+                case "price_max":
+                    queryArgs.add(String.format("%s <= :%s", "price", queryParam.getKey()));
+                    break;
+                default:
+                    queryArgs.add(String.format("%s = :%s", queryParam.getKey(), queryParam.getKey()));
+                    break;
             }
         }
 

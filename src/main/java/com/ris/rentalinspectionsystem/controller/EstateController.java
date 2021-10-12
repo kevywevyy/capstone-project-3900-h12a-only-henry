@@ -27,7 +27,10 @@ public class EstateController {
             @RequestParam(required = false) Integer garages,
             @RequestParam(required = false) String propertyType,
             @RequestParam(required = false) Integer landSqmMin,
-            @RequestParam(required = false) Integer landSqmMax
+            @RequestParam(required = false) Integer landSqmMax,
+            @RequestParam(required = false) Integer priceMin,
+            @RequestParam(required = false) Integer priceMax,
+            @RequestParam(required = false) Boolean open
     ) {
         Map<String, Object> queryParams = new HashMap();
         queryParams.put("bedrooms", bedrooms);
@@ -36,6 +39,9 @@ public class EstateController {
         queryParams.put("property_type", propertyType);
         queryParams.put("land_sqm_min", landSqmMin);
         queryParams.put("land_sqm_max", landSqmMax);
+        queryParams.put("price_min", priceMin);
+        queryParams.put("price_max", priceMax);
+        queryParams.put("open", open);
 
         queryParams.values().removeAll(Collections.singleton(null));
 
