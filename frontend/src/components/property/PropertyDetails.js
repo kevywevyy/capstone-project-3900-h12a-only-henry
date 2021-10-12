@@ -20,17 +20,17 @@ function PropertyDetails() {
   const { estateId } = useParams();
   const history = useHistory();
   const { user } = useContext(userContext);
-  const [property, setProperty] = useState();
+  const [property, setProperty] = useState(null);
 
   const fetchProperty = useCallback(() => {
-    API.getProperty(user.token, estateId);
+    return API.getProperty(user.token, estateId);
   }, [user, estateId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
 
   useEffect(() => {
     makeAPIRequest();
-  }, [makeAPIRequest]);
+  }, []);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
@@ -46,7 +46,7 @@ function PropertyDetails() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "16px" }}>
       {inProgress && <CircularProgress />}
-      {!inProgress && (
+      {!inProgress && !!property && (
         <Grid container>
           <Grid
             item

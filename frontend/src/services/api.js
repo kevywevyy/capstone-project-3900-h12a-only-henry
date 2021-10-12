@@ -7,54 +7,62 @@ class api {
   }
 
   async login(body) {
-    return post({
+    const response = await post({
       url: `${this.host}/agent/login`,
       body,
     });
+    return response.data;
   }
 
   async register(body) {
-    return post({
+    const response = await post({
       url: `${this.host}/agent`,
       body,
     });
+    return response.data;
   }
 
   async getAllProperties(agentId) {
-    return get({
+    const response = await get({
       url: `${this.host}/agent/${agentId}/estates`,
     });
+    return response.data;
   }
 
   async getProperty(agentId, estateId) {
-    return get({
+    const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
     });
+    return response.data;
   }
 
   async addProperty(agentId, body) {
-    return post({
+    const response = await post({
       url: `${this.host}/agent/${agentId}/estates`,
       body: {
-        agent_id: agentId,
         ...body,
-      },
+        open: false
+      }
     });
+    return response.data;
   }
 
   async editProperty(agentId, estateId, updatedState) {
-    return patch({
+    const response = await patch({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
       body: updatedState,
     });
+    return response.data;
   }
 
   async closeProperty(agentId, estateId) {
-    return this.editProperty(agentId, estateId, { open: false });
+    const response = await this.editProperty(agentId, estateId, { open: false });
+    return response.data;
   }
 
   async openProperty(agentId, estateId) {
-    return this.editProperty(agentId, estateId, { open: true });
+    const response = await this.editProperty(agentId, estateId, { open: true });
+    return response.data;
   }
 
   async sendEmail(agentId, body) {

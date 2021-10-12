@@ -15,16 +15,15 @@ function PropertyEdit() {
   const { estateId } = useParams();
   const history = useHistory();
   const { user } = useContext(userContext);
-  const [property, setProperty] = useState();
 
-  const [title, setTitle] = useState(property.title);
-  const [description, setDescription] = useState(property.description);
-  const [address, setAddress] = useState(property.address);
-  const [bedrooms, setBedrooms] = useState(property.bedrooms);
-  const [bathrooms, setBathrooms] = useState(property.bathrooms);
-  const [garages, setGarages] = useState(property.garages);
-  const [landSqm, setLandSqm] = useState(property.land_sqm);
-  const [price, setPrice] = useState(property.price);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
+  const [bedrooms, setBedrooms] = useState(0);
+  const [bathrooms, setBathrooms] = useState(0);
+  const [garages, setGarages] = useState(0);
+  const [landSqm, setLandSqm] = useState(0);
+  const [price, setPrice] = useState(0);
 
   const fetchProperty = useCallback(async () => {
     return API.getProperty(user.token, estateId);
@@ -60,7 +59,14 @@ function PropertyEdit() {
   useEffect(() => {
     const init = async () => {
       const fetchedProperty = await fetchProperty();
-      setProperty(fetchedProperty);
+      setTitle(fetchedProperty.title);
+      setDescription(fetchedProperty.description);
+      setAddress(fetchedProperty.address);
+      setBedrooms(fetchedProperty.bedrooms);
+      setBathrooms(fetchedProperty.bathrooms);
+      setGarages(fetchedProperty.garages);
+      setLandSqm(fetchedProperty.land_sqm);
+      setPrice(fetchedProperty.price);
     };
     init();
   }, [fetchProperty]);

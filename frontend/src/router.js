@@ -15,6 +15,7 @@ import {
 import Navbar from "./components/navbar/Navbar";
 import PropertyDetails from "./components/property/PropertyDetails";
 import PropertyEdit from "./components/property/PropertyEdit";
+import PropertyAdd from "./components/property/PropertyAdd";
 
 const Page = styled.div`
   width: 100vw;
@@ -54,21 +55,25 @@ export const managerPaths = [
     name: "Editing Property",
   },
   {
+    path: "/property/add",
+    exact: true,
+    strict: true,
+    component: PropertyAdd,
+    name: "Creating Property"
+  },
+  {
     path: "/property/:estateId",
     exact: true,
     strict: true,
     component: PropertyDetails,
     name: "Property Details",
-  },
-  // {
-  //   path: "/property/add",
-  //   exact: true,
-  //   component
-  // }
+  }
 ];
 
 // Page Layout
 function Layout({ Content, user, activePath }) {
+  console.log("BLAH")
+
   return (
     <>
       <Navbar

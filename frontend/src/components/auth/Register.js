@@ -41,7 +41,6 @@ function Register() {
 
   const register = useCallback(() => {
     return API.register({
-      id: null,
       firstName,
       lastName,
       password,
@@ -54,9 +53,9 @@ function Register() {
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
   useEffect(() => {
-    if (data && data.token) {
+    if (data && data.id) {
       // Updates state of user by setting a token
-      setUserContext({ token: data.token });
+      setUserContext({ token: data.id });
       history.push("/");
     }
   }, [data, history, setUserContext]);

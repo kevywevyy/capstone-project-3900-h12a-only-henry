@@ -36,18 +36,14 @@ function PropertyView() {
     useAPI(fetchAllProperties);
 
   useEffect(() => {
-    if (!inProgress) {
-      makeAPIRequest();
-    }
-  }, [makeAPIRequest]);
+    makeAPIRequest();
+  }, []);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
       setProperties(data);
     }
   }, [inProgress, error, data]);
-
-  console.log(inProgress, error, properties);
 
   return (
     <PropertyViewContainer>
