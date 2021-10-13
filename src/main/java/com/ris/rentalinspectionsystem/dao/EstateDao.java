@@ -58,11 +58,11 @@ public class EstateDao {
             }
         }
 
-        String filter = queryParams.isEmpty() ? "" : " WHERE " + String.join(" AND ", queryArgs);
+        String filter = queryParams.isEmpty() ? "" : " AND " + String.join(" AND ", queryArgs);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams);
 
         return namedParameterJdbcTemplate.query(
-                "SELECT * FROM estates" + filter,
+                "SELECT * FROM estates WHERE agent_id = " + String.valueOf(id) + filter,
                 sqlParameterSource,
                 estateRowMapper
         );
