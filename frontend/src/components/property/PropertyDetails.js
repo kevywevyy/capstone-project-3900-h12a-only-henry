@@ -30,7 +30,7 @@ function PropertyDetails() {
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
 
   useEffect(() => {
-    if (!inProgress && !data) {
+    if (!inProgress && !error && !data) {
       makeAPIRequest();
     }
   }, [makeAPIRequest, inProgress, data]);

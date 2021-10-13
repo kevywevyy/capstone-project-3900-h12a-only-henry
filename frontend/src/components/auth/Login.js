@@ -42,7 +42,7 @@ function Login() {
   // }, [data, history, setUserContext]);
 
   const stubLogin = () => {
-    setUserContext({ token: "1" });
+    setUserContext({ token: email });
     history.push("/");
   };
 
