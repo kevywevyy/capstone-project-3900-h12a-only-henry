@@ -1,19 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import GlobalStyle from './styles/global.css';
+import { createTheme, ThemeProvider } from "@mui/material";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import GlobalStyle from "./styles/global.css";
+
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      light: "#60ac5d",
+      main: "#2e7c31",
+      darK: "#004f04",
+      contrastText: "#ffffff",
+    },
+    secondary: {
+      light: "#4f83cc",
+      main: "#01579b",
+      dark: "#002f6c",
+      contrastText: "#ffffff",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyle />
-    <App />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
