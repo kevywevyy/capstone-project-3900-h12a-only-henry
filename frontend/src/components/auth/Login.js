@@ -7,7 +7,7 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 
-const LoginForm = styled.div`
+const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,8 +46,13 @@ function Login() {
     history.push("/");
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    stubLogin();
+  }
+
   return (
-    <LoginForm>
+    <LoginForm onSubmit={handleSubmit}>
       <TextField
         required
         label="Email"
@@ -68,7 +73,7 @@ function Login() {
           marginTop: "8px",
         }}
       />
-      <Button onClick={stubLogin} sx={{ marginTop: "8px" }}>
+      <Button type="submit" sx={{ marginTop: "8px" }}>
         {/* {!inProgress ? "Login" : "Loading..."} */}
         Login
       </Button>

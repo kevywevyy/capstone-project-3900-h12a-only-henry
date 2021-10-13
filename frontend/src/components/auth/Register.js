@@ -7,7 +7,7 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 
-const RegisterForm = styled.div`
+const RegisterForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,8 +60,13 @@ function Register() {
     }
   }, [data, history, setUserContext]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    makeRequest();
+  }
+
   return (
-    <RegisterForm>
+    <RegisterForm onSubmit={handleSubmit}>
       <TextField
         required
         label="First Name"
@@ -139,7 +144,7 @@ function Register() {
         ))}
       </TextField>
       <Button
-        onClick={makeRequest}
+        type="submit"
         sx={{
           marginTop: "8px",
         }}
