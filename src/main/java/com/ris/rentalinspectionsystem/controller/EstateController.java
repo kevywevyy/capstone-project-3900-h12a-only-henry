@@ -68,6 +68,15 @@ public class EstateController {
         }
     }
 
+    @PatchMapping("/{estateId}")
+    public Estate patchEstate(
+            @PathVariable("agentId") Long agentId,
+            @PathVariable("estateId") Long estateId,
+            @RequestBody Estate estate
+    ) {
+        return estateDao.patchEstate(agentId, estateId, estate);
+    }
+
     @PostMapping("{estateId}")
     public Estate updateEstate (
             @PathVariable("agentId") Long agentId,
