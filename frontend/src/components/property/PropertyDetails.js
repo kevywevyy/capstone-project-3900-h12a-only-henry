@@ -16,6 +16,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
+import HousePlaceholder from "../../assets/house-placeholder.jpg";
 
 function PropertyDetails() {
   const { estateId } = useParams();
@@ -130,7 +131,7 @@ function PropertyDetails() {
             <CardMedia
               component="img"
               sx={{ width: "100%" }}
-              image={property.images}
+              image={property.images || HousePlaceholder}
               alt="House Pic"
             />
           </Grid>
