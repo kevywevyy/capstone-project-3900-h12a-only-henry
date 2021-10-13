@@ -63,7 +63,7 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     makeRequest();
-  }
+  };
 
   return (
     <RegisterForm onSubmit={handleSubmit}>

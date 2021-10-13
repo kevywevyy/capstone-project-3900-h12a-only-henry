@@ -16,7 +16,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
-import HousePlaceholder from '../../assets/house-placeholder.jpg';
+import HousePlaceholder from "../../assets/house-placeholder.jpg";
 
 function PropertyDetails() {
   const { estateId } = useParams();

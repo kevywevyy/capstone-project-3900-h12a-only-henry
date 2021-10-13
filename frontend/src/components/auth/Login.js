@@ -49,7 +49,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     stubLogin();
-  }
+  };
 
   return (
     <LoginForm onSubmit={handleSubmit}>

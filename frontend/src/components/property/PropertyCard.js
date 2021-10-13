@@ -13,7 +13,7 @@ import {
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../lib/helper";
 import { useHistory } from "react-router-dom";
-import HousePlaceholder from '../../assets/house-placeholder.jpg';
+import HousePlaceholder from "../../assets/house-placeholder.jpg";
 
 const PropertyFeatures = styled.div`
   display: flex;
