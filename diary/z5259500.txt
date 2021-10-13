@@ -1,0 +1,23 @@
+Week 1
+We formed our group of 4 and as a team, we decided on completing project 7 (rental inspection system) for this term.
+As a group, we then brainstormed a draft of the features that we were going to implement within the project,
+which included the 2 novel features as required within the specifications.
+
+Week 2
+As a group, we created a basic draft of the user stories that we were going to use for this project. We also discussed
+and answered any questions within our group to ensure that we all had the same idea in mind. During the week, I also
+helped create a draft acceptance criteria for each user story, which as a group, we discussed and finalised what the final
+acceptance criteria would be.
+
+Week 3
+We collaborated together for the proposal by splitting certain parts of the proposal to each team member and worked on
+getting familiar with Docker and Spring (both which I had never used before).
+
+Week 4
+I started on working on the backend of estates which included a DB schema, Controller for the API endpoint, a DAO and
+Models for registration and editing of estates. The initial implementation ended up needing to be changed after a group
+decision on how we were going the requests in the backend.
+
+Week 5
+I finished implementing the estates as part of RIS-9 and fixed any outstanding bugs that arose from the development
+process to ensure it passed integration tests.
