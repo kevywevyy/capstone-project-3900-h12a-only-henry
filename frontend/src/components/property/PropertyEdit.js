@@ -193,7 +193,7 @@ function PropertyEdit() {
       </Box>
       <Box sx={{ marginTop: "24px" }}>
         <Button color="secondary" variant="outlined" onClick={makeAPIRequest}>
-          {!inProgress ? "Save" : <CircularProgress size={20}/>}
+          {!inProgress ? "Save" : <CircularProgress size={20} />}
         </Button>
         <Button
           color="secondary"

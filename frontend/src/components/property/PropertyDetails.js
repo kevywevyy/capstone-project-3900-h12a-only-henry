@@ -5,7 +5,7 @@ import API from "../../services/api";
 import userContext from "../../lib/context";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 import {
   Box,
   CardMedia,
@@ -49,7 +49,7 @@ function PropertyDetails() {
   const openProperty = useCallback(async () => {
     await API.openProperty(user.token, estateId);
     makeAPIRequest();
-  }, [user, estateId, makeAPIRequest])
+  }, [user, estateId, makeAPIRequest]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "16px" }}>
@@ -103,23 +103,27 @@ function PropertyDetails() {
                 <EditIcon />
                 Edit
               </Button>
-              {property.open && <Button
-                color="error"
-                variant="outlined"
-                onClick={closeProperty}
-                sx={{ marginLeft: "16px" }}
-              >
-                <CloseIcon />
-                Close
-              </Button>}
-              {!property.open && <Button
-                variant="outlined"
-                onClick={openProperty}
-                sx={{ marginLeft: "16px" }}
-              >
-                <HomeIcon />
-                Open
-              </Button>}
+              {property.open && (
+                <Button
+                  color="error"
+                  variant="outlined"
+                  onClick={closeProperty}
+                  sx={{ marginLeft: "16px" }}
+                >
+                  <CloseIcon />
+                  Close
+                </Button>
+              )}
+              {!property.open && (
+                <Button
+                  variant="outlined"
+                  onClick={openProperty}
+                  sx={{ marginLeft: "16px" }}
+                >
+                  <HomeIcon />
+                  Open
+                </Button>
+              )}
             </Box>
           </Grid>
           <Grid item xs={6}>

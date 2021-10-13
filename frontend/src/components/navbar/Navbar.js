@@ -67,8 +67,8 @@ function Navbar({ role, path }) {
   };
 
   useEffect(() => {
-    setCurrentRoute(history.location.pathname)
-  }, [history]) 
+    setCurrentRoute(history.location.pathname);
+  }, [history]);
 
   return (
     <>

@@ -47,8 +47,8 @@ function PropertyView() {
     }
   }, [inProgress, error, data]);
 
-  const openProperties = properties.filter(p => p.open);
-  const closedProperties = properties.filter(p => !p.open);
+  const openProperties = properties.filter((p) => p.open);
+  const closedProperties = properties.filter((p) => !p.open);
 
   return (
     <PropertyViewContainer>
