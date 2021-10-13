@@ -41,8 +41,8 @@ class api {
       url: `${this.host}/agent/${agentId}/estates`,
       body: {
         ...body,
-        open: false
-      }
+        open: false,
+      },
     });
     return response.data;
   }
@@ -56,7 +56,9 @@ class api {
   }
 
   async closeProperty(agentId, estateId) {
-    const response = await this.editProperty(agentId, estateId, { open: false });
+    const response = await this.editProperty(agentId, estateId, {
+      open: false,
+    });
     return response.data;
   }
 

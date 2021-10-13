@@ -59,7 +59,7 @@ export const managerPaths = [
     exact: true,
     strict: true,
     component: PropertyAdd,
-    name: "Creating Property"
+    name: "Creating Property",
   },
   {
     path: "/property/:estateId",
@@ -67,12 +67,12 @@ export const managerPaths = [
     strict: true,
     component: PropertyDetails,
     name: "Property Details",
-  }
+  },
 ];
 
 // Page Layout
 function Layout({ Content, user, activePath }) {
-  console.log("BLAH")
+  console.log("BLAH");
 
   return (
     <>
