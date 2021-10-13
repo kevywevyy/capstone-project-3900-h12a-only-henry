@@ -10,3 +10,11 @@ on the Balsamiq wireframes.
 Week 3
 Collaborated together on the proposal and worked on setting up the frontend of the Project
 and researching the tools we were planning to use.
+
+Week 4
+Continued setting up the frontend (handling API calls) and getting familiar with Material UI
+on the frontend, implemented the login and register pages
+
+Week 5
+Finished up the rest of the pages such as viewing properties, adding properties, editing
+properties and listing properties
