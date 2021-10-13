@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class EstateDao {
@@ -75,6 +72,79 @@ public class EstateDao {
     public Estate createEstate(Long agentId, Estate estate) {
         estate.setAgentId(agentId);
         return estatesRepository.save(estate);
+    }
+
+    public Estate patchEstate(Long agentId, Long estateId, Estate estate) {
+        Estate originalEstate = getEstate(agentId, estateId);
+
+        String title = originalEstate.getTitle();
+        String description = originalEstate.getDescription();
+        String propertyType = originalEstate.getPropertyType();
+        String address = originalEstate.getAddress();
+        Integer bedrooms = originalEstate.getBedrooms();
+        Integer bathrooms = originalEstate.getBathrooms();
+        Integer garages = originalEstate.getGarages();
+        Integer landSqm = originalEstate.getLandSqm();
+        Integer price = originalEstate.getPrice();
+        String images = originalEstate.getImages();
+        Date inspectionDates = originalEstate.getInspectionDates();
+        Boolean open = originalEstate.getOpen();
+
+        if (estate.getTitle() != null) {
+            title = estate.getTitle();
+        }
+        if (estate.getDescription() != null) {
+            description = estate.getDescription();
+        }
+        if (estate.getPropertyType() != null) {
+            propertyType = estate.getPropertyType();
+        }
+        if (estate.getAddress() != null) {
+            address = estate.getAddress();
+        }
+        if (estate.getBedrooms() != null) {
+            bedrooms = estate.getBedrooms();
+        }
+        if (estate.getBathrooms() != null) {
+            bathrooms = estate.getBathrooms();
+        }
+        if (estate.getGarages() != null) {
+            garages = estate.getGarages();
+        }
+        if (estate.getLandSqm() != null) {
+            landSqm = estate.getLandSqm();
+        }
+        if (estate.getPrice() != null) {
+            price = estate.getPrice();
+        }
+        if (estate.getImages() != null) {
+            images = estate.getImages();
+        }
+        if (estate.getInspectionDates() != null) {
+            inspectionDates = estate.getInspectionDates();
+        }
+        if (estate.getOpen() != null) {
+            open = estate.getOpen();
+        }
+
+        Estate newEstate = new Estate(
+                estateId,
+                agentId,
+                title,
+                description,
+                propertyType,
+                address,
+                bedrooms,
+                bathrooms,
+                garages,
+                landSqm,
+                price,
+                images,
+                inspectionDates,
+                open
+        );
+
+        return estatesRepository.save(newEstate);
     }
 
     public Estate putEstate(Long agentId, Long estateId, Estate estate) {
