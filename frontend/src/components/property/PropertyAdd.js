@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 
-const propertyTypes = [
+export const propertyTypes = [
   {
     value: "house",
     label: "House",
@@ -194,7 +194,7 @@ function PropertyAdd() {
       </Box>
       <Box sx={{ marginTop: "24px" }}>
         <Button color="secondary" variant="outlined" onClick={makeAPIRequest}>
-          {!inProgress ? "Add" : <CircularProgress />}
+          {!inProgress ? "Add" : <CircularProgress size={20} />}
         </Button>
         <Button
           color="secondary"

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import {
   NAVBAR_HEIGHT,
@@ -51,10 +51,6 @@ function Navbar({ role, path }) {
 
   const { path: matched } = useRouteMatch();
 
-  history.listen((h) => {
-    setCurrentRoute(h.pathname);
-  });
-
   const logOut = () => {
     setUserContext({ token: null });
     localStorage.removeItem(USER_KEY);
@@ -69,6 +65,10 @@ function Navbar({ role, path }) {
     }
     return "Error: Pathname not found";
   };
+
+  useEffect(() => {
+    setCurrentRoute(history.location.pathname)
+  }, [history]) 
 
   return (
     <>

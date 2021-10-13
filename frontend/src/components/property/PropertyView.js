@@ -36,8 +36,10 @@ function PropertyView() {
     useAPI(fetchAllProperties);
 
   useEffect(() => {
-    makeAPIRequest();
-  }, []);
+    if (!inProgress && !data) {
+      makeAPIRequest();
+    }
+  }, [inProgress, makeAPIRequest, data]);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
@@ -45,9 +47,11 @@ function PropertyView() {
     }
   }, [inProgress, error, data]);
 
+  const openProperties = properties.filter(p => p.open);
+  const closedProperties = properties.filter(p => !p.open);
+
   return (
     <PropertyViewContainer>
-      {inProgress && <CircularProgress />}
       <Box sx={{ display: "flex" }}>
         <Typography variant="h4">Open Properties</Typography>
         <Button
@@ -63,7 +67,8 @@ function PropertyView() {
         </Button>
       </Box>
       <Divider sx={{ marginTop: "8px" }} />
-      {!properties.filter((p) => p.open).length && (
+      {inProgress && <CircularProgress />}
+      {!openProperties.length && (
         <Typography variant="body1" marginTop={1}>
           No open properties
         </Typography>
@@ -71,13 +76,14 @@ function PropertyView() {
       {properties
         .filter((p) => p.open)
         .map((p) => (
-          <PropertyCard property={p} />
+          <PropertyCard key={p.id} property={p} />
         ))}
       <Typography variant="h4" sx={{ marginTop: "32px" }}>
         Closed Properties
       </Typography>
       <Divider sx={{ marginTop: "8px" }} />
-      {!properties.filter((p) => !p.open).length && (
+      {inProgress && <CircularProgress />}
+      {!closedProperties.length && (
         <Typography variant="body1" marginTop={1}>
           No closed properties
         </Typography>
@@ -85,7 +91,7 @@ function PropertyView() {
       {properties
         .filter((p) => !p.open)
         .map((p) => (
-          <PropertyCard property={p} />
+          <PropertyCard key={p.id} property={p} />
         ))}
     </PropertyViewContainer>
   );

@@ -41,7 +41,7 @@ class api {
       url: `${this.host}/agent/${agentId}/estates`,
       body: {
         ...body,
-        open: false,
+        open: true,
       },
     });
     return response.data;

@@ -72,8 +72,6 @@ export const managerPaths = [
 
 // Page Layout
 function Layout({ Content, user, activePath }) {
-  console.log("BLAH");
-
   return (
     <>
       <Navbar

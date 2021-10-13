@@ -5,11 +5,13 @@ import {
   TextField,
   InputAdornment,
   CircularProgress,
+  MenuItem,
 } from "@mui/material";
 import API from "../../services/api";
 import userContext from "../../lib/context";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import useAPI from "../../services/useApi";
+import { propertyTypes } from "./PropertyAdd";
 
 function PropertyEdit() {
   const { estateId } = useParams();
@@ -19,6 +21,7 @@ function PropertyEdit() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
+  const [type, setType] = useState("");
   const [bedrooms, setBedrooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [garages, setGarages] = useState(0);
@@ -35,6 +38,7 @@ function PropertyEdit() {
       title,
       description,
       address,
+      property_type: type,
       bedrooms,
       bathrooms,
       garages,
@@ -45,6 +49,7 @@ function PropertyEdit() {
     title,
     description,
     address,
+    type,
     bedrooms,
     bathrooms,
     garages,
@@ -62,6 +67,7 @@ function PropertyEdit() {
       setTitle(fetchedProperty.title);
       setDescription(fetchedProperty.description);
       setAddress(fetchedProperty.address);
+      setType(fetchedProperty.property_type);
       setBedrooms(fetchedProperty.bedrooms);
       setBathrooms(fetchedProperty.bathrooms);
       setGarages(fetchedProperty.garages);
@@ -102,6 +108,19 @@ function PropertyEdit() {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
+      <TextField
+        required
+        select
+        label="Property Type"
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+      >
+        {propertyTypes.map((o) => (
+          <MenuItem key={o.value} value={o.value}>
+            {o.label}
+          </MenuItem>
+        ))}
+      </TextField>
       <Box
         sx={{
           "> div:not(:first-of-type)": {
@@ -174,7 +193,7 @@ function PropertyEdit() {
       </Box>
       <Box sx={{ marginTop: "24px" }}>
         <Button color="secondary" variant="outlined" onClick={makeAPIRequest}>
-          {!inProgress ? "Save" : <CircularProgress />}
+          {!inProgress ? "Save" : <CircularProgress size={20}/>}
         </Button>
         <Button
           color="secondary"

@@ -5,6 +5,7 @@ import API from "../../services/api";
 import userContext from "../../lib/context";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
+import HomeIcon from '@mui/icons-material/Home';
 import {
   Box,
   CardMedia,
@@ -29,8 +30,10 @@ function PropertyDetails() {
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
 
   useEffect(() => {
-    makeAPIRequest();
-  }, []);
+    if (!inProgress && !data) {
+      makeAPIRequest();
+    }
+  }, [makeAPIRequest, inProgress, data]);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
@@ -42,6 +45,11 @@ function PropertyDetails() {
     await API.closeProperty(user.token, estateId);
     makeAPIRequest();
   }, [user, estateId, makeAPIRequest]);
+
+  const openProperty = useCallback(async () => {
+    await API.openProperty(user.token, estateId);
+    makeAPIRequest();
+  }, [user, estateId, makeAPIRequest])
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "16px" }}>
@@ -95,7 +103,7 @@ function PropertyDetails() {
                 <EditIcon />
                 Edit
               </Button>
-              <Button
+              {property.open && <Button
                 color="error"
                 variant="outlined"
                 onClick={closeProperty}
@@ -103,7 +111,15 @@ function PropertyDetails() {
               >
                 <CloseIcon />
                 Close
-              </Button>
+              </Button>}
+              {!property.open && <Button
+                variant="outlined"
+                onClick={openProperty}
+                sx={{ marginLeft: "16px" }}
+              >
+                <HomeIcon />
+                Open
+              </Button>}
             </Box>
           </Grid>
           <Grid item xs={6}>
