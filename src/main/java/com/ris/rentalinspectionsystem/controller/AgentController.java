@@ -49,7 +49,7 @@ public class AgentController {
         }
     }
 
-    @PostMapping("/{agentId}")
+    @PutMapping("/{agentId}")
     public Agent updateAgent(
             @PathVariable Long agentId,
             @Valid @RequestBody Agent agent
