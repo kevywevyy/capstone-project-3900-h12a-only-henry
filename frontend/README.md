@@ -5,7 +5,7 @@
   * Mac: `brew update && brew install node`
 
 # Before you run
-Always `npm install` after pulling to ensure all necessary packages are added
+Always `nvm use && npm install` after pulling to ensure all necessary packages are added
 
 # Available scripts
 ### `npm start`
