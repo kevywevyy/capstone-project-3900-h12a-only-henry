@@ -9,7 +9,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -42,7 +41,7 @@ public class Estate {
     private final String images;
     @Null
     @Transient
-    private final List<Date> inspectionDates;
+    private final List<Inspection> inspections;
     @NotNull
     private final Boolean open;
 
@@ -60,7 +59,7 @@ public class Estate {
             @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
-            @JsonProperty("inspection_dates") List<Date> inspectionDates,
+            @JsonProperty("inspection_dates") List<Inspection> inspections,
             @JsonProperty("open") Boolean open
     ) {
         this.id = id;
@@ -75,7 +74,7 @@ public class Estate {
         this.landSqm = landSqm;
         this.price = price;
         this.images = images;
-        this.inspectionDates = inspectionDates;
+        this.inspections = inspections;
         this.open = open;
     }
 }

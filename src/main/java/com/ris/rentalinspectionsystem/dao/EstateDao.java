@@ -1,25 +1,25 @@
 package com.ris.rentalinspectionsystem.dao;
 
+import com.ris.rentalinspectionsystem.RowMappers;
 import com.ris.rentalinspectionsystem.model.Estate;
+import com.ris.rentalinspectionsystem.model.Inspection;
 import com.ris.rentalinspectionsystem.repositories.EstatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class EstateDao {
 
     private final EstatesRepository estatesRepository;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final EstateRowMapper estateRowMapper;
+    private final RowMappers.EstateRowMapper estateRowMapper;
 
     @Autowired
     public EstateDao(
@@ -28,7 +28,7 @@ public class EstateDao {
     ) {
         this.estatesRepository = estatesRepository;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.estateRowMapper = new EstateRowMapper();
+        this.estateRowMapper = new RowMappers.EstateRowMapper();
     }
 
     public List<Estate> getEstates(Map<String, Object> queryParams, Long id) {
@@ -56,10 +56,13 @@ public class EstateDao {
         }
 
         String filter = queryParams.isEmpty() ? "" : " AND " + String.join(" AND ", queryArgs);
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams).addValue("agentId", id);
+
 
         return namedParameterJdbcTemplate.query(
-                "SELECT * FROM estates WHERE agent_id = " + String.valueOf(id) + filter,
+                "SELECT * FROM estates as e " +
+                        "JOIN inspections i on e.id = i.estate_id " +
+                        "WHERE agent_id = :agentId" + filter,
                 sqlParameterSource,
                 estateRowMapper
         );
@@ -87,7 +90,7 @@ public class EstateDao {
         Integer landSqm = originalEstate.getLandSqm();
         Integer price = originalEstate.getPrice();
         String images = originalEstate.getImages();
-        List<Date> inspectionDates = originalEstate.getInspectionDates();
+        List<Inspection> inspectionDates = originalEstate.getInspections();
         Boolean open = originalEstate.getOpen();
 
         if (estate.getTitle() != null) {
@@ -120,8 +123,8 @@ public class EstateDao {
         if (estate.getImages() != null) {
             images = estate.getImages();
         }
-        if (estate.getInspectionDates() != null) {
-            inspectionDates = estate.getInspectionDates();
+        if (estate.getInspections() != null) {
+            inspectionDates = estate.getInspections();
         }
         if (estate.getOpen() != null) {
             open = estate.getOpen();
@@ -151,28 +154,5 @@ public class EstateDao {
         estate.setAgentId(agentId);
         estate.setId(estateId);
         return estatesRepository.save(estate);
-    }
-
-    private static class EstateRowMapper implements RowMapper<Estate> {
-
-        @Override
-        public Estate mapRow(ResultSet resultSet, int i) throws SQLException {
-            return new Estate(
-                    resultSet.getLong("id"),
-                    resultSet.getLong("agent_Id"),
-                    resultSet.getString("title"),
-                    resultSet.getString("description"),
-                    resultSet.getString("property_type"),
-                    resultSet.getString("address"),
-                    resultSet.getInt("bedrooms"),
-                    resultSet.getInt("bathrooms"),
-                    resultSet.getInt("garages"),
-                    resultSet.getInt("land_sqm"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("images"),
-                    null,
-                    resultSet.getBoolean("open")
-            );
-        }
     }
 }
