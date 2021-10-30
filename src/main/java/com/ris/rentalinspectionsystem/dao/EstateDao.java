@@ -87,7 +87,7 @@ public class EstateDao {
         Integer landSqm = originalEstate.getLandSqm();
         Integer price = originalEstate.getPrice();
         String images = originalEstate.getImages();
-        Date inspectionDates = originalEstate.getInspectionDates();
+        List<Date> inspectionDates = originalEstate.getInspectionDates();
         Boolean open = originalEstate.getOpen();
 
         if (estate.getTitle() != null) {
@@ -170,7 +170,7 @@ public class EstateDao {
                     resultSet.getInt("land_sqm"),
                     resultSet.getInt("price"),
                     resultSet.getString("images"),
-                    resultSet.getDate("inspection_dates"),
+                    null,
                     resultSet.getBoolean("open")
             );
         }

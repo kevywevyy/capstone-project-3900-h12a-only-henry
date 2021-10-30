@@ -21,9 +21,17 @@ CREATE TABLE IF NOT EXISTS estates(
     land_sqm INTEGER NOT NULL,
     price INTEGER NOT NUll,
     images TEXT,
-    inspection_dates DATE,
     "open" BOOLEAN NOT NULL,
 
     PRIMARY KEY(id),
     FOREIGN KEY(agent_id) REFERENCES agents(id)
+);
+
+CREATE TABLE IF NOT EXISTS inspections(
+    id BIGSERIAL,
+    estate_id BIGINT NOT NULL,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+
+    FOREIGN KEY(estate_id) REFERENCES estates(id)
 );

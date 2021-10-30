@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table("estates")
@@ -38,7 +40,9 @@ public class Estate {
     @NotNull
     private final Integer price;
     private final String images;
-    private final Date inspectionDates;
+    @Null
+    @Transient
+    private final List<Date> inspectionDates;
     @NotNull
     private final Boolean open;
 
@@ -56,7 +60,7 @@ public class Estate {
             @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
-            @JsonProperty("inspection_dates") Date inspectionDates,
+            @JsonProperty("inspection_dates") List<Date> inspectionDates,
             @JsonProperty("open") Boolean open
     ) {
         this.id = id;
