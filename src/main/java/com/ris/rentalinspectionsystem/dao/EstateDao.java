@@ -2,7 +2,6 @@ package com.ris.rentalinspectionsystem.dao;
 
 import com.ris.rentalinspectionsystem.RowMappers;
 import com.ris.rentalinspectionsystem.model.Estate;
-import com.ris.rentalinspectionsystem.model.Inspection;
 import com.ris.rentalinspectionsystem.repositories.EstatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,9 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class EstateDao {
@@ -69,7 +66,12 @@ public class EstateDao {
     }
 
     public Estate getEstate(Long agentId, Long estateId) {
-        return estatesRepository.findByAgentIdAndId(agentId, estateId);
+        List<Estate> estates = getEstates(new HashMap<>(), agentId);
+        return estates
+                .stream()
+                .filter(estate -> Objects.equals(estate.getId(), estateId))
+                .findFirst()
+                .orElse(null);
     }
 
     public Estate createEstate(Long agentId, Estate estate) {
@@ -80,71 +82,21 @@ public class EstateDao {
     public Estate patchEstate(Long agentId, Long estateId, Estate estate) {
         Estate originalEstate = getEstate(agentId, estateId);
 
-        String title = originalEstate.getTitle();
-        String description = originalEstate.getDescription();
-        String propertyType = originalEstate.getPropertyType();
-        String address = originalEstate.getAddress();
-        Integer bedrooms = originalEstate.getBedrooms();
-        Integer bathrooms = originalEstate.getBathrooms();
-        Integer garages = originalEstate.getGarages();
-        Integer landSqm = originalEstate.getLandSqm();
-        Integer price = originalEstate.getPrice();
-        String images = originalEstate.getImages();
-        List<Inspection> inspectionDates = originalEstate.getInspections();
-        Boolean open = originalEstate.getOpen();
-
-        if (estate.getTitle() != null) {
-            title = estate.getTitle();
-        }
-        if (estate.getDescription() != null) {
-            description = estate.getDescription();
-        }
-        if (estate.getPropertyType() != null) {
-            propertyType = estate.getPropertyType();
-        }
-        if (estate.getAddress() != null) {
-            address = estate.getAddress();
-        }
-        if (estate.getBedrooms() != null) {
-            bedrooms = estate.getBedrooms();
-        }
-        if (estate.getBathrooms() != null) {
-            bathrooms = estate.getBathrooms();
-        }
-        if (estate.getGarages() != null) {
-            garages = estate.getGarages();
-        }
-        if (estate.getLandSqm() != null) {
-            landSqm = estate.getLandSqm();
-        }
-        if (estate.getPrice() != null) {
-            price = estate.getPrice();
-        }
-        if (estate.getImages() != null) {
-            images = estate.getImages();
-        }
-        if (estate.getInspections() != null) {
-            inspectionDates = estate.getInspections();
-        }
-        if (estate.getOpen() != null) {
-            open = estate.getOpen();
-        }
-
         Estate newEstate = new Estate(
                 estateId,
                 agentId,
-                title,
-                description,
-                propertyType,
-                address,
-                bedrooms,
-                bathrooms,
-                garages,
-                landSqm,
-                price,
-                images,
-                inspectionDates,
-                open
+                estate.getTitle() == null ? originalEstate.getTitle() : estate.getTitle(),
+                estate.getDescription() == null ? originalEstate.getDescription() : estate.getDescription(),
+                estate.getPropertyType() == null ? originalEstate.getPropertyType() : estate.getPropertyType(),
+                estate.getAddress() == null ? originalEstate.getAddress() : estate.getAddress(),
+                estate.getBedrooms() == null ? originalEstate.getBedrooms() : estate.getBedrooms(),
+                estate.getBathrooms() == null ? originalEstate.getBathrooms() : estate.getBathrooms(),
+                estate.getGarages() == null ? originalEstate.getGarages() : estate.getGarages(),
+                estate.getLandSqm() == null ? originalEstate.getLandSqm(): estate.getLandSqm(),
+                estate.getPrice() == null ? originalEstate.getPrice() : estate.getPrice(),
+                estate.getImages() == null ? originalEstate.getImages() : estate.getImages(),
+                estate.getInspections() == null ? originalEstate.getInspections() : estate.getInspections(),
+                estate.getOpen() == null ? originalEstate.getOpen() : estate.getOpen()
         );
 
         return estatesRepository.save(newEstate);
