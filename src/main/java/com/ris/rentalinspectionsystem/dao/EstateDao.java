@@ -175,4 +175,37 @@ public class EstateDao {
             );
         }
     }
+
+    public List<Estate> getAllEstates(Map<String, Object> queryParams) {
+        List<String> queryArgs = new ArrayList<>();
+
+        for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
+            switch (queryParam.getKey()) {
+                case "land_sqm_min":
+                    queryArgs.add(String.format("%s >= :%s", "land_sqm", queryParam.getKey()));
+                    break;
+                case "land_sqm_max":
+                    queryArgs.add(String.format("%s <= :%s", "land_sqm", queryParam.getKey()));
+                    break;
+                case "price_min":
+                    queryArgs.add(String.format("%s >= :%s", "price", queryParam.getKey()));
+                    break;
+                case "price_max":
+                    queryArgs.add(String.format("%s <= :%s", "price", queryParam.getKey()));
+                    break;
+                default:
+                    queryArgs.add(String.format("%s = :%s", queryParam.getKey(), queryParam.getKey()));
+                    break;
+            }
+        }
+
+        String filter = queryParams.isEmpty() ? "" : " AND " + String.join(" AND ", queryArgs);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams);
+
+        return namedParameterJdbcTemplate.query(
+                "SELECT * FROM estates WHERE " + filter,
+                sqlParameterSource,
+                estateRowMapper
+        );
+    }
 }
