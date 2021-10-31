@@ -39,7 +39,7 @@ function PropertyView() {
     if (!inProgress && !error && !data) {
       makeAPIRequest();
     }
-  }, [inProgress, makeAPIRequest, data]);
+  }, [inProgress, makeAPIRequest, data, error]);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {

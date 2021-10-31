@@ -75,6 +75,13 @@ class api {
     });
   }
 
+  async getUser(agentId) {
+    const response = await get({
+      url: `${this.host}/agent/${agentId}`,
+    });
+    return response.data;
+  }
+
   setToken(token) {
     this.token = token;
   }

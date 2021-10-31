@@ -1,10 +1,18 @@
 import { Box } from "@mui/system";
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { ItemTypes } from "../../const";
 import PropertyCard from "../property/PropertyCard";
+import { Button, Grid } from "@mui/material";
 
-function DraggablePropertyCard({ property, duration, index, moveProperty }) {
+function DraggablePropertyCard({
+  property,
+  duration,
+  index,
+  moveProperty,
+  remove,
+}) {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.CARD,
@@ -65,7 +73,16 @@ function DraggablePropertyCard({ property, duration, index, moveProperty }) {
         opacity: isDragging ? "0" : "1",
       }}
     >
-      <PropertyCard property={property} minify />
+      <Grid container>
+        <Grid item xs={11}>
+          <PropertyCard property={property} minify />
+        </Grid>
+        <Grid item xs={1} sx={{ display: "flex", justifyContent: "center" }}>
+          <Button onClick={remove}>
+            <RemoveIcon />
+          </Button>
+        </Grid>
+      </Grid>
       <Box
         sx={{ textAlign: "center", margin: "16px 0" }}
       >{`Stay for ${duration} minutes`}</Box>

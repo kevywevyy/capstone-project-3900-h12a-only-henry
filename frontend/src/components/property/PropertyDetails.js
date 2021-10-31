@@ -34,7 +34,7 @@ function PropertyDetails() {
     if (!inProgress && !error && !data) {
       makeAPIRequest();
     }
-  }, [makeAPIRequest, inProgress, data]);
+  }, [makeAPIRequest, inProgress, data, error]);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {

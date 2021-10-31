@@ -5,12 +5,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import userContext from "../../lib/context";
 import API from "../../services/api";
@@ -34,7 +33,7 @@ function RouteProperties({ onSubmit }) {
     if (!inProgress && !error && !data) {
       makeAPIRequest();
     }
-  }, [inProgress, makeAPIRequest, data]);
+  }, [inProgress, makeAPIRequest, data, error]);
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
@@ -83,17 +82,20 @@ function RouteProperties({ onSubmit }) {
             }}
           >
             {openProperties.map((p) => (
-              <Box
-                key={p.id}
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <PropertyCard key={p.id} property={p} />
-                <Button onClick={() => setOpen(p)}>
-                  <AddIcon />
-                </Button>
-              </Box>
+              <Grid key={p.id} container>
+                <Grid item xs={11}>
+                  <PropertyCard key={p.id} property={p} />
+                </Grid>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button onClick={() => setOpen(p)}>
+                    <AddIcon />
+                  </Button>
+                </Grid>
+              </Grid>
             ))}
           </Box>
         </Box>
