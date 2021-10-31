@@ -1,8 +1,9 @@
 import { get, post, patch } from "./request";
 
 class api {
-  constructor(host) {
+  constructor(host, mapsAPIKey) {
     this.host = `${host}/api`;
+    this.mapsAPIKey = mapsAPIKey;
     this.token = null;
   }
 
@@ -77,8 +78,15 @@ class api {
   setToken(token) {
     this.token = token;
   }
+
+  getMapsKey() {
+    return this.mapsAPIKey;
+  }
 }
 
-const API = new api(process.env.REACT_APP_API_URL);
+const API = new api(
+  process.env.REACT_APP_API_URL,
+  process.env.REACT_APP_MAPS_API_KEY
+);
 
 export default API;

@@ -73,11 +73,9 @@ function PropertyView() {
           No open properties
         </Typography>
       )}
-      {properties
-        .filter((p) => p.open)
-        .map((p) => (
-          <PropertyCard key={p.id} property={p} />
-        ))}
+      {openProperties.map((p) => (
+        <PropertyCard key={p.id} property={p} />
+      ))}
       <Typography variant="h4" sx={{ marginTop: "32px" }}>
         Closed Properties
       </Typography>
@@ -88,11 +86,9 @@ function PropertyView() {
           No closed properties
         </Typography>
       )}
-      {properties
-        .filter((p) => !p.open)
-        .map((p) => (
-          <PropertyCard key={p.id} property={p} />
-        ))}
+      {closedProperties.map((p) => (
+        <PropertyCard key={p.id} property={p} />
+      ))}
     </PropertyViewContainer>
   );
 }

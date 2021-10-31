@@ -21,3 +21,6 @@ export const ESTATE_STUB = {
     "https://image.shutterstock.com/image-photo/blue-tiny-house-wooden-porch-600w-1639433239.jpg",
   open: true,
 };
+export const ItemTypes = {
+  CARD: "card",
+};

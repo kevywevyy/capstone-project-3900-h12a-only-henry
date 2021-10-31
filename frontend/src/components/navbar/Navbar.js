@@ -105,6 +105,13 @@ function Navbar({ role, path }) {
           )}
           {isPropertyManager && (
             <Grid item xs={2} sx={{ textAlign: "end" }}>
+              <Button variant="filled" onClick={() => history.push("/route")}>
+                Create Itinerary
+              </Button>
+            </Grid>
+          )}
+          {isPropertyManager && (
+            <Grid item xs={2} sx={{ textAlign: "end" }}>
               <Button variant="filled" onClick={logOut}>
                 Sign Out
               </Button>

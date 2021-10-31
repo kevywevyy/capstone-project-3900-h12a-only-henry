@@ -60,7 +60,7 @@ export function PropertyFeaturesComponent({
   );
 }
 
-function PropertyCard({ property }) {
+function PropertyCard({ property, minify }) {
   const {
     id,
     title,
@@ -78,12 +78,14 @@ function PropertyCard({ property }) {
 
   return (
     <Card sx={{ display: "flex", marginTop: "16px" }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 300 }}
-        image={images || HousePlaceholder}
-        alt="House Pic"
-      />
+      {!minify && (
+        <CardMedia
+          component="img"
+          sx={{ width: 300 }}
+          image={images || HousePlaceholder}
+          alt="House Pic"
+        />
+      )}
       <Box
         sx={{
           display: "flex",
@@ -107,9 +109,11 @@ function PropertyCard({ property }) {
           <Typography variant="caption">{`Listed at $${price}/week`}</Typography>
           <Typography variant="caption">{`${land_sqm} m2`}</Typography>
         </Box>
-        <Button onClick={() => history.push(`/property/${id}`)}>
-          View more
-        </Button>
+        {!minify && (
+          <Button onClick={() => history.push(`/property/${id}`)}>
+            View more
+          </Button>
+        )}
       </Box>
     </Card>
   );
