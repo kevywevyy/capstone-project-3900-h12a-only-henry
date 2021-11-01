@@ -28,13 +28,5 @@ export function getArriveAndDepatureTime(startTime, legs, propertiesToInspect) {
     });
     currentTime = departAt;
   }
-  console.log(
-    "ARRIVE AND DEPARTURE TIME",
-    arriveDepartureTime,
-    "legs",
-    legs,
-    "propertiesToInspect",
-    propertiesToInspect
-  );
   return arriveDepartureTime;
 }
