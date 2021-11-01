@@ -5,7 +5,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { ItemTypes } from "../../const";
 import PropertyCard from "../property/PropertyCard";
 import { Button, Grid, Typography } from "@mui/material";
-import { addSeconds, format } from "date-fns";
+import { format } from "date-fns";
 
 function DraggablePropertyCard({
   property,

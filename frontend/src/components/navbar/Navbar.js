@@ -47,7 +47,6 @@ function Navbar({ role, path }) {
   const isRegisterPage = role === ROLE_GUEST && currentRoute === "/register";
 
   const isPropertyManager = role === ROLE_MANAGER;
-  const isPropertyViewPage = role === ROLE_MANAGER && currentRoute === "/";
 
   const { path: matched } = useRouteMatch();
 

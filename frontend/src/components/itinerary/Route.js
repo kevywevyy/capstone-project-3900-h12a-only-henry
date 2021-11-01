@@ -109,12 +109,11 @@ function Route() {
     }
     setOpen(false);
     history.push("/");
-  }, [getTimes]);
+  }, [history, propertiesToInspect, user.token, getTimes]);
 
   useEffect(() => {
     const fetchUser = async () => {
       const fetchedUser = await API.getUser(user.token);
-      console.log(fetchedUser);
       // Temporary placeholder for user address
       setUserAddress(
         fetchedUser.address === ""
@@ -128,29 +127,34 @@ function Route() {
   return (
     <>
       {!isLoaded && !userAddress && <CircularProgress />}
-      {isLoaded && !!userAddress && getTimes().length === propertiesToInspect.length && (
-        <Dialog open={open} onClose={() => setOpen(false)}>
-          <DialogTitle>Confirm Itinerary</DialogTitle>
-          <DialogTitle
-            sx={{ paddingTop: "0px" }}
-          >{format(startTime, "PPPpp")} </DialogTitle>
-          <DialogContent dividers>
-            {propertiesToInspect.map(({ property }, index) => (
-              <DialogContentText>
-                {`Arrive at ${property.address} at ${format(
-                  getTimes()[index].arriveAt,
-                  "p"
-                )} and depart at ${format(getTimes()[index].departAt, "p")}`}
-              </DialogContentText>
-            ))}
-          </DialogContent>
-          <Button onClick={handleSubmit}
-            sx={{
-              margin: "8px 0"
-            }}
-          >Add Inspection Times</Button>
-        </Dialog>
-      )}
+      {isLoaded &&
+        !!userAddress &&
+        getTimes().length === propertiesToInspect.length && (
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle>Confirm Itinerary</DialogTitle>
+            <DialogTitle sx={{ paddingTop: "0px" }}>
+              {format(startTime, "PPPpp")}{" "}
+            </DialogTitle>
+            <DialogContent dividers>
+              {propertiesToInspect.map(({ property }, index) => (
+                <DialogContentText>
+                  {`Arrive at ${property.address} at ${format(
+                    getTimes()[index].arriveAt,
+                    "p"
+                  )} and depart at ${format(getTimes()[index].departAt, "p")}`}
+                </DialogContentText>
+              ))}
+            </DialogContent>
+            <Button
+              onClick={handleSubmit}
+              sx={{
+                margin: "8px 0",
+              }}
+            >
+              Add Inspection Times
+            </Button>
+          </Dialog>
+        )}
       {isLoaded && !!userAddress && (
         <Grid container>
           <Grid item xs={12}>
@@ -199,10 +203,14 @@ function Route() {
           </Grid>
           <DndProvider backend={HTML5Backend}>
             <Grid item xs={6}>
-              <Box mt={2} ml={2} sx={{
-                display: "flex",
-                flexDirection: "column"
-              }}>
+              <Box
+                mt={2}
+                ml={2}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 <Typography variant="h3" mb={2}>
                   Itinerary
                 </Typography>
