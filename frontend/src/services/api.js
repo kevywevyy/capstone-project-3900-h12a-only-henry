@@ -1,8 +1,9 @@
 import { get, post, patch } from "./request";
 
 class api {
-  constructor(host) {
+  constructor(host, mapsAPIKey) {
     this.host = `${host}/api`;
+    this.mapsAPIKey = mapsAPIKey;
     this.token = null;
   }
 
@@ -68,17 +69,47 @@ class api {
   }
 
   async sendEmail(agentId, body) {
-    return post({
+    const response = await post({
       url: `${this.host}/agent/${agentId}/enquiries`,
       body,
     });
+    return response.data;
+  }
+
+  async getInspectionTimes(agentId, estateId) {
+    const response = await get({
+      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+    });
+    return response.data;
+  }
+
+  async addInspectionTimes(agentId, estateId, body) {
+    const response = await post({
+      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+      body,
+    });
+    return response.data;
+  }
+
+  async getUser(agentId) {
+    const response = await get({
+      url: `${this.host}/agent/${agentId}`,
+    });
+    return response.data;
   }
 
   setToken(token) {
     this.token = token;
   }
+
+  getMapsKey() {
+    return this.mapsAPIKey;
+  }
 }
 
-const API = new api(process.env.REACT_APP_API_URL);
+const API = new api(
+  process.env.REACT_APP_API_URL,
+  process.env.REACT_APP_MAPS_API_KEY
+);
 
 export default API;

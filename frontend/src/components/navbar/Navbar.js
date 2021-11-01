@@ -47,7 +47,6 @@ function Navbar({ role, path }) {
   const isRegisterPage = role === ROLE_GUEST && currentRoute === "/register";
 
   const isPropertyManager = role === ROLE_MANAGER;
-  const isPropertyViewPage = role === ROLE_MANAGER && currentRoute === "/";
 
   const { path: matched } = useRouteMatch();
 
@@ -94,12 +93,15 @@ function Navbar({ role, path }) {
           )}
           {isPropertyManager && (
             <Grid item xs={2} sx={{ textAlign: "end" }}>
-              <Button
-                variant="filled"
-                disabled={isPropertyViewPage}
-                onClick={() => history.push("/")}
-              >
+              <Button variant="filled" onClick={() => history.push("/")}>
                 Properties
+              </Button>
+            </Grid>
+          )}
+          {isPropertyManager && (
+            <Grid item xs={2} sx={{ textAlign: "end" }}>
+              <Button variant="filled" onClick={() => history.push("/route")}>
+                Create Itinerary
               </Button>
             </Grid>
           )}

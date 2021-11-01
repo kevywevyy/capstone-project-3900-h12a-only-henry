@@ -1,4 +1,6 @@
 import React from "react";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import userContext, { useUserContext } from "./lib/context";
 import Router from "./router";
 
@@ -7,9 +9,11 @@ function App() {
   const [user, setUserContext] = useUserContext();
 
   return (
-    <userContext.Provider value={{ user, setUserContext }}>
-      <Router />
-    </userContext.Provider>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <userContext.Provider value={{ user, setUserContext }}>
+        <Router />
+      </userContext.Provider>
+    </LocalizationProvider>
   );
 }
 

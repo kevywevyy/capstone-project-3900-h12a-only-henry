@@ -16,6 +16,7 @@ import Navbar from "./components/navbar/Navbar";
 import PropertyDetails from "./components/property/PropertyDetails";
 import PropertyEdit from "./components/property/PropertyEdit";
 import PropertyAdd from "./components/property/PropertyAdd";
+import RouteComponent from "./components/itinerary/Route";
 
 const Page = styled.div`
   width: 100vw;
@@ -67,6 +68,13 @@ export const managerPaths = [
     strict: true,
     component: PropertyDetails,
     name: "Property Details",
+  },
+  {
+    path: "/route",
+    exact: true,
+    strict: true,
+    component: RouteComponent,
+    name: "Creating inspection route",
   },
 ];
 
