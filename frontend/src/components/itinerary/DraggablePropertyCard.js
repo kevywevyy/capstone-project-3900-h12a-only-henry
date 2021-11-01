@@ -4,14 +4,15 @@ import { useDrag, useDrop } from "react-dnd";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { ItemTypes } from "../../const";
 import PropertyCard from "../property/PropertyCard";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
+import { addSeconds, format } from "date-fns";
 
 function DraggablePropertyCard({
   property,
-  duration,
   index,
   moveProperty,
   remove,
+  times,
 }) {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
@@ -69,10 +70,17 @@ function DraggablePropertyCard({
       ref={ref}
       data-handler-id={handlerId}
       sx={{
-        transform: isDragging ? "rotate(45deg)" : "",
         opacity: isDragging ? "0" : "1",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
+      {times.length > index && (
+        <Typography variant="caption" textAlign="center">{`Arrive at ${format(
+          times[index].arriveAt,
+          "p"
+        )}`}</Typography>
+      )}
       <Grid container>
         <Grid item xs={11}>
           <PropertyCard property={property} minify />
@@ -83,9 +91,14 @@ function DraggablePropertyCard({
           </Button>
         </Grid>
       </Grid>
-      <Box
-        sx={{ textAlign: "center", margin: "16px 0" }}
-      >{`Stay for ${duration} minutes`}</Box>
+      <Grid container></Grid>
+      {times.length > index && (
+        <Typography
+          variant="caption"
+          sx={{ marginTop: "8px" }}
+          textAlign="center"
+        >{`Depart at ${format(times[index].departAt, "p")}`}</Typography>
+      )}
     </Box>
   );
 }

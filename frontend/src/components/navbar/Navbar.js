@@ -94,11 +94,7 @@ function Navbar({ role, path }) {
           )}
           {isPropertyManager && (
             <Grid item xs={2} sx={{ textAlign: "end" }}>
-              <Button
-                variant="filled"
-                disabled={isPropertyViewPage}
-                onClick={() => history.push("/")}
-              >
+              <Button variant="filled" onClick={() => history.push("/")}>
                 Properties
               </Button>
             </Grid>

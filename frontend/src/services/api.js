@@ -69,10 +69,26 @@ class api {
   }
 
   async sendEmail(agentId, body) {
-    return post({
+    const response = await post({
       url: `${this.host}/agent/${agentId}/enquiries`,
       body,
     });
+    return response.data;
+  }
+
+  async getInspectionTimes(agentId, estateId) {
+    const response = await get({
+      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+    });
+    return response.data;
+  }
+
+  async addInspectionTimes(agentId, estateId, body) {
+    const response = await post({
+      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+      body,
+    });
+    return response.data;
   }
 
   async getUser(agentId) {
