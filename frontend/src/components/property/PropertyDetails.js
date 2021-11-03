@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
+import { format } from "date-fns";
 
 function PropertyDetails() {
   const { estateId } = useParams();
@@ -25,7 +26,9 @@ function PropertyDetails() {
   const [property, setProperty] = useState(null);
 
   const fetchProperty = useCallback(() => {
-    return API.getProperty(user.token, estateId);
+    return !!user.token
+      ? API.getProperty(user.token, estateId)
+      : API.getPropertyPublic(estateId);
   }, [user, estateId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
@@ -52,8 +55,18 @@ function PropertyDetails() {
     makeAPIRequest();
   }, [user, estateId, makeAPIRequest]);
 
+  const removeInspectionTimes = useCallback(
+    async (inspectionId) => {
+      await API.removeInspectionTimes(user.token, estateId, inspectionId);
+      makeAPIRequest();
+    },
+    [user, estateId, makeAPIRequest]
+  );
+
+  const isCreator = parseInt(user.token) === property?.agent_id;
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", padding: "16px" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
       {inProgress && <CircularProgress />}
       {!inProgress && !!property && (
         <Grid container>
@@ -64,66 +77,77 @@ function PropertyDetails() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            {property.open && (
-              <Typography variant="subtitle1" sx={{ color: "success.main" }}>
-                OPEN
-              </Typography>
-            )}
-            {!property.open && (
-              <Typography variant="subtitle1" sx={{ color: "error.main" }}>
-                CLOSED
-              </Typography>
-            )}
-            <Typography variant="h2">{property.address}</Typography>
-            <PropertyFeaturesComponent
-              bedrooms={property.bedrooms}
-              bathrooms={property.bathrooms}
-              garages={property.garages}
-              property_type={property.property_type}
-            />
-            <Typography
-              variant="body"
-              sx={{ marginTop: "8px" }}
-            >{`$${property.price} per week`}</Typography>
-            <Typography variant="body" sx={{ marginTop: "8px" }}>
-              {`${property.land_sqm} sq m`}
-            </Typography>
             <Box
               sx={{
                 display: "flex",
-                marginTop: "16px",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={() => history.push(`/property/${estateId}/edit`)}
-              >
-                <EditIcon />
-                Edit
-              </Button>
               {property.open && (
-                <Button
-                  color="error"
-                  variant="outlined"
-                  onClick={closeProperty}
-                  sx={{ marginLeft: "16px" }}
-                >
-                  <CloseIcon />
-                  Close
-                </Button>
+                <Typography variant="subtitle1" sx={{ color: "success.main" }}>
+                  OPEN
+                </Typography>
               )}
               {!property.open && (
-                <Button
-                  variant="outlined"
-                  onClick={openProperty}
-                  sx={{ marginLeft: "16px" }}
+                <Typography variant="subtitle1" sx={{ color: "error.main" }}>
+                  CLOSED
+                </Typography>
+              )}
+              <Typography variant="h2">{property.address}</Typography>
+              <PropertyFeaturesComponent
+                bedrooms={property.bedrooms}
+                bathrooms={property.bathrooms}
+                garages={property.garages}
+                property_type={property.property_type}
+              />
+              <Typography
+                variant="body"
+                sx={{ marginTop: "8px" }}
+              >{`$${property.price} per week`}</Typography>
+              <Typography variant="body" sx={{ marginTop: "8px" }}>
+                {`${property.land_sqm} sq m`}
+              </Typography>
+              {isCreator && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    marginTop: "16px",
+                  }}
                 >
-                  <HomeIcon />
-                  Open
-                </Button>
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    onClick={() => history.push(`/property/${estateId}/edit`)}
+                  >
+                    <EditIcon />
+                    Edit
+                  </Button>
+                  {property.open && (
+                    <Button
+                      color="error"
+                      variant="outlined"
+                      onClick={closeProperty}
+                      sx={{ marginLeft: "16px" }}
+                    >
+                      <CloseIcon />
+                      Close
+                    </Button>
+                  )}
+                  {!property.open && (
+                    <Button
+                      variant="outlined"
+                      onClick={openProperty}
+                      sx={{ marginLeft: "16px" }}
+                    >
+                      <HomeIcon />
+                      Open
+                    </Button>
+                  )}
+                </Box>
               )}
             </Box>
           </Grid>
@@ -141,6 +165,39 @@ function PropertyDetails() {
             <Typography variant="body1" sx={{ marginTop: "16px" }}>
               {property.description}
             </Typography>
+            <Typography variant="h3" mt={4}>
+              Inspection Times
+            </Typography>
+            {property.inspection_dates.length === 0 && (
+              <Typography mt={2} variant="subtitle1" color="error.main">
+                No inspection times listed
+              </Typography>
+            )}
+            {property.inspection_dates.map(
+              ({ inspectionId, start_date, end_date }) => (
+                <Box
+                  key={`inspection-id-${inspectionId}`}
+                  mt={2}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="subtitle1">{`${format(
+                    new Date(start_date),
+                    "PPpp"
+                  )} - ${format(new Date(end_date), "PPpp")}`}</Typography>
+                  {isCreator && (
+                    <Button
+                      onClick={() => removeInspectionTimes(inspectionId)}
+                      sx={{ marginLeft: "16px", color: "error.main" }}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </Box>
+              )
+            )}
           </Box>
         </Grid>
       )}

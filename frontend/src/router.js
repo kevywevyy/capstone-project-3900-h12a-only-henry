@@ -40,11 +40,18 @@ export const paths = [
     name: "Login",
   },
   {
-    path: "/properties",
+    path: "/property",
     exact: true,
     strict: true,
     component: PropertyViewPublic,
     name: "Listed Properties",
+  },
+  {
+    path: "/property/:estateId",
+    exact: true,
+    strict: true,
+    component: PropertyDetails,
+    name: "Property Details",
   },
 ];
 

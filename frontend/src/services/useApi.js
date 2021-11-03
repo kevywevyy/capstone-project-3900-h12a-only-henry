@@ -38,10 +38,10 @@ function useAPI(func, initialState = {}) {
     data: null,
   });
 
-  const makeRequest = async () => {
+  const makeRequest = async (params) => {
     dispatch({ type: "IN_PROGRESS" });
     try {
-      const result = await func();
+      const result = await func(params);
       dispatch({ type: "SUCCESS", data: result });
     } catch (e) {
       console.log("error is", e);

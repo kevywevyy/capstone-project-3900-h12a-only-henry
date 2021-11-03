@@ -1,4 +1,4 @@
-import { get, post, patch } from "./request";
+import { get, post, patch, remove } from "./request";
 
 class api {
   constructor(host, mapsAPIKey) {
@@ -23,9 +23,9 @@ class api {
     return response.data;
   }
 
-  async getAllProperties() {
+  async getAllProperties(param) {
     const response = await get({
-      url: `${this.host}/estates/all`,
+      url: `${this.host}/estates/all?open=true&${param}`,
     });
     return response.data;
   }
@@ -40,6 +40,13 @@ class api {
   async getProperty(agentId, estateId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
+    });
+    return response.data;
+  }
+
+  async getPropertyPublic(estateId) {
+    const response = await get({
+      url: `${this.host}/estates/${estateId}`,
     });
     return response.data;
   }
@@ -94,6 +101,13 @@ class api {
     const response = await post({
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
       body,
+    });
+    return response.data;
+  }
+
+  async removeInspectionTimes(agentId, estateId, inspectionId) {
+    const response = await remove({
+      url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections/${inspectionId}`,
     });
     return response.data;
   }

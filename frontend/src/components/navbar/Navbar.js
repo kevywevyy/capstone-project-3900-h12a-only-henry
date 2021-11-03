@@ -7,7 +7,7 @@ import {
   USER_KEY,
   SUBNAV_HEIGHT,
 } from "../../const";
-import { Grid, Button, Typography, useTheme } from "@mui/material";
+import { Grid, Button, Typography, useTheme, Divider } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import userContext from "../../lib/context";
 import { Box } from "@mui/system";
@@ -41,16 +41,18 @@ const SubNav = styled.div`
 function Navbar({ role, path }) {
   const history = useHistory();
   const theme = useTheme();
-  const { setUserContext } = useContext(userContext);
+  const { user, setUserContext } = useContext(userContext);
   const [currentRoute, setCurrentRoute] = useState(history.location.pathname);
+  const { path: matched } = useRouteMatch();
 
   const isPropertyManager = role === ROLE_MANAGER;
   const isGuest = role === ROLE_GUEST;
 
   const isLoginPage = isGuest && currentRoute === "/";
   const isRegisterPage = isGuest && currentRoute === "/register";
-
-  const { path: matched } = useRouteMatch();
+  const isPublicPropertyPage =
+    isGuest &&
+    (currentRoute === "/property" || matched === "/property/:estateId");
 
   const logOut = () => {
     setUserContext({ token: null });
@@ -82,22 +84,32 @@ function Navbar({ role, path }) {
             alignItems: "center",
           }}
         >
+          {isPropertyManager && (
+            <>
+              <Typography>{`Hello Agent ${user.token}`}</Typography>
+              <Divider
+                orientation="vertical"
+                sx={{
+                  height: `${NAVBAR_HEIGHT / 2}px`,
+                  backgroundColor: "white",
+                  marginLeft: "16px",
+                }}
+              />
+            </>
+          )}
           {isGuest && (
-            <Button
-              variant="filled"
-              onClick={() => history.push("/properties")}
-            >
+            <Button variant="filled" onClick={() => history.push("/property")}>
               View Listed Properties
             </Button>
           )}
-          {isLoginPage && (
-            <Button variant="filled" onClick={() => history.push("/register")}>
-              Don't have an account? Register here
-            </Button>
-          )}
-          {isRegisterPage && (
+          {(isPublicPropertyPage || isRegisterPage) && (
             <Button variant="filled" onClick={() => history.push("/")}>
               Sign In
+            </Button>
+          )}
+          {(isPublicPropertyPage || isLoginPage) && (
+            <Button variant="filled" onClick={() => history.push("/register")}>
+              Don't have an account? Register here
             </Button>
           )}
           {isPropertyManager && (
