@@ -23,7 +23,14 @@ class api {
     return response.data;
   }
 
-  async getAllProperties(agentId) {
+  async getAllProperties() {
+    const response = await get({
+      url: `${this.host}/estates/all`,
+    });
+    return response.data;
+  }
+
+  async getAllAgentProperties(agentId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates`,
     });

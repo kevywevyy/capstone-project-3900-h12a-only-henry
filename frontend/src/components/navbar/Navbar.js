@@ -10,6 +10,7 @@ import {
 import { Grid, Button, Typography, useTheme } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import userContext from "../../lib/context";
+import { Box } from "@mui/system";
 
 const Nav = styled.div`
   display: flex;
@@ -43,10 +44,11 @@ function Navbar({ role, path }) {
   const { setUserContext } = useContext(userContext);
   const [currentRoute, setCurrentRoute] = useState(history.location.pathname);
 
-  const isLoginPage = role === ROLE_GUEST && currentRoute === "/";
-  const isRegisterPage = role === ROLE_GUEST && currentRoute === "/register";
-
   const isPropertyManager = role === ROLE_MANAGER;
+  const isGuest = role === ROLE_GUEST;
+
+  const isLoginPage = isGuest && currentRoute === "/";
+  const isRegisterPage = isGuest && currentRoute === "/register";
 
   const { path: matched } = useRouteMatch();
 
@@ -73,46 +75,47 @@ function Navbar({ role, path }) {
     <>
       <Nav theme={theme}>
         <Typography variant="h3">RIS</Typography>
-        <Grid container spacing={2} sx={{ justifyContent: "flex-end" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {isGuest && (
+            <Button
+              variant="filled"
+              onClick={() => history.push("/properties")}
+            >
+              View Listed Properties
+            </Button>
+          )}
           {isLoginPage && (
-            <Grid item xs={12} sx={{ textAlign: "end" }}>
-              <Button
-                variant="filled"
-                onClick={() => history.push("/register")}
-              >
-                Don't have an account? Register here
-              </Button>
-            </Grid>
+            <Button variant="filled" onClick={() => history.push("/register")}>
+              Don't have an account? Register here
+            </Button>
           )}
           {isRegisterPage && (
-            <Grid item xs={12} sx={{ textAlign: "end" }}>
-              <Button variant="filled" onClick={() => history.push("/")}>
-                Sign In
-              </Button>
-            </Grid>
+            <Button variant="filled" onClick={() => history.push("/")}>
+              Sign In
+            </Button>
           )}
           {isPropertyManager && (
-            <Grid item xs={2} sx={{ textAlign: "end" }}>
-              <Button variant="filled" onClick={() => history.push("/")}>
-                Properties
-              </Button>
-            </Grid>
+            <Button variant="filled" onClick={() => history.push("/")}>
+              Properties
+            </Button>
           )}
           {isPropertyManager && (
-            <Grid item xs={2} sx={{ textAlign: "end" }}>
-              <Button variant="filled" onClick={() => history.push("/route")}>
-                Create Itinerary
-              </Button>
-            </Grid>
+            <Button variant="filled" onClick={() => history.push("/route")}>
+              Create Itinerary
+            </Button>
           )}
           {isPropertyManager && (
-            <Grid item xs={2} sx={{ textAlign: "end" }}>
-              <Button variant="filled" onClick={logOut}>
-                Sign Out
-              </Button>
-            </Grid>
+            <Button variant="filled" onClick={logOut}>
+              Sign Out
+            </Button>
           )}
-        </Grid>
+        </Box>
       </Nav>
       <SubNav theme={theme}>
         <Typography variant="h6">{getSubheading()}</Typography>

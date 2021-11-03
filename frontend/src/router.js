@@ -17,6 +17,7 @@ import PropertyDetails from "./components/property/PropertyDetails";
 import PropertyEdit from "./components/property/PropertyEdit";
 import PropertyAdd from "./components/property/PropertyAdd";
 import RouteComponent from "./components/itinerary/Route";
+import PropertyViewPublic from "./components/property/PropertyViewPublic";
 
 const Page = styled.div`
   width: 100vw;
@@ -37,6 +38,13 @@ export const paths = [
     strict: true,
     component: Login,
     name: "Login",
+  },
+  {
+    path: "/properties",
+    exact: true,
+    strict: true,
+    component: PropertyViewPublic,
+    name: "Listed Properties",
   },
 ];
 
