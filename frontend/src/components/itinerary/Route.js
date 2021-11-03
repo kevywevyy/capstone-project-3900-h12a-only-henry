@@ -217,7 +217,13 @@ function Route() {
                 <Typography variant="h3" mb={2}>
                   Itinerary
                 </Typography>
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     label="Start Time"
@@ -227,7 +233,10 @@ function Route() {
                       setItineraryUpdated(true);
                     }}
                   />
-                  <Typography variant="subtitle2">{`START: ${userAddress}`}</Typography>
+                  <Typography
+                    mt={2}
+                    variant="subtitle2"
+                  >{`START: ${userAddress}`}</Typography>
                 </Box>
                 <Box
                   mr={4}

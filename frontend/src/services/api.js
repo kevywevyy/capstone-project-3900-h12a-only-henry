@@ -25,7 +25,7 @@ class api {
 
   async getAllProperties(param) {
     const response = await get({
-      url: `${this.host}/estates/all?${param}`,
+      url: `${this.host}/estates/all?open=true&${param}`,
     });
     return response.data;
   }

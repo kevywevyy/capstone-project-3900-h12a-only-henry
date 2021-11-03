@@ -43,15 +43,16 @@ function Navbar({ role, path }) {
   const theme = useTheme();
   const { user, setUserContext } = useContext(userContext);
   const [currentRoute, setCurrentRoute] = useState(history.location.pathname);
+  const { path: matched } = useRouteMatch();
 
   const isPropertyManager = role === ROLE_MANAGER;
   const isGuest = role === ROLE_GUEST;
 
   const isLoginPage = isGuest && currentRoute === "/";
   const isRegisterPage = isGuest && currentRoute === "/register";
-  const isPublicPropertyPage = isGuest && currentRoute === "/properties";
-
-  const { path: matched } = useRouteMatch();
+  const isPublicPropertyPage =
+    isGuest &&
+    (currentRoute === "/property" || matched === "/property/:estateId");
 
   const logOut = () => {
     setUserContext({ token: null });

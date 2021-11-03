@@ -63,7 +63,7 @@ function PropertyDetails() {
     [user, estateId, makeAPIRequest]
   );
 
-  const isCreator = user.token === property?.agentId;
+  const isCreator = parseInt(user.token) === property?.agent_id;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
