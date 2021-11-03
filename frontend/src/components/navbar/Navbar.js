@@ -97,10 +97,7 @@ function Navbar({ role, path }) {
             </>
           )}
           {isGuest && (
-            <Button
-              variant="filled"
-              onClick={() => history.push("/properties")}
-            >
+            <Button variant="filled" onClick={() => history.push("/property")}>
               View Listed Properties
             </Button>
           )}

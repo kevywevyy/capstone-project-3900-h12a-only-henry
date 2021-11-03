@@ -23,9 +23,9 @@ class api {
     return response.data;
   }
 
-  async getAllProperties() {
+  async getAllProperties(param) {
     const response = await get({
-      url: `${this.host}/estates/all`,
+      url: `${this.host}/estates/all?${param}`,
     });
     return response.data;
   }
@@ -40,6 +40,13 @@ class api {
   async getProperty(agentId, estateId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
+    });
+    return response.data;
+  }
+
+  async getPropertyPublic(estateId) {
+    const response = await get({
+      url: `${this.host}/estates/${estateId}`,
     });
     return response.data;
   }

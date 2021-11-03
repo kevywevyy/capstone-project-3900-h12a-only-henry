@@ -26,7 +26,9 @@ function PropertyDetails() {
   const [property, setProperty] = useState(null);
 
   const fetchProperty = useCallback(() => {
-    return API.getProperty(user.token, estateId);
+    return !!user.token
+      ? API.getProperty(user.token, estateId)
+      : API.getPropertyPublic(estateId);
   }, [user, estateId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
@@ -60,6 +62,8 @@ function PropertyDetails() {
     },
     [user, estateId, makeAPIRequest]
   );
+
+  const isCreator = user.token === property?.agentId;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
@@ -107,42 +111,44 @@ function PropertyDetails() {
               <Typography variant="body" sx={{ marginTop: "8px" }}>
                 {`${property.land_sqm} sq m`}
               </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  marginTop: "16px",
-                }}
-              >
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  onClick={() => history.push(`/property/${estateId}/edit`)}
+              {isCreator && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    marginTop: "16px",
+                  }}
                 >
-                  <EditIcon />
-                  Edit
-                </Button>
-                {property.open && (
                   <Button
-                    color="error"
+                    color="secondary"
                     variant="outlined"
-                    onClick={closeProperty}
-                    sx={{ marginLeft: "16px" }}
+                    onClick={() => history.push(`/property/${estateId}/edit`)}
                   >
-                    <CloseIcon />
-                    Close
+                    <EditIcon />
+                    Edit
                   </Button>
-                )}
-                {!property.open && (
-                  <Button
-                    variant="outlined"
-                    onClick={openProperty}
-                    sx={{ marginLeft: "16px" }}
-                  >
-                    <HomeIcon />
-                    Open
-                  </Button>
-                )}
-              </Box>
+                  {property.open && (
+                    <Button
+                      color="error"
+                      variant="outlined"
+                      onClick={closeProperty}
+                      sx={{ marginLeft: "16px" }}
+                    >
+                      <CloseIcon />
+                      Close
+                    </Button>
+                  )}
+                  {!property.open && (
+                    <Button
+                      variant="outlined"
+                      onClick={openProperty}
+                      sx={{ marginLeft: "16px" }}
+                    >
+                      <HomeIcon />
+                      Open
+                    </Button>
+                  )}
+                </Box>
+              )}
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -181,12 +187,14 @@ function PropertyDetails() {
                     new Date(start_date),
                     "PPpp"
                   )} - ${format(new Date(end_date), "PPpp")}`}</Typography>
-                  <Button
-                    onClick={() => removeInspectionTimes(inspectionId)}
-                    sx={{ marginLeft: "16px", color: "error.main" }}
-                  >
-                    Remove
-                  </Button>
+                  {isCreator && (
+                    <Button
+                      onClick={() => removeInspectionTimes(inspectionId)}
+                      sx={{ marginLeft: "16px", color: "error.main" }}
+                    >
+                      Remove
+                    </Button>
+                  )}
                 </Box>
               )
             )}

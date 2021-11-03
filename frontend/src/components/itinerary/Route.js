@@ -41,6 +41,7 @@ function Route() {
   // Hotfix for direction service spamming API calls
   const [itineraryUpdated, setItineraryUpdated] = useState(false);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: API.getMapsKey(),
@@ -83,6 +84,7 @@ function Route() {
         setItineraryUpdated(false);
       } else {
         console.log("ERROR:", response);
+        setError(response);
       }
     }
   };
@@ -209,6 +211,7 @@ function Route() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
+                  justifyContent: "center",
                 }}
               >
                 <Typography variant="h3" mb={2}>
@@ -224,6 +227,7 @@ function Route() {
                       setItineraryUpdated(true);
                     }}
                   />
+                  <Typography variant="subtitle2">{`START: ${userAddress}`}</Typography>
                 </Box>
                 <Box
                   mr={4}
@@ -251,6 +255,7 @@ function Route() {
                 >
                   Save
                 </Button>
+                {error && <Box color="error.main">{error}</Box>}
               </Box>
             </Grid>
             <Grid item xs={6}>
