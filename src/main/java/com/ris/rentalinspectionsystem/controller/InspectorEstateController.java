@@ -3,10 +3,7 @@ package com.ris.rentalinspectionsystem.controller;
 import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/estates/all")
+@RequestMapping("/api/estates")
 public class InspectorEstateController {
     private final EstateDao estateDao;
 
     @Autowired
     public InspectorEstateController(EstateDao estateDao) { this.estateDao = estateDao; }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<Estate> getEstates(
             @RequestParam(required = false) Integer bedrooms,
             @RequestParam(required = false) Integer bathrooms,
@@ -47,5 +44,10 @@ public class InspectorEstateController {
         queryParams.values().removeAll(Collections.singleton(null));
 
         return estateDao.getEstates(queryParams);
+    }
+
+    @GetMapping("/{estateId}")
+    public Estate getEstate(@PathVariable("estateId") Long estateId) {
+        return estateDao.getEstate(estateId);
     }
 }
