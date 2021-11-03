@@ -1,4 +1,4 @@
-import { get, post, patch } from "./request";
+import { get, post, patch, remove } from "./request";
 
 class api {
   constructor(host, mapsAPIKey) {
@@ -95,6 +95,13 @@ class api {
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
       body,
     });
+    return response.data;
+  }
+
+  async removeInspectionTimes(agentId, estateId, inspectionId) {
+    const response = await remove({
+      url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections/${inspectionId}`,
+    })
     return response.data;
   }
 

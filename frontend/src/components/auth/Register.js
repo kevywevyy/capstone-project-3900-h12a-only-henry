@@ -53,9 +53,9 @@ function Register() {
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
   useEffect(() => {
-    if (data && data.id) {
+    if (data && data.agentId) {
       // Updates state of user by setting a token
-      setUserContext({ token: data.id });
+      setUserContext({ token: data.agentId });
       history.push("/");
     }
   }, [data, history, setUserContext]);

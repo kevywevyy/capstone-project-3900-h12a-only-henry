@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
+import { format } from "date-fns";
 
 function PropertyDetails() {
   const { estateId } = useParams();
@@ -52,8 +53,13 @@ function PropertyDetails() {
     makeAPIRequest();
   }, [user, estateId, makeAPIRequest]);
 
+  const removeInspectionTimes = useCallback(async (inspectionId) => {
+    await API.removeInspectionTimes(user.token, estateId, inspectionId);
+    makeAPIRequest();
+  }, [user, estateId, makeAPIRequest])
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", padding: "16px" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
       {inProgress && <CircularProgress />}
       {!inProgress && !!property && (
         <Grid container>
@@ -64,9 +70,15 @@ function PropertyDetails() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              alignItems: "center"
             }}
           >
-            {property.open && (
+            <Box sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}>
+              {property.open && (
               <Typography variant="subtitle1" sx={{ color: "success.main" }}>
                 OPEN
               </Typography>
@@ -126,6 +138,7 @@ function PropertyDetails() {
                 </Button>
               )}
             </Box>
+            </Box>
           </Grid>
           <Grid item xs={6}>
             <CardMedia
@@ -141,6 +154,21 @@ function PropertyDetails() {
             <Typography variant="body1" sx={{ marginTop: "16px" }}>
               {property.description}
             </Typography>
+            <Typography variant="h3" mt={4}>Inspection Times</Typography>
+            {property.inspection_dates.length === 0 && <Typography mt={2} variant="subtitle1" color="error.main">No inspection times listed</Typography>}
+            {property.inspection_dates.map(({inspectionId, start_date, end_date}) => (
+              <Box
+                mt={2}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Typography variant="subtitle1">{`${format(new Date(start_date), "PPpp")} - ${format(new Date(end_date), "PPpp")}`}</Typography>
+                <Button onClick={() => removeInspectionTimes(inspectionId)} sx={{ marginLeft: "16px", color: "error.main" }}>Remove</Button>
+              </Box>
+            ))}
           </Box>
         </Grid>
       )}
