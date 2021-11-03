@@ -11,3 +11,6 @@ Here are the steps to run the project locally.
 `git remote add <REMOTE_NAME> git@github.com:unsw-cse-comp3900-9900-21T3/capstone-project-3900-h12a-only-henry.git`
 2. Push to remote
 `git push -u <REMOTE_NAME> <BRANCH_NAME>`
+
+# Restarting the database
+docker-compose down && docker volume rm property-management-data && docker volume create --name=property-management-data
