@@ -16,7 +16,7 @@ public class Inspection {
 
     @Id
     @Null
-    private Long id;
+    private Long inspectionId;
     @Null
     private Long estateId;
     @NotNull
@@ -26,12 +26,12 @@ public class Inspection {
 
 
     public Inspection(
-            Long id,
+            Long inspectionId,
             Long estateId,
             @JsonProperty("start_date") Long startDate,
             @JsonProperty("end_date") Long endDate
     ) {
-        this.id = id;
+        this.inspectionId = inspectionId;
         this.estateId = estateId;
         this.startDate = new Timestamp(startDate * 1000L);
         this.endDate = new Timestamp(endDate * 1000L);

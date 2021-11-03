@@ -58,7 +58,7 @@ public class AgentIntegrationTest {
         );
         Agent response = restTemplate.postForObject(baseUrl, createdAgent, Agent.class);
 
-        Agent retrievedAgent = restTemplate.getForObject(baseUrl + "/" + response.getId(), Agent.class);
+        Agent retrievedAgent = restTemplate.getForObject(baseUrl + "/" + response.getAgentId(), Agent.class);
 
         assertThat(retrievedAgent, equalTo(response));
     }
@@ -86,11 +86,11 @@ public class AgentIntegrationTest {
         // Create the original Agent.
         Agent originalResponse = restTemplate.postForObject(baseUrl, createdAgent, Agent.class);
         // Update the agent with new fields.
-        restTemplate.put(baseUrl + "/" + originalResponse.getId(), updatedAgent);
+        restTemplate.put(baseUrl + "/" + originalResponse.getAgentId(), updatedAgent);
 
-        Agent retrievedAgent = restTemplate.getForObject(baseUrl + "/" + originalResponse.getId(), Agent.class);
+        Agent retrievedAgent = restTemplate.getForObject(baseUrl + "/" + originalResponse.getAgentId(), Agent.class);
 
-        updatedAgent.setId(originalResponse.getId());
+        updatedAgent.setAgentId(originalResponse.getAgentId());
         assertThat(retrievedAgent, equalTo(updatedAgent));
     }
 

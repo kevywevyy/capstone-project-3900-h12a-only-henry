@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Table("estates")
@@ -17,7 +17,7 @@ public class Estate {
 
     @Id
     @Null
-    private Long id;
+    private Long estateId;
     @Null
     private Long agentId;
     @NotNull
@@ -41,13 +41,13 @@ public class Estate {
     private final String images;
     @Null
     @Transient
-    private final List<Inspection> inspections;
+    private final Set<Inspection> inspections;
     @NotNull
     private final Boolean open;
 
     @JsonCreator
     public Estate(
-            @JsonProperty("id") Long id,
+            @JsonProperty("id") Long estateId,
             @JsonProperty("agent_id") Long agentId,
             @JsonProperty("title") String title,
             @JsonProperty("description") String description,
@@ -59,10 +59,10 @@ public class Estate {
             @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
-            @JsonProperty("inspection_dates") List<Inspection> inspections,
+            @JsonProperty("inspection_dates") Set<Inspection> inspections,
             @JsonProperty("open") Boolean open
     ) {
-        this.id = id;
+        this.estateId = estateId;
         this.agentId = agentId;
         this.title = title;
         this.description = description;

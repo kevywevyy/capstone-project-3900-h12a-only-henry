@@ -28,8 +28,7 @@ public class EstateDao {
         this.estateRowMapper = new RowMappers.EstateRowMapper();
     }
 
-    public List<Estate> getEstates(Map<String, Object> queryParams, Long id) {
-
+    public List<Estate> getEstates(Map<String, Object> queryParams) {
         List<String> queryArgs = new ArrayList<>();
 
         for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
@@ -52,24 +51,24 @@ public class EstateDao {
             }
         }
 
-        String filter = queryParams.isEmpty() ? "" : " AND " + String.join(" AND ", queryArgs);
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams).addValue("agentId", id);
-
+        String filter = queryParams.isEmpty() ? "" : "WHERE " + String.join(" AND ", queryArgs);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams);
 
         return namedParameterJdbcTemplate.query(
-                "SELECT * FROM estates as e " +
-                        "JOIN inspections i on e.id = i.estate_id " +
-                        "WHERE agent_id = :agentId" + filter,
+                "SELECT * FROM estates as e LEFT JOIN inspections i on e.estate_id = i.estate_id " + filter,
                 sqlParameterSource,
                 estateRowMapper
         );
     }
 
     public Estate getEstate(Long agentId, Long estateId) {
-        List<Estate> estates = getEstates(new HashMap<>(), agentId);
+        Map<String, Object> queryParams = new HashMap();
+        queryParams.put("agent_id", agentId);
+
+        List<Estate> estates = getEstates(queryParams);
         return estates
                 .stream()
-                .filter(estate -> Objects.equals(estate.getId(), estateId))
+                .filter(estate -> Objects.equals(estate.getEstateId(), estateId))
                 .findFirst()
                 .orElse(null);
     }
@@ -104,7 +103,7 @@ public class EstateDao {
 
     public Estate putEstate(Long agentId, Long estateId, Estate estate) {
         estate.setAgentId(agentId);
-        estate.setId(estateId);
+        estate.setEstateId(estateId);
         return estatesRepository.save(estate);
     }
 }
