@@ -101,7 +101,7 @@ class api {
   async removeInspectionTimes(agentId, estateId, inspectionId) {
     const response = await remove({
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections/${inspectionId}`,
-    })
+    });
     return response.data;
   }
 

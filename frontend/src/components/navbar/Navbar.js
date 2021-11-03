@@ -86,7 +86,14 @@ function Navbar({ role, path }) {
           {isPropertyManager && (
             <>
               <Typography>{`Hello Agent ${user.token}`}</Typography>
-              <Divider orientation="vertical" sx={{ height: `${NAVBAR_HEIGHT / 2}px`, backgroundColor: "white", marginLeft: "16px" }} />
+              <Divider
+                orientation="vertical"
+                sx={{
+                  height: `${NAVBAR_HEIGHT / 2}px`,
+                  backgroundColor: "white",
+                  marginLeft: "16px",
+                }}
+              />
             </>
           )}
           {isGuest && (

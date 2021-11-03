@@ -48,6 +48,6 @@ export const remove = async (params) => {
   return request({
     method: "delete",
     url: params.url,
-    headers: params.headers
-  })
-}
+    headers: params.headers,
+  });
+};

@@ -33,7 +33,11 @@ function PropertyViewPublic() {
       {!inProgress && !!properties && (
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography variant="h3">Available Properties</Typography>
-          {properties.length === 0 && <Typography mt={2}>No properties at this moment, please check back later.</Typography>}
+          {properties.length === 0 && (
+            <Typography mt={2}>
+              No properties at this moment, please check back later.
+            </Typography>
+          )}
           {properties.map((p) => (
             <PropertyCard property={p} />
           ))}
