@@ -29,7 +29,7 @@ function PropertyView() {
   const [properties, setProperties] = useState([]);
 
   const fetchAllProperties = useCallback(() => {
-    return API.getAllProperties(user.token);
+    return API.getAllAgentProperties(user.token);
   }, [user]);
 
   const [{ inProgress, error, data }, makeAPIRequest] =
