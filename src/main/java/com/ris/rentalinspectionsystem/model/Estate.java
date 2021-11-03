@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Date;
+import java.util.Set;
 
 @Data
 @Table("estates")
@@ -16,7 +17,7 @@ public class Estate {
 
     @Id
     @Null
-    private Long id;
+    private Long estateId;
     @Null
     private Long agentId;
     @NotNull
@@ -38,13 +39,15 @@ public class Estate {
     @NotNull
     private final Integer price;
     private final String images;
-    private final Date inspectionDates;
+    @Null
+    @Transient
+    private final Set<Inspection> inspections;
     @NotNull
     private final Boolean open;
 
     @JsonCreator
     public Estate(
-            @JsonProperty("id") Long id,
+            @JsonProperty("id") Long estateId,
             @JsonProperty("agent_id") Long agentId,
             @JsonProperty("title") String title,
             @JsonProperty("description") String description,
@@ -56,10 +59,10 @@ public class Estate {
             @JsonProperty("land_sqm") Integer landSqm,
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
-            @JsonProperty("inspection_dates") Date inspectionDates,
+            @JsonProperty("inspection_dates") Set<Inspection> inspections,
             @JsonProperty("open") Boolean open
     ) {
-        this.id = id;
+        this.estateId = estateId;
         this.agentId = agentId;
         this.title = title;
         this.description = description;
@@ -71,7 +74,7 @@ public class Estate {
         this.landSqm = landSqm;
         this.price = price;
         this.images = images;
-        this.inspectionDates = inspectionDates;
+        this.inspections = inspections;
         this.open = open;
     }
 }

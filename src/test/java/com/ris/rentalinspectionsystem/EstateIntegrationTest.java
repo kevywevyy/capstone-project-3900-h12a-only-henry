@@ -96,7 +96,7 @@ public class EstateIntegrationTest {
 
 
     private String getUrl() {
-        return String.format("/api/agent/%d/estates", createdAgent.getId());
+        return String.format("/api/agent/%d/estates", createdAgent.getAgentId());
     }
 
     private Estate createEstate(Integer agentNum) {

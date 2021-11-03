@@ -30,7 +30,7 @@ public class AgentDao {
     }
 
     public Agent putAgent(Long agentId, Agent agent) {
-        agent.setId(agentId);
+        agent.setAgentId(agentId);
         return agentsRepository.save(agent);
     }
 }
