@@ -78,14 +78,14 @@ class api {
 
   async getInspectionTimes(agentId, estateId) {
     const response = await get({
-      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+      url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
     });
     return response.data;
   }
 
   async addInspectionTimes(agentId, estateId, body) {
     const response = await post({
-      url: `${this.host}/agent/${agentId}/estate/${estateId}/inspection`,
+      url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
       body,
     });
     return response.data;

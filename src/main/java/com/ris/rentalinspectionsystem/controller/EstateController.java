@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/agent/{agentId}/estates")
@@ -33,6 +36,7 @@ public class EstateController {
             @RequestParam(required = false) Boolean open
     ) {
         Map<String, Object> queryParams = new HashMap();
+        queryParams.put("agent_id", agentId);
         queryParams.put("bedrooms", bedrooms);
         queryParams.put("bathrooms", bathrooms);
         queryParams.put("garages", garages);
@@ -45,7 +49,7 @@ public class EstateController {
 
         queryParams.values().removeAll(Collections.singleton(null));
 
-        return estateDao.getEstates(queryParams, agentId);
+        return estateDao.getEstates(queryParams);
     }
 
     @GetMapping("/{estateId}")

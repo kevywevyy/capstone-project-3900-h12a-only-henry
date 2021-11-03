@@ -14,7 +14,7 @@ public class Agent {
 
     @Id
     @Null
-    private Long id;
+    private Long agentId;
     @NotNull
     @JsonProperty("first_name")
     private final String firstName;
@@ -28,14 +28,14 @@ public class Agent {
     private final String address;
 
     public Agent(
-            Long id,
+            Long agentId,
             String firstName,
             String lastName,
             String email,
             String phone,
             String address
     ) {
-        this.id = id;
+        this.agentId = agentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
