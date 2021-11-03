@@ -57,7 +57,7 @@ public class EstateController {
             @PathVariable("agentId") Long agentId,
             @PathVariable("estateId") Long estateId
     ) {
-        return estateDao.getEstate(agentId, estateId);
+        return estateDao.getEstate(estateId);
     }
 
     @PostMapping("")

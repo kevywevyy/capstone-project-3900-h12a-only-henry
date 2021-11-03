@@ -61,11 +61,8 @@ public class EstateDao {
         );
     }
 
-    public Estate getEstate(Long agentId, Long estateId) {
-        Map<String, Object> queryParams = new HashMap();
-        queryParams.put("agent_id", agentId);
-
-        List<Estate> estates = getEstates(queryParams);
+    public Estate getEstate(Long estateId) {
+        List<Estate> estates = getEstates(new HashMap());
         return estates
                 .stream()
                 .filter(estate -> Objects.equals(estate.getEstateId(), estateId))
@@ -79,7 +76,7 @@ public class EstateDao {
     }
 
     public Estate patchEstate(Long agentId, Long estateId, Estate estate) {
-        Estate originalEstate = getEstate(agentId, estateId);
+        Estate originalEstate = getEstate(estateId);
 
         Estate newEstate = new Estate(
                 estateId,
