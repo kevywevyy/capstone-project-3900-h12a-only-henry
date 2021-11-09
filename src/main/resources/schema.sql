@@ -35,3 +35,23 @@ CREATE TABLE IF NOT EXISTS inspections(
 
     FOREIGN KEY(estate_id) REFERENCES estates(estate_id)
 );
+
+CREATE TABLE IF NOT EXISTS inspectors
+(
+    inspector_id BIGSERIAL,
+    first_name VARCHAR NOT NULL,
+    last_name  VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL,
+    phone      VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS history
+(
+    history_id BIGSERIAL,
+    inspector_id BIGINT NOT NULL,
+    estate_id BIGINT NOT NULL,
+    view_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+    FOREIGN KEY(inspector_id) REFERENCES inspectors(inspector_id)
+    FOREIGN KEY(estate_id) REFERENCES estates(estate_id)
+);
