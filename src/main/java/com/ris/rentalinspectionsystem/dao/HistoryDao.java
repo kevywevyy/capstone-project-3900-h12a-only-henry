@@ -21,7 +21,7 @@ public class HistoryDao {
     public List<History> getHistory(Long inspectorId) { return historyRepository.findByInspectorId(inspectorId); }
 
     public History createHistory(Long inspectorId, Long estateId) {
-        History history = new History(null, inspectorId, estateId, java.time.LocalDate.now());
+        History history = new History(null, inspectorId, estateId, null);
         return historyRepository.save(history);
     }
 }
