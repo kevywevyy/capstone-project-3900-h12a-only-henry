@@ -17,20 +17,17 @@ public class History {
     @Null
     private final Long historyId;
     @NotNull
-    @JsonProperty("inspector_id")
     private final Long inspectorId;
     @NotNull
-    @JsonProperty("estate_id")
     private final Long estateId;
     @Null // maybe?? not sure how current timestamp works
-    @JsonProperty("view_date")
     private final Timestamp viewDate; // Do I even include this??!
 
     public History(
             Long historyId,
-            Long inspectorId,
-            Long estateId,
-            Timestamp viewDate
+            @JsonProperty("inspector_id") Long inspectorId,
+            @JsonProperty("estate_id") Long estateId,
+            @JsonProperty("view_date") Timestamp viewDate
     ) {
         this.historyId = historyId;
         this.inspectorId = inspectorId;

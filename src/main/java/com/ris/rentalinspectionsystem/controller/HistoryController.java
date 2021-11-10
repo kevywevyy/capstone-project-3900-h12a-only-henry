@@ -37,7 +37,7 @@ public class HistoryController {
             @PathVariable("inspectorId") Long inspectorId,
             @PathVariable("estateId") Long estateId
     ) {
-        //historyDao.createHistory();
+        historyDao.createHistory(inspectorId, estateId);
         return estateDao.getEstate(estateId);
     }
 }
