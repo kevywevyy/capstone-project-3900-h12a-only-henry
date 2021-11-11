@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface HistoryRepository extends CrudRepository<History, Long> {
     List<History> findByInspectorId(Long inspectorId);
+    History findByInspectorIdAndEstateId(Long inspectorId, Long estateId);
 }
