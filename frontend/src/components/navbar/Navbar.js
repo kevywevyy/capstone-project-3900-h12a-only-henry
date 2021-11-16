@@ -7,7 +7,7 @@ import {
   USER_KEY,
   SUBNAV_HEIGHT,
 } from "../../const";
-import { Grid, Button, Typography, useTheme, Divider } from "@mui/material";
+import { Button, Typography, useTheme, Divider } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import userContext from "../../lib/context";
 import { Box } from "@mui/system";
