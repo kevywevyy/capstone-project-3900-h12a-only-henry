@@ -33,7 +33,7 @@ const PropertyFeaturesContainer = styled.div`
 function Features({ num, icon }) {
   return (
     <PropertyFeatures>
-      <Typography variant="caption">{num}</Typography>
+      <Typography variant="caption" sx={{ fontSize: "20px" }}>{num}</Typography>
       {icon}
     </PropertyFeatures>
   );
@@ -52,7 +52,7 @@ export function PropertyFeaturesComponent({
       <Features num={garages} icon={<GarageIcon />} />
       <Divider orientation="vertical" sx={{ marginLeft: "8px" }} />
       <PropertyFeatures>
-        <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+        <Typography variant="caption" sx={{ fontWeight: "bold", fontSize: "24px" }}>
           {capitalizeFirstLetter(property_type)}
         </Typography>
       </PropertyFeatures>
