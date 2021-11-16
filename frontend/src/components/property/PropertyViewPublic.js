@@ -1,7 +1,6 @@
 import {
   Button,
   CircularProgress,
-  FormControl,
   MenuItem,
   TextField,
   Typography,
@@ -33,8 +32,8 @@ function PropertyViewPublic() {
 
   const changeOrder = useCallback(() => {
     setDescending(!descending);
-    makeAPIRequest();
-  }, [descending, makeAPIRequest]);
+    makeAPIRequest(options);
+  }, [descending, makeAPIRequest, options]);
 
   useEffect(() => {
     if (!inProgress && !error && !data) {
@@ -49,7 +48,7 @@ function PropertyViewPublic() {
       });
       setProperties(data);
     }
-  }, [inProgress, error, data]);
+  }, [inProgress, error, data, descending]);
 
   const updateOptions = useCallback(
     (field) => {

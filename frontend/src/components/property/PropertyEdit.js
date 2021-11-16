@@ -12,6 +12,7 @@ import userContext from "../../lib/context";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import useAPI from "../../services/useApi";
 import { propertyTypes } from "./PropertyAdd";
+import { usePlacesWidget } from "react-google-autocomplete";
 
 function PropertyEdit() {
   const { estateId } = useParams();
@@ -27,6 +28,14 @@ function PropertyEdit() {
   const [garages, setGarages] = useState(0);
   const [landSqm, setLandSqm] = useState(0);
   const [price, setPrice] = useState(0);
+
+  const { ref } = usePlacesWidget({
+    apiKey: API.getMapsKey(),
+    onPlaceSelected: (place) => setAddress(place.formatted_address),
+    options: {
+      types: ["address"],
+    },
+  });
 
   const fetchProperty = useCallback(async () => {
     return API.getProperty(user.token, estateId);
@@ -103,6 +112,7 @@ function PropertyEdit() {
         onChange={(e) => setDescription(e.target.value)}
       />
       <TextField
+        inputRef={ref}
         required
         label="Address"
         value={address}
