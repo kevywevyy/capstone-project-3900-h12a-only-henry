@@ -56,7 +56,7 @@ public class EstateDao {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(queryParams);
 
         return namedParameterJdbcTemplate.query(
-                "SELECT * FROM estates as e LEFT JOIN inspections i on e.estate_id = i.estate_id " + filter + " ORDER BY e.viewed DESC",
+                "SELECT * FROM estates as e LEFT JOIN inspections i on e.estate_id = i.estate_id " + filter,
                 sqlParameterSource,
                 estateRowMapper
         );
