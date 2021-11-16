@@ -18,6 +18,7 @@ import {
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
 import { format } from "date-fns";
+import { ROLE_MANAGER } from "../../const";
 
 function PropertyDetails() {
   const { estateId } = useParams();
@@ -27,7 +28,9 @@ function PropertyDetails() {
 
   const fetchProperty = useCallback(async () => {
     const property = await (!!user.token
-      ? API.getProperty(user.token, estateId)
+      ? user.role === ROLE_MANAGER
+        ? API.getProperty(user.token, estateId)
+        : API.getInspectorProperty(user.token, estateId)
       : API.getPropertyPublic(estateId));
     const agent = await API.getUser(property.agent_id);
     return {
@@ -68,7 +71,8 @@ function PropertyDetails() {
     [user, estateId, makeAPIRequest]
   );
 
-  const isCreator = parseInt(user.token) === property?.agent_id;
+  const isCreator =
+    user.role === ROLE_MANAGER && parseInt(user.token) === property?.agent_id;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>

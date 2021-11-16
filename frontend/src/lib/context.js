@@ -3,7 +3,7 @@ import API from "../services/api";
 import { USER_KEY } from "../const";
 
 const userContext = createContext({
-  user: { token: "" },
+  user: { token: "", role: "" },
   setUserContext: () => {},
 });
 
@@ -12,6 +12,7 @@ export function useUserContext() {
   const storedUser = JSON.parse(localStorage.getItem(USER_KEY));
   const [user, setUser] = useState({
     token: storedUser?.token ? storedUser.token : null,
+    role: storedUser?.role ? storedUser.role : null,
   });
 
   if (user.token) API.setToken(user.token);
@@ -19,6 +20,7 @@ export function useUserContext() {
   function setUserContext(updatedUser) {
     if (updatedUser.token) API.setToken(updatedUser.token);
     setUser({ ...user, ...updatedUser });
+    console.log({ ...user, ...updatedUser });
     localStorage.setItem(USER_KEY, JSON.stringify({ ...user, ...updatedUser }));
   }
 

@@ -6,6 +6,7 @@ import {
   ROLE_MANAGER,
   USER_KEY,
   SUBNAV_HEIGHT,
+  ROLE_INSPECTOR,
 } from "../../const";
 import { Button, Typography, useTheme, Divider } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -46,6 +47,7 @@ function Navbar({ role, path }) {
   const { path: matched } = useRouteMatch();
 
   const isPropertyManager = role === ROLE_MANAGER;
+  const isPropertyInspector = role === ROLE_INSPECTOR;
   const isGuest = role === ROLE_GUEST;
 
   const isLoginPage = isGuest && currentRoute === "/";
@@ -84,9 +86,11 @@ function Navbar({ role, path }) {
             alignItems: "center",
           }}
         >
-          {isPropertyManager && (
+          {(isPropertyManager || isPropertyInspector) && (
             <>
-              <Typography>{`Hello Agent ${user.token}`}</Typography>
+              <Typography>{`Hello ${
+                isPropertyManager ? "Agent" : "Inspector"
+              } ${user.token}`}</Typography>
               <Divider
                 orientation="vertical"
                 sx={{
@@ -122,7 +126,27 @@ function Navbar({ role, path }) {
               Create Itinerary
             </Button>
           )}
-          {isPropertyManager && (
+          {isPropertyInspector && (
+            <Button variant="filled" onClick={() => history.push("/")}>
+              For you
+            </Button>
+          )}
+          {isPropertyInspector && (
+            <Button variant="filled" onClick={() => history.push("/property")}>
+              All Properties
+            </Button>
+          )}
+          {isPropertyInspector && (
+            <Button variant="filled" onClick={() => history.push("/profile")}>
+              Profile
+            </Button>
+          )}
+          {isPropertyInspector && (
+            <Button variant="filled" onClick={() => history.push("/history")}>
+              History
+            </Button>
+          )}
+          {(isPropertyManager || isPropertyInspector) && (
             <Button variant="filled" onClick={logOut}>
               Sign Out
             </Button>
