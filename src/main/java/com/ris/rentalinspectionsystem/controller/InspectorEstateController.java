@@ -48,6 +48,7 @@ public class InspectorEstateController {
 
     @GetMapping("/{estateId}")
     public Estate getEstate(@PathVariable("estateId") Long estateId) {
+        estateDao.addView(estateId);
         return estateDao.getEstate(estateId);
     }
 }

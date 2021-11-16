@@ -44,6 +44,8 @@ public class Estate {
     private final Set<Inspection> inspections;
     @NotNull
     private final Boolean open;
+    @Null
+    private Integer viewed;
 
     @JsonCreator
     public Estate(
@@ -60,7 +62,8 @@ public class Estate {
             @JsonProperty("price") Integer price,
             @JsonProperty("images") String images,
             @JsonProperty("inspection_dates") Set<Inspection> inspections,
-            @JsonProperty("open") Boolean open
+            @JsonProperty("open") Boolean open,
+            @JsonProperty("viewed") Integer viewed
     ) {
         this.estateId = estateId;
         this.agentId = agentId;
@@ -76,5 +79,9 @@ public class Estate {
         this.images = images;
         this.inspections = inspections;
         this.open = open;
+        this.viewed = viewed;
+    }
+    public void setViewed(int count) {
+        this.viewed = count;
     }
 }

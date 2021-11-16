@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS estates(
     price INTEGER NOT NUll,
     images TEXT,
     "open" BOOLEAN NOT NULL,
+    viewed INTEGER NOT NULL,
 
     PRIMARY KEY(estate_id),
     FOREIGN KEY(agent_id) REFERENCES agents(agent_id)

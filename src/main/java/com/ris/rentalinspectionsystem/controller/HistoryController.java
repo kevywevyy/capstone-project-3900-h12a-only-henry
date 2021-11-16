@@ -38,6 +38,7 @@ public class HistoryController {
             @PathVariable("estateId") Long estateId
     ) {
         historyDao.createHistory(inspectorId, estateId);
+        estateDao.addView(estateId);
         return estateDao.getEstate(estateId);
     }
 }
