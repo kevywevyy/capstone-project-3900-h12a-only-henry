@@ -22,15 +22,14 @@ public class HistoryDao {
     public List<History> getHistory(Long inspectorId) { return historyRepository.findByInspectorId(inspectorId); }
 
     public History createHistory(Long inspectorId, Long estateId) {
-        Instant it = Instant.now();
-        Timestamp timestamp = Timestamp.from(it);
         History prev = historyRepository.findByInspectorIdAndEstateId(inspectorId, estateId);
-        History history;
-        if (prev == null) {
-            history = new History(null, inspectorId, estateId, timestamp);
-        } else {
-            history = new History(prev.getHistoryId(), inspectorId, estateId, timestamp);
-        }
+        Long prevId = prev == null ? null : prev.getHistoryId();
+        History history = new History(
+                prevId,
+                inspectorId,
+                estateId,
+                Timestamp.from(Instant.now())
+        );
         return historyRepository.save(history);
     }
 }
