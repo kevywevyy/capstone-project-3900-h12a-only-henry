@@ -84,7 +84,7 @@ function Route() {
         setItineraryUpdated(false);
       } else {
         console.log("ERROR:", response);
-        setError(response);
+        setError(response.status);
       }
     }
   };
@@ -139,7 +139,7 @@ function Route() {
             </DialogTitle>
             <DialogContent dividers>
               {propertiesToInspect.map(({ property }, index) => (
-                <DialogContentText>
+                <DialogContentText key={`itinerary-summary-${index}`}>
                   {`Arrive at ${property.address} at ${format(
                     getTimes()[index].arriveAt,
                     "p"
@@ -188,7 +188,6 @@ function Route() {
                       })),
                     drivingOptions: {
                       departureTime: startTime,
-                      trafficModel: "pessimistic",
                     },
                   }}
                   callback={directionsCallback}
@@ -271,7 +270,16 @@ function Route() {
               <Typography variant="h3" mt={2}>
                 Available Properties
               </Typography>
-              <RouteProperties onSubmit={addToItinerary} />
+              <Typography variant="caption">
+                List will be sorted based on distance from the last added
+                property
+              </Typography>
+              <RouteProperties
+                onSubmit={addToItinerary}
+                selectedProperty={
+                  propertiesToInspect[propertiesToInspect.length - 1]?.property
+                }
+              />
             </Grid>
           </DndProvider>
         </Grid>

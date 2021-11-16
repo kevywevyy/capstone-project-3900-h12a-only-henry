@@ -11,6 +11,7 @@ import {
   InputAdornment,
   Button,
 } from "@mui/material";
+import { usePlacesWidget } from "react-google-autocomplete";
 
 export const propertyTypes = [
   {
@@ -48,6 +49,14 @@ function PropertyAdd() {
   const [garages, setGarages] = useState(0);
   const [landSqm, setLandSqm] = useState(0);
   const [price, setPrice] = useState(0);
+
+  const { ref } = usePlacesWidget({
+    apiKey: API.getMapsKey(),
+    onPlaceSelected: (place) => setAddress(place.formatted_address),
+    options: {
+      types: ["address"],
+    },
+  });
 
   const addProperty = useCallback(() => {
     return API.addProperty(user.token, {
@@ -102,6 +111,7 @@ function PropertyAdd() {
         onChange={(e) => setDescription(e.target.value)}
       />
       <TextField
+        inputRef={ref}
         required
         label="Address"
         value={address}
