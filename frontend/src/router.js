@@ -11,6 +11,7 @@ import {
   ROLE_MANAGER,
   ROLE_GUEST,
   SUBNAV_HEIGHT,
+  ROLE_INSPECTOR,
 } from "./const";
 import Navbar from "./components/navbar/Navbar";
 import PropertyDetails from "./components/property/PropertyDetails";
@@ -18,6 +19,9 @@ import PropertyEdit from "./components/property/PropertyEdit";
 import PropertyAdd from "./components/property/PropertyAdd";
 import RouteComponent from "./components/itinerary/Route";
 import PropertyViewPublic from "./components/property/PropertyViewPublic";
+import PropertyViewInspector from "./components/property/PropertyViewInspector";
+import Profile from "./components/profile/Profile";
+import PropertyHistory from "./components/property/PropertyHistory";
 
 const Page = styled.div`
   width: 100vw;
@@ -93,14 +97,49 @@ export const managerPaths = [
   },
 ];
 
+export const inspectorPaths = [
+  {
+    path: "/",
+    exact: true,
+    strict: true,
+    component: PropertyViewInspector,
+    name: "For you",
+  },
+  {
+    path: "/profile",
+    exact: true,
+    strict: true,
+    component: Profile,
+    name: "Profile",
+  },
+  {
+    path: "/history",
+    exact: true,
+    strict: true,
+    component: PropertyHistory,
+    name: "History",
+  },
+  {
+    path: "/property",
+    exact: true,
+    strict: true,
+    component: PropertyViewPublic,
+    name: "Listed Properties",
+  },
+  {
+    path: "/property/:estateId",
+    exact: true,
+    strict: true,
+    component: PropertyDetails,
+    name: "Property Details",
+  },
+];
+
 // Page Layout
 function Layout({ Content, user, activePath }) {
   return (
     <>
-      <Navbar
-        role={!!user.token ? ROLE_MANAGER : ROLE_GUEST}
-        path={activePath}
-      />
+      <Navbar role={!!user.token ? user.role : ROLE_GUEST} path={activePath} />
       <Page>
         <Content />
       </Page>
@@ -108,13 +147,14 @@ function Layout({ Content, user, activePath }) {
   );
 }
 
-export const inspectorPaths = [{}];
-
 function Router() {
   const { user } = useContext(userContext);
 
   // TODO: Implement some condition to switch between different routes
-  const activePath = !user.token ? paths : managerPaths;
+  let activePath;
+  if (user.role === ROLE_MANAGER) activePath = managerPaths;
+  if (user.role === ROLE_INSPECTOR) activePath = inspectorPaths;
+  if (!user.token) activePath = paths;
 
   return (
     <BrowserRouter>
