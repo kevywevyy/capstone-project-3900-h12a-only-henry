@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
+import HouseLivingRoomPlaceholder from "../../assets/house-living-room-placeholder.jpg";
+import HouseKitchenPlaceholder from "../../assets/house-kitchen-placeholder.jpg";
 import { format } from "date-fns";
 
 function PropertyDetails() {
@@ -64,7 +66,7 @@ function PropertyDetails() {
   );
 
   const isCreator = parseInt(user.token) === property?.agent_id;
-
+  console.log(property)
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
       {inProgress && <CircularProgress />}
@@ -151,21 +153,51 @@ function PropertyDetails() {
               )}
             </Box>
           </Grid>
-          <Grid item xs={6}>
-            <CardMedia
-              component="img"
-              sx={{ width: "100%" }}
-              image={property.images || HousePlaceholder}
-              alt="House Pic"
-            />
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              flexDirection: "row"
+            }}
+          >
+            <Grid container>
+              <Grid item xs={12} sx={{ m: 1 }}>
+                <CardMedia
+                  component="img"
+                  sx={{ width: "100%", height: "100%" }}
+                  image={property.images || HousePlaceholder}
+                  alt="House Pic"
+                />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: "column", my: 1 }}>
+                <CardMedia
+                  component="img"
+                  sx={{ width: "100%", height: "50%", mb: 0.5 }}
+                  image={property.images || HouseLivingRoomPlaceholder}
+                  alt="House Pic"
+                />
+                <CardMedia
+                  component="img"
+                  sx={{ width: "100%", height: "50%", mt: 0.5 }}
+                  image={property.images || HouseKitchenPlaceholder}
+                  alt="House Pic"
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Divider sx={{ width: "100%", margin: "16px 0" }} />
           <Box sx={{ margin: "0 32px" }}>
-            <Typography variant="h2">{property.title}</Typography>
+            <Typography variant="h3">{property.title}</Typography>
             <Typography variant="body1" sx={{ marginTop: "16px" }}>
               {property.description}
             </Typography>
-            <Typography variant="h3" mt={4}>
+          </Box>
+          <Divider sx={{ width: "100%", margin: "16px 0" }} />
+          <Box sx={{ margin: "0 32px" }}>
+            <Typography variant="h4" mt={4}>
               Inspection Times
             </Typography>
             {property.inspection_dates.length === 0 && (
@@ -198,6 +230,12 @@ function PropertyDetails() {
                 </Box>
               )
             )}
+          </Box>
+          <Divider sx={{ width: "100%", margin: "16px 0" }} />
+          <Box sx={{ margin: "0 32px" }}>
+            <Typography variant="h4" mt={4}>
+              Agent Details
+            </Typography>
           </Box>
         </Grid>
       )}

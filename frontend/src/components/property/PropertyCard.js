@@ -52,7 +52,7 @@ export function PropertyFeaturesComponent({
       <Features num={garages} icon={<GarageIcon />} />
       <Divider orientation="vertical" sx={{ marginLeft: "8px" }} />
       <PropertyFeatures>
-        <Typography variant="caption">
+        <Typography variant="caption" sx={{ fontWeight: "bold" }}>
           {capitalizeFirstLetter(property_type)}
         </Typography>
       </PropertyFeatures>
