@@ -15,12 +15,21 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import PropertyCard from "../property/PropertyCard";
+import {
+  DistanceMatrixService,
+  GoogleMap,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 
-function RouteProperties({ onSubmit }) {
+function RouteProperties({ onSubmit, selectedProperty }) {
   const { user } = useContext(userContext);
   const [open, setOpen] = useState(null);
   const [properties, setProperties] = useState([]);
   const [duration, setDuration] = useState(0);
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: API.getMapsKey(),
+  });
 
   const fetchAllProperties = useCallback(() => {
     return API.getAllAgentProperties(user.token);
@@ -47,6 +56,24 @@ function RouteProperties({ onSubmit }) {
     onSubmit(open, parseInt(duration));
     setOpen(false);
   };
+
+  const distanceCallback = useCallback(
+    (response) => {
+      const { destinationAddresses, rows } = response;
+      const sortedAddresses = [];
+      for (let i = 0; i < rows[0].elements.length; i++) {
+        sortedAddresses.push({
+          address: destinationAddresses[i],
+          duration: rows[0].elements[i].duration.value,
+        });
+      }
+      const updatedData = sortedAddresses
+        .sort((a, b) => a.duration - b.duration)
+        .map((a) => properties.find((d) => d.address === a.address));
+      setProperties(updatedData);
+    },
+    [properties, setProperties]
+  );
 
   return (
     <Box mr={4}>
@@ -99,6 +126,29 @@ function RouteProperties({ onSubmit }) {
             ))}
           </Box>
         </Box>
+      )}
+      {isLoaded && selectedProperty && !!data && (
+        <GoogleMap
+          id="distance-matrix"
+          mapContainerStyle={{
+            height: "0",
+            width: "0",
+          }}
+          zoom={2}
+          center={{
+            lat: 0,
+            lng: -180,
+          }}
+        >
+          <DistanceMatrixService
+            options={{
+              origins: [selectedProperty.address],
+              destinations: data.map((d) => d.address),
+              travelMode: "DRIVING",
+            }}
+            callback={distanceCallback}
+          />
+        </GoogleMap>
       )}
     </Box>
   );

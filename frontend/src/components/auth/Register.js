@@ -6,6 +6,7 @@ import styled from "styled-components";
 import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
+import { usePlacesWidget } from "react-google-autocomplete";
 
 const RegisterForm = styled.form`
   display: flex;
@@ -38,6 +39,13 @@ function Register() {
   const [type, setType] = useState("");
   const history = useHistory();
   const { setUserContext } = useContext(userContext);
+  const { ref } = usePlacesWidget({
+    apiKey: API.getMapsKey(),
+    onPlaceSelected: (place) => setAddress(place.formatted_address),
+    options: {
+      types: ["address"],
+    },
+  });
 
   const register = useCallback(() => {
     return API.register({
@@ -108,6 +116,7 @@ function Register() {
         }}
       />
       <TextField
+        inputRef={ref}
         required
         label="Address"
         type="text"
