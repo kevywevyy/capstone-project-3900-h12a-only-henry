@@ -107,11 +107,11 @@ public class EstateDao {
         return estatesRepository.save(estate);
     }
 
-    public Estate addView(Long estateId) {
-        Estate prev = estatesRepository.findById(estateId).orElse(null);
+    public void addView(Long estateId) {
+        Estate prev = getEstate(estateId);
         if (prev != null) {
             prev.setViewed((prev.getViewed() + 1));
+            estatesRepository.save(prev);
         }
-        return estatesRepository.save(prev);
     }
 }
