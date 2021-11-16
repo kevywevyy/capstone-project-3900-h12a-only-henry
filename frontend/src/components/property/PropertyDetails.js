@@ -13,7 +13,7 @@ import {
   Grid,
   Button,
   Divider,
-  CircularProgress,
+  CircularProgress, Dialog, DialogTitle, DialogContent, TextField,
 } from "@mui/material";
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
@@ -28,7 +28,7 @@ function PropertyDetails() {
   const history = useHistory();
   const { user } = useContext(userContext);
   const [property, setProperty] = useState(null);
-
+  const [open, setOpen] = useState(false);
   const fetchProperty = useCallback(async () => {
     const property = await (!!user.token
         ? API.getProperty(user.token, estateId)
@@ -72,6 +72,17 @@ function PropertyDetails() {
       [user, estateId, makeAPIRequest]
   );
 
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    message: ''
+  });
+
+  const handleChange = (prop) => (event) => {
+    setForm({ ...form, [prop]: event.target.value });
+  };
+
   const isCreator = parseInt(user.token) === property?.agent_id;
   console.log(property);
   return (
@@ -113,13 +124,13 @@ function PropertyDetails() {
                             component="img"
                             sx={{ width: "100%", height: "50%", mb: 0.5 }}
                             image={property.images || HouseLivingRoomPlaceholder}
-                            alt="House Pic"
+                            alt="Living Room Pic"
                         />
                         <CardMedia
                             component="img"
                             sx={{ width: "100%", height: "50%", mt: 0.5 }}
                             image={property.images || HouseKitchenPlaceholder}
-                            alt="House Pic"
+                            alt="Kitchen Pic"
                         />
                       </Grid>
                     </Grid>
@@ -133,13 +144,13 @@ function PropertyDetails() {
                             component="img"
                             sx={{ width: "100%", height: "50%", mb: 0.5 }}
                             image={property.images || HouseBathroomPlaceholder}
-                            alt="House Pic"
+                            alt="Bathroom Pic"
                         />
                         <CardMedia
                             component="img"
                             sx={{ width: "100%", height: "50%", mt: 0.5 }}
                             image={property.images || HouseBackyardPlaceholder}
-                            alt="House Pic"
+                            alt="Backyard Pic"
                         />
                       </Grid>
                     </Grid>
@@ -191,45 +202,45 @@ function PropertyDetails() {
                         sx={{ marginTop: "8px", fontSize: "20px" }}
                     >{`$${property.price} /per week`}</Typography>
                     <Typography variant="body" sx={{ marginTop: "8px" }}>
-                      {`${property.land_sqm} sq m`}
+                      {`${property.land_sqm}`} m<sup>2</sup>
                     </Typography>
                     {isCreator && (
-                        <Box
-                            sx={{
-                              display: "flex",
-                              marginTop: "16px",
-                            }}
+                      <Box
+                          sx={{
+                            display: "flex",
+                            marginTop: "16px",
+                          }}
+                      >
+                        <Button
+                            color="secondary"
+                            variant="outlined"
+                            onClick={() => history.push(`/property/${estateId}/edit`)}
                         >
-                          <Button
-                              color="secondary"
-                              variant="outlined"
-                              onClick={() => history.push(`/property/${estateId}/edit`)}
-                          >
-                            <EditIcon />
-                            Edit
-                          </Button>
-                          {property.open && (
-                              <Button
-                                  color="error"
-                                  variant="outlined"
-                                  onClick={closeProperty}
-                                  sx={{ marginLeft: "16px" }}
-                              >
-                                <CloseIcon />
-                                Close
-                              </Button>
-                          )}
-                          {!property.open && (
-                              <Button
-                                  variant="outlined"
-                                  onClick={openProperty}
-                                  sx={{ marginLeft: "16px" }}
-                              >
-                                <HomeIcon />
-                                Open
-                              </Button>
-                          )}
-                        </Box>
+                          <EditIcon />
+                          Edit
+                        </Button>
+                        {property.open && (
+                            <Button
+                                color="error"
+                                variant="outlined"
+                                onClick={closeProperty}
+                                sx={{ marginLeft: "16px" }}
+                            >
+                              <CloseIcon />
+                              Close
+                            </Button>
+                        )}
+                        {!property.open && (
+                            <Button
+                                variant="outlined"
+                                onClick={openProperty}
+                                sx={{ marginLeft: "16px" }}
+                            >
+                              <HomeIcon />
+                              Open
+                            </Button>
+                        )}
+                      </Box>
                     )}
                   </Box>
                 </Grid>
@@ -288,29 +299,82 @@ function PropertyDetails() {
                 <Typography variant="body" sx={{ marginTop: "8px" }}>
                   {`Agent Email: ${property.agent.email}`}
                 </Typography>
-                {
-                  (property.agent.phone)
-                    ? <Typography variant="body" sx={{ marginTop: "8px" }}>
-                        {`Agent Mobile: ${property.agent.email}`}
-                      </Typography>
-                    : <></>
-                }
-                {
-                  isCreator
-                    ? <></>
-                    : <Box>
-                        <Button>Test</Button>
+                {!!property.agent.phone && (
+                    <Typography variant="body" sx={{ marginTop: "8px" }}>
+                      {`Agent Mobile: ${property.agent.email}`}
+                    </Typography>
+                  )}
+                {!isCreator &&(
+                  <Box>
+                    <Button
+                        color="secondary"
+                        variant="outlined"
+                        sx={{ marginTop: "16px" }}
+                        onClick={() => setOpen(true)}
+                    >
+                      Contact Host
+                    </Button>
+                  </Box>
+                )}
+                {!isCreator && (
+                  <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
+                    <DialogTitle sx={{ textAlign: "center" }}>Enquiry to {property.agent.first_name} {property.agent.last_name}</DialogTitle>
+                    <DialogContent dividers>
+                      <Box
+                        component="form"
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: "16px",
+                          "> div:not(:first-of-type)": {
+                            marginTop: "16px",
+                          }
+                        }}
+                      >
+                        <TextField
+                          id="outlined-multiline-static"
+                          label="Message"
+                          multiline
+                          rows={4}
+                          value={form.message}
+                          onChange={handleChange('message')}
+                          defaultValue="Default Value"
+                        />
+                        <TextField
+                          required
+                          value={form.fullName}
+                          onChange={handleChange('fullName')}
+                          label="Full Name"
+                        />
+                        <TextField
+                          required
+                          value={form.email}
+                          onChange={handleChange('email')}
+                          label="Email"
+                        />
+                        <TextField
+                          value={form.phoneNumber}
+                          onChange={handleChange('phoneNumber')}
+                          label="Phone Number"
+                        />
                       </Box>
-                }
-                <Box>
-                  <Button
-                      color="secondary"
-                      variant="outlined"
-                      onClick={() => console.log('clicked contact host')}
-                  >
-                    Contact Host
-                  </Button>
-                </Box>
+                    </DialogContent>
+                    <Button
+                        onClick={() => {
+                          console.log(form.message);
+                          console.log(form.fullName);
+                          console.log(form.email);
+                          console.log(form.phoneNumber);
+                          setOpen(false);
+                        }}
+                        sx={{
+                          margin: "8px 0",
+                        }}
+                    >
+                      Send Enquiry
+                    </Button>
+                  </Dialog>
+                )}
               </Box>
             </Grid>
         )}
