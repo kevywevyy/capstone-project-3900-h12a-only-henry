@@ -151,6 +151,14 @@ class api {
     return response.data;
   }
 
+  async updateUserProfile(inspectorId, body) {
+    const response = await patch({
+      url: `${this.host}/inspector/${inspectorId}/profile`,
+      body,
+    });
+    return response.data;
+  }
+
   setToken(token) {
     this.token = token;
   }

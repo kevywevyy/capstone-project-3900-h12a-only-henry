@@ -5,8 +5,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Box } from "@mui/system";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import qs from "qs";
