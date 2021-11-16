@@ -25,10 +25,13 @@ function PropertyDetails() {
   const { user } = useContext(userContext);
   const [property, setProperty] = useState(null);
 
-  const fetchProperty = useCallback(() => {
-    return !!user.token
-      ? API.getProperty(user.token, estateId)
-      : API.getPropertyPublic(estateId);
+  const fetchProperty = useCallback(async () => {
+    const property = await (!!user.token ? API.getProperty(user.token, estateId) : API.getPropertyPublic(estateId));
+    const agent = await API.getUser(property.agent_id);
+    return {
+      property,
+      agent
+    }
   }, [user, estateId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
@@ -41,7 +44,7 @@ function PropertyDetails() {
 
   useEffect(() => {
     if (!inProgress && !error && !!data) {
-      setProperty(data);
+      setProperty({...data.property, agent: data.agent });
     }
   }, [inProgress, error, data]);
 
