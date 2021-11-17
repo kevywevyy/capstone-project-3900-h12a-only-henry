@@ -107,7 +107,9 @@ function PropertyCard({ property, minify }) {
             property_type={property_type}
           />
           <Typography variant="caption">{`Listed at $${price}/week`}</Typography>
-          <Typography variant="caption">{`${land_sqm}`}m<sup>2</sup></Typography>
+          <Typography variant="caption">
+            {`${land_sqm}`}m<sup>2</sup>
+          </Typography>
         </Box>
         {!minify && (
           <Button onClick={() => history.push(`/property/${id}`)}>

@@ -1,5 +1,13 @@
-import React, {useCallback, useState} from "react";
-import {Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+import React, { useCallback, useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -8,27 +16,24 @@ import API from "../../services/api";
 
 function Contact({ property, open, setOpen }) {
   const [form, setForm] = useState({
-    topic: '',
-    address: '',
-    message: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: ''
+    topic: "",
+    address: "",
+    message: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
   });
   const submitContactForm = useCallback(async () => {
-    const response = await API.sendEmail(
-      property?.agent_id,
-      {
-        topic: form.topic,
-        address: property?.address,
-        message: form.message,
-        first_name: form.first_name,
-        last_name: form.last_name,
-        email: form.email,
-        phone: form.phone
-      }
-    )
+    const response = await API.sendEmail(property?.agent_id, {
+      topic: form.topic,
+      address: property?.address,
+      message: form.message,
+      first_name: form.first_name,
+      last_name: form.last_name,
+      email: form.email,
+      phone: form.phone,
+    });
     setOpen(false);
     formReset(form);
     return response;
@@ -38,14 +43,20 @@ function Contact({ property, open, setOpen }) {
     setForm({ ...form, [prop]: event.target.value });
   };
 
-  const formReset = (obj) => Object.keys(form).forEach(k => form[k] = '');
+  const formReset = (obj) => Object.keys(form).forEach((k) => (form[k] = ""));
 
   return (
-    <Dialog fullWidth open={open} onClose={() => {
-      formReset(form);
-      setOpen(false);
-    }}>
-      <DialogTitle sx={{ textAlign: "center" }}>Enquiry to {property.agent.first_name} {property.agent.last_name}</DialogTitle>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={() => {
+        formReset(form);
+        setOpen(false);
+      }}
+    >
+      <DialogTitle sx={{ textAlign: "center" }}>
+        Enquiry to {property.agent.first_name} {property.agent.last_name}
+      </DialogTitle>
       <DialogContent dividers>
         <Box
           component="form"
@@ -55,7 +66,7 @@ function Contact({ property, open, setOpen }) {
             padding: "16px",
             "> div:not(:first-of-type)": {
               marginTop: "16px",
-            }
+            },
           }}
         >
           <FormControl fullWidth>
@@ -65,11 +76,13 @@ function Contact({ property, open, setOpen }) {
               id="demo-simple-topic"
               value={form.topic}
               label="Enquiry Topic"
-              onChange={handleChange('topic')}
+              onChange={handleChange("topic")}
             >
-              <MenuItem value={'schedule_inspection'}>Schedule Inspection</MenuItem>
-              <MenuItem value={'rental_rate'}>Rental Rate</MenuItem>
-              <MenuItem value={'other'}>Other</MenuItem>
+              <MenuItem value={"schedule_inspection"}>
+                Schedule Inspection
+              </MenuItem>
+              <MenuItem value={"rental_rate"}>Rental Rate</MenuItem>
+              <MenuItem value={"other"}>Other</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -83,30 +96,30 @@ function Contact({ property, open, setOpen }) {
             multiline
             rows={4}
             value={form.message}
-            onChange={handleChange('message')}
+            onChange={handleChange("message")}
           />
           <TextField
             required
             value={form.first_name}
-            onChange={handleChange('first_name')}
+            onChange={handleChange("first_name")}
             label="First Name"
           />
           <TextField
             required
             value={form.last_name}
-            onChange={handleChange('last_name')}
+            onChange={handleChange("last_name")}
             label="Last Name"
           />
           <TextField
             required
             type="email"
             value={form.email}
-            onChange={handleChange('email')}
+            onChange={handleChange("email")}
             label="Email"
           />
           <TextField
             value={form.phone}
-            onChange={handleChange('phone')}
+            onChange={handleChange("phone")}
             label="Phone Number"
           />
         </Box>
