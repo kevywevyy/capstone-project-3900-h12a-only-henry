@@ -13,7 +13,7 @@ import {
   Grid,
   Button,
   Divider,
-  CircularProgress, Dialog, DialogTitle, DialogContent, TextField,
+  CircularProgress
 } from "@mui/material";
 import Contact from "../contact/Contact"
 import { PropertyFeaturesComponent } from "./PropertyCard";
@@ -72,37 +72,6 @@ function PropertyDetails() {
       },
       [user, estateId, makeAPIRequest]
   );
-
-
-  // const [form, setForm] = useState({
-  //   topic: '',
-  //   address: '',
-  //   message: '',
-  //   first_name: '',
-  //   last_name: '',
-  //   email: '',
-  //   phone: ''
-  // });
-  // const submitContactForm = useCallback(async () => {
-  //   const response = await API.sendEmail(
-  //     property?.agent_id,
-  //     {
-  //       topic: form.topic,
-  //       address: property?.address,
-  //       message: form.message,
-  //       first_name: form.first_name,
-  //       last_name: form.last_name,
-  //       email: form.email,
-  //       phone: form.phone
-  //     }
-  //   )
-  //   setOpen(false);
-  //   return response;
-  // }, [property, form]);
-  //
-  // const handleChange = (prop) => (event) => {
-  //   setForm({ ...form, [prop]: event.target.value });
-  // };
 
   const isCreator = parseInt(user.token) === property?.agent_id;
   return (

@@ -31,14 +31,21 @@ function Contact({ property, open, setOpen }) {
       }
     )
     setOpen(false);
+    formReset(form);
     return response;
   }, [property, form]);
 
   const handleChange = (prop) => (event) => {
     setForm({ ...form, [prop]: event.target.value });
   };
+
+  const formReset = (obj) => Object.keys(form).forEach(k => form[k] = '');
+
   return (
-    <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
+    <Dialog fullWidth open={open} onClose={() => {
+      formReset(form);
+      setOpen(false);
+    }}>
       <DialogTitle sx={{ textAlign: "center" }}>Enquiry to {property.agent.first_name} {property.agent.last_name}</DialogTitle>
       <DialogContent dividers>
         <Box
@@ -106,6 +113,7 @@ function Contact({ property, open, setOpen }) {
         </Box>
       </DialogContent>
       <Button
+        type="submit"
         onClick={() => {
           submitContactForm();
         }}
