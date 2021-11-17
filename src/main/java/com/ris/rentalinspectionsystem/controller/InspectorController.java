@@ -5,6 +5,7 @@ import com.ris.rentalinspectionsystem.dao.InspectorDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import com.ris.rentalinspectionsystem.model.Inspector;
 import com.ris.rentalinspectionsystem.model.Login;
+import com.ris.rentalinspectionsystem.model.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,22 @@ public class InspectorController {
     ) {
         return inspectorDao.getInspector(inspectorId);
     }
+
+    @GetMapping("/{inspectorId}/profile")
+    public Profile getProfile(
+            @PathVariable("inspectorId") Long inspectorId
+    ) {
+        return inspectorDao.getProfile(inspectorId);
+    }
+
+    @PatchMapping("/{inspectorId}/profile")
+    public Profile patchProfile(
+            @PathVariable("inspectorId") Long inspectorId,
+            @Valid @RequestBody Profile profile
+    ) {
+        return inspectorDao.patchProfile(inspectorId, profile);
+    }
+
 
     @PostMapping("")
     public Inspector createInspector(
