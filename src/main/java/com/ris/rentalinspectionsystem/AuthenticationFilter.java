@@ -3,7 +3,6 @@ package com.ris.rentalinspectionsystem;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,7 @@ import java.util.List;
 public class AuthenticationFilter extends BasicAuthenticationFilter {
 
     // Entries are regex expressions.
-    List<String> authenticationExclusions = List.of("/api/agent/.*/estates", "/api/inspector/.+");
+    List<String> authenticationInclusions = List.of("/api/agent/.*/estates.*", "/api/inspector/.+/.*");
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -31,8 +30,8 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        for (String authenticationExclusion : authenticationExclusions) {
-            if (request.getRequestURI().matches(authenticationExclusion)) {
+        for (String authenticationInclusion : authenticationInclusions) {
+            if (request.getRequestURI().matches(authenticationInclusion)) {
 
                 String header = request.getHeader("Authorization");
                 if (header == null) {

@@ -8,11 +8,19 @@ class api {
     this.token = null;
   }
 
-  async login(body) {
-    const response = await post({
-      url: `${this.host}/agent/login`,
-      body,
-    });
+  async login(body, isManager) {
+    let response;
+    if (isManager) {
+      response = await post({
+        url: `${this.host}/agent/login`,
+        body,
+      });
+    } else {
+      response = await post({
+        url: `${this.host}/inspector/login`,
+        body,
+      });
+    }
     return response.data;
   }
 

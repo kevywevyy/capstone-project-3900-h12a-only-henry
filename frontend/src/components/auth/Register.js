@@ -63,12 +63,7 @@ function Register() {
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
   useEffect(() => {
-    if (data && (data.agentId || data.inspectorId)) {
-      // Updates state of user by setting a token
-      setUserContext({
-        token: data.agentId || data.inspectorId,
-        role: data.agentId ? ROLE_MANAGER : ROLE_INSPECTOR,
-      });
+    if (!inProgress && !error && !!data && (data.agentId || data.inspectorId)) {
       history.push("/");
     }
   }, [data, history, setUserContext]);
