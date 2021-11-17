@@ -7,7 +7,12 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import { usePlacesWidget } from "react-google-autocomplete";
-import { ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
+import {
+  ROLE_INSPECTOR,
+  ROLE_MANAGER,
+  NAVBAR_HEIGHT,
+  SUBNAV_HEIGHT,
+} from "../../const";
 import { hashString } from "../../lib/helper";
 
 const RegisterForm = styled.form`
@@ -16,7 +21,7 @@ const RegisterForm = styled.form`
   justify-content: center;
   align-items: center;
 
-  height: 100%;
+  height: calc(100vh - ${NAVBAR_HEIGHT}px - ${SUBNAV_HEIGHT}px);
   width: 100%;
 `;
 
@@ -75,91 +80,100 @@ function Register() {
 
   return (
     <RegisterForm onSubmit={handleSubmit}>
-      <TextField
-        required
-        label="First Name"
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+      <Box
         sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        required
-        label="Last Name"
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        required
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        required
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        inputRef={ref}
-        required
-        label="Address"
-        type="text"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        label="Phone"
-        type="text"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-        sx={{
-          marginTop: "8px",
-        }}
-      />
-      <TextField
-        select
-        required
-        label="Type"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        sx={{
-          marginTop: "16px",
-        }}
-        helperText="Please select what type of user you are"
-      >
-        {userTypes.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-      <Button
-        type="submit"
-        sx={{
-          marginTop: "8px",
+          display: "flex",
+          flexDirection: "column",
+          width: "50%",
+          maxWidth: "400px",
         }}
       >
-        {!inProgress ? "Register" : "Loading..."}
-      </Button>
+        <TextField
+          required
+          label="First Name"
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          required
+          label="Last Name"
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          required
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          required
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          inputRef={ref}
+          required
+          label="Address"
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          label="Phone"
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          sx={{
+            marginTop: "8px",
+          }}
+        />
+        <TextField
+          select
+          required
+          label="Type"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          sx={{
+            marginTop: "16px",
+          }}
+          helperText="Please select what type of user you are"
+        >
+          {userTypes.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Button
+          type="submit"
+          sx={{
+            marginTop: "8px",
+          }}
+        >
+          {!inProgress ? "Register" : "Loading..."}
+        </Button>
+      </Box>
       {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>}
     </RegisterForm>
   );

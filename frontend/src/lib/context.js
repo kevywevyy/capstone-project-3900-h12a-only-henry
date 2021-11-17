@@ -20,7 +20,6 @@ export function useUserContext() {
   function setUserContext(updatedUser) {
     if (updatedUser.token) API.setToken(updatedUser.token);
     setUser({ ...user, ...updatedUser });
-    console.log({ ...user, ...updatedUser });
     localStorage.setItem(USER_KEY, JSON.stringify({ ...user, ...updatedUser }));
   }
 
