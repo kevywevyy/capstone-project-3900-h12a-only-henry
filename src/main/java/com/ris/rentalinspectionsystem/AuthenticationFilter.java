@@ -22,7 +22,7 @@ import java.util.List;
 public class AuthenticationFilter extends BasicAuthenticationFilter {
 
     // Entries are regex expressions.
-    List<String> authenticationExclusions = List.of("/api/agent/.*/estates", "/api/inspector/.+");
+    List<String> authenticationExclusions = List.of("/api/agent/.*/estates.*", "/api/inspector/.+");
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
