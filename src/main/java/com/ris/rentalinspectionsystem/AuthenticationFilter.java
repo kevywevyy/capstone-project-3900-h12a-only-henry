@@ -3,6 +3,7 @@ package com.ris.rentalinspectionsystem;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +22,7 @@ import java.util.List;
 public class AuthenticationFilter extends BasicAuthenticationFilter {
 
     // Entries are regex expressions.
-    List<String> authenticationExclusions = List.of("/api/agent/login", "/api/estates/.*");
+    List<String> authenticationExclusions = List.of("/api/agent/.*/estates", "/api/inspector/.+");
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -32,30 +33,32 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
 
         for (String authenticationExclusion : authenticationExclusions) {
             if (request.getRequestURI().matches(authenticationExclusion)) {
+
+                String header = request.getHeader("Authorization");
+                if (header == null) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No auth token found");
+                }
+                String token = header.substring(7);
+                // Verify the jwt token
+                JWT.require(Algorithm.HMAC256("rental-inspection-system"))
+                        .build()
+                        .verify(token);
+
+                DecodedJWT jwt = JWT.decode(token);
+                Long id = jwt.getClaim("id").asLong();
+
+
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+                        id,
+                        jwt,
+                        Collections.emptyList()
+                ));
+
                 chain.doFilter(request, response);
+
                 return;
             }
         }
-
-        String header = request.getHeader("Authorization");
-        if (header == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No auth token found");
-        }
-        String token = header.substring(7);
-        // Verify the jwt token
-        JWT.require(Algorithm.HMAC256("rental-inspection-system"))
-                .build()
-                .verify(token);
-
-        DecodedJWT jwt = JWT.decode(token);
-        Long id = jwt.getClaim("id").asLong();
-
-
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-            id,
-            jwt,
-            Collections.emptyList()
-        ));
 
         chain.doFilter(request, response);
     }
