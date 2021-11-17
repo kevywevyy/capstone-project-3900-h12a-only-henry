@@ -150,7 +150,7 @@ function Profile() {
           required
           select
           label="Property Type"
-          value={options.type}
+          value={options.property_type}
           // TODO: possible bug with parseint
           onChange={(e) => updateOptions({ property_type: e.target.value })}
           sx={{
