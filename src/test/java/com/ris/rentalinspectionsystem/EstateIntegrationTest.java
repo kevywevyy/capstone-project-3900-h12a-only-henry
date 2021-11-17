@@ -33,6 +33,7 @@ public class EstateIntegrationTest {
     private void setup() {
         Agent newAgent = new Agent(
                 null,
+                null,
                 "firstName",
                 "lastName",
                 "email",

@@ -1,5 +1,6 @@
 package com.ris.rentalinspectionsystem.controller;
 
+import com.ris.rentalinspectionsystem.Helpers;
 import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.dao.HistoryDao;
 import com.ris.rentalinspectionsystem.model.Estate;
@@ -29,6 +30,7 @@ public class HistoryController {
     public List<History> getHistory(
             @PathVariable("inspectorId") Long inspectorId
     ) {
+        Helpers.verifyId(inspectorId);
         return historyDao.getHistory(inspectorId);
     }
 
@@ -37,6 +39,7 @@ public class HistoryController {
             @PathVariable("inspectorId") Long inspectorId,
             @PathVariable("estateId") Long estateId
     ) {
+        Helpers.verifyId(inspectorId);
         historyDao.createHistory(inspectorId, estateId);
         return estateDao.getEstate(estateId);
     }

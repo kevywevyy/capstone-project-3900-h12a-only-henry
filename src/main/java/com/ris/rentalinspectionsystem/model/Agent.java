@@ -15,6 +15,8 @@ public class Agent {
     @Id
     @Null
     private Long agentId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private final String password;
     @NotNull
     @JsonProperty("first_name")
     private final String firstName;
@@ -29,6 +31,7 @@ public class Agent {
 
     public Agent(
             Long agentId,
+            String password,
             String firstName,
             String lastName,
             String email,
@@ -36,6 +39,7 @@ public class Agent {
             String address
     ) {
         this.agentId = agentId;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -22,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll();
+
+        http.addFilter(new AuthenticationFilter(authenticationManager()));
     }
 
     @Bean

@@ -1,6 +1,10 @@
 package com.ris.rentalinspectionsystem.dao;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.ris.rentalinspectionsystem.model.Agent;
+import com.ris.rentalinspectionsystem.model.Login;
 import com.ris.rentalinspectionsystem.repositories.AgentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,5 +36,19 @@ public class AgentDao {
     public Agent putAgent(Long agentId, Agent agent) {
         agent.setAgentId(agentId);
         return agentsRepository.save(agent);
+    }
+
+    public String login(Login login) {
+
+        List<Agent> agents = agentsRepository.findByEmailAndPassword(login.getUsername(), login.getPassword());
+        if (agents.size() != 1) {
+            return null;
+        } else {
+            Agent agent = agents.get(0);
+            // Generate a token for the agent.
+            JWTCreator.Builder jwtBuilder = JWT.create().withClaim("id", agent.getAgentId());
+            return jwtBuilder.sign(Algorithm.HMAC256("rental-inspection-system"));
+        }
+
     }
 }

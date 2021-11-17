@@ -1,11 +1,14 @@
 CREATE TABLE IF NOT EXISTS agents
 (
     agent_id   BIGSERIAL PRIMARY KEY,
+    password   VARCHAR NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
     email      VARCHAR NOT NULL,
     phone      VARCHAR,
-    address    VARCHAR NOT NULL
+    address    VARCHAR NOT NULL,
+
+    UNIQUE(email, password)
 );
 
 CREATE TABLE IF NOT EXISTS estates(
