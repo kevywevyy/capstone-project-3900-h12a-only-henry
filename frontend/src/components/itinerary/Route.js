@@ -29,7 +29,7 @@ import {
   getTravelTimeFromRoute,
   getUserId,
 } from "../../lib/helper";
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 import { useHistory } from "react-router";
 
 function Route() {
@@ -37,7 +37,7 @@ function Route() {
   const agentId = getUserId(user.token);
   const history = useHistory();
   const [propertiesToInspect, setPropertiesToInspect] = useState([]);
-  const [startTime, setStartTime] = useState(new Date());
+  const [startTime, setStartTime] = useState(addDays(new Date(), 1));
   const [userAddress, setUserAddress] = useState(null);
   const [direction, setDirection] = useState(null);
   // Hotfix for direction service spamming API calls
