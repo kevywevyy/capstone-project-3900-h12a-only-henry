@@ -6,13 +6,14 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-  Typography,
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import API from "../../services/api";
+
+const formReset = (obj) => Object.keys(obj).forEach((k) => (obj[k] = ""));
 
 function Contact({ property, open, setOpen }) {
   const [form, setForm] = useState({
@@ -24,6 +25,7 @@ function Contact({ property, open, setOpen }) {
     email: "",
     phone: "",
   });
+
   const submitContactForm = useCallback(async () => {
     const response = await API.sendEmail(property?.agent_id, {
       topic: form.topic,
@@ -37,13 +39,11 @@ function Contact({ property, open, setOpen }) {
     setOpen(false);
     formReset(form);
     return response;
-  }, [property, form]);
+  }, [property, form, setOpen]);
 
   const handleChange = (prop) => (event) => {
     setForm({ ...form, [prop]: event.target.value });
   };
-
-  const formReset = (obj) => Object.keys(form).forEach((k) => (form[k] = ""));
 
   return (
     <Dialog

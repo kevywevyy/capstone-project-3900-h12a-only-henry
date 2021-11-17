@@ -7,6 +7,7 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import PropertyCard from "./PropertyCard";
+import { getUserId } from "../../lib/helper";
 
 const PropertyViewContainer = styled.div`
   display: flex;
@@ -19,17 +20,18 @@ const PropertyViewContainer = styled.div`
 
 function PropertyHistory() {
   const { user } = useContext(userContext);
+  const inspectorId = getUserId(user.token);
   const [properties, setProperties] = useState([]);
 
   const fetchHistory = useCallback(async () => {
-    const historyIds = await API.getHistory(user.token);
+    const historyIds = await API.getHistory(inspectorId);
     const pastProperties = [];
     for (const historyId of historyIds) {
       const property = await API.getPropertyPublic(historyId.estate_id);
       pastProperties.push({ ...property, viewDate: historyId.view_date });
     }
     return pastProperties;
-  }, [user]);
+  }, [inspectorId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchHistory);
 
@@ -44,8 +46,6 @@ function PropertyHistory() {
       setProperties(data);
     }
   }, [inProgress, error, data]);
-
-  console.log(data);
 
   return (
     <PropertyViewContainer>

@@ -13,11 +13,13 @@ import { useParams, useHistory, Redirect } from "react-router-dom";
 import useAPI from "../../services/useApi";
 import { propertyTypes } from "./PropertyAdd";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { getUserId } from "../../lib/helper";
 
 function PropertyEdit() {
   const { estateId } = useParams();
   const history = useHistory();
   const { user } = useContext(userContext);
+  const agentId = getUserId(user.token);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -38,12 +40,12 @@ function PropertyEdit() {
   });
 
   const fetchProperty = useCallback(async () => {
-    return API.getProperty(user.token, estateId);
-  }, [user, estateId]);
+    return API.getProperty(agentId, estateId);
+  }, [agentId, estateId]);
 
   const updateProperty = useCallback(async () => {
     // TODO: Add some data validation
-    const result = await API.editProperty(user.token, estateId, {
+    const result = await API.editProperty(agentId, estateId, {
       title,
       description,
       address,
@@ -67,7 +69,8 @@ function PropertyEdit() {
     landSqm,
     price,
     estateId,
-    user,
+    agentId,
+    history,
   ]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(updateProperty);

@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import API from "../../services/api";
 import userContext from "../../lib/context";
 import useAPI from "../../services/useApi";
+import { getUserId } from "../../lib/helper";
 
 const PropertyViewContainer = styled.div`
   display: flex;
@@ -26,11 +27,12 @@ const PropertyViewContainer = styled.div`
 function PropertyView() {
   const history = useHistory();
   const { user } = useContext(userContext);
+  const agentId = getUserId(user.token);
   const [properties, setProperties] = useState([]);
 
   const fetchAllProperties = useCallback(() => {
-    return API.getAllAgentProperties(user.token);
-  }, [user]);
+    return API.getAllAgentProperties(agentId);
+  }, [agentId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] =
     useAPI(fetchAllProperties);

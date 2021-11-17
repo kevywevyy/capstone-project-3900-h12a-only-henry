@@ -20,9 +20,11 @@ import {
   GoogleMap,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import { getUserId } from "../../lib/helper";
 
 function RouteProperties({ onSubmit, selectedProperty }) {
   const { user } = useContext(userContext);
+  const agentId = getUserId(user.token);
   const [open, setOpen] = useState(null);
   const [properties, setProperties] = useState([]);
   const [duration, setDuration] = useState(0);
@@ -32,8 +34,8 @@ function RouteProperties({ onSubmit, selectedProperty }) {
   });
 
   const fetchAllProperties = useCallback(() => {
-    return API.getAllAgentProperties(user.token);
-  }, [user]);
+    return API.getAllAgentProperties(agentId);
+  }, [agentId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] =
     useAPI(fetchAllProperties);

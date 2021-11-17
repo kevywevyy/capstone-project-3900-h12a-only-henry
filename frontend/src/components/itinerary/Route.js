@@ -27,12 +27,14 @@ import userContext from "../../lib/context";
 import {
   getArriveAndDepatureTime,
   getTravelTimeFromRoute,
+  getUserId,
 } from "../../lib/helper";
 import { format } from "date-fns";
 import { useHistory } from "react-router";
 
 function Route() {
   const { user } = useContext(userContext);
+  const agentId = getUserId(user.token);
   const history = useHistory();
   const [propertiesToInspect, setPropertiesToInspect] = useState([]);
   const [startTime, setStartTime] = useState(new Date());
@@ -101,7 +103,7 @@ function Route() {
     const times = getTimes();
     for (let i = 0; i < propertiesToInspect.length; i++) {
       await API.addInspectionTimes(
-        user.token,
+        agentId,
         propertiesToInspect[i].property.id,
         {
           start_date: parseInt(times[i].arriveAt.getTime() / 1000),
@@ -111,11 +113,11 @@ function Route() {
     }
     setOpen(false);
     history.push("/");
-  }, [history, propertiesToInspect, user.token, getTimes]);
+  }, [history, propertiesToInspect, agentId, getTimes]);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await API.getUser(user.token);
+      const fetchedUser = await API.getUser(agentId);
       // Temporary placeholder for user address
       setUserAddress(
         fetchedUser.address === ""
@@ -124,7 +126,7 @@ function Route() {
       );
     };
     fetchUser();
-  }, [user.token]);
+  }, [agentId]);
 
   return (
     <>

@@ -8,6 +8,7 @@ import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
+import { hashString } from "../../lib/helper";
 
 const RegisterForm = styled.form`
   display: flex;
@@ -48,11 +49,11 @@ function Register() {
     },
   });
 
-  const register = useCallback(() => {
+  const register = useCallback(async () => {
     return API.register({
       firstName,
       lastName,
-      password,
+      password: hashString(password),
       email,
       address,
       type,
