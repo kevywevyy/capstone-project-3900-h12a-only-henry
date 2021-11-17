@@ -1,5 +1,6 @@
 package com.ris.rentalinspectionsystem.controller;
 
+import com.ris.rentalinspectionsystem.Helpers;
 import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.dao.InspectorDao;
 import com.ris.rentalinspectionsystem.model.Estate;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +45,7 @@ public class InspectorController {
     public Profile getProfile(
             @PathVariable("inspectorId") Long inspectorId
     ) {
+        Helpers.verifyId(inspectorId);
         return inspectorDao.getProfile(inspectorId);
     }
 
@@ -53,6 +54,7 @@ public class InspectorController {
             @PathVariable("inspectorId") Long inspectorId,
             @Valid @RequestBody Profile profile
     ) {
+        Helpers.verifyId(inspectorId);
         return inspectorDao.patchProfile(inspectorId, profile);
     }
 
@@ -70,30 +72,24 @@ public class InspectorController {
 
     @GetMapping("/{inspectorId}/estates/all")
     public List<Estate> getEstates(
-            @RequestParam(required = false) Integer bedrooms,
-            @RequestParam(required = false) Integer bathrooms,
-            @RequestParam(required = false) Integer garages,
-            @RequestParam(required = false) String propertyType,
-            @RequestParam(required = false) Integer landSqmMin,
-            @RequestParam(required = false) Integer landSqmMax,
-            @RequestParam(required = false) Integer priceMin,
-            @RequestParam(required = false) Integer priceMax,
-            @RequestParam(required = false) Boolean open
+            @PathVariable("inspectorId") Long inspectorId
     ) {
+        Helpers.verifyId(inspectorId);
+        Profile inspectorProfile = inspectorDao.getProfile(inspectorId);
+
         Map<String, Object> queryParams = new HashMap();
-        queryParams.put("bedrooms", bedrooms);
-        queryParams.put("bathrooms", bathrooms);
-        queryParams.put("garages", garages);
-        queryParams.put("property_type", propertyType);
-        queryParams.put("land_sqm_min", landSqmMin);
-        queryParams.put("land_sqm_max", landSqmMax);
-        queryParams.put("price_min", priceMin);
-        queryParams.put("price_max", priceMax);
-        queryParams.put("open", open);
+        queryParams.put("bedrooms", inspectorProfile.getBedrooms());
+        queryParams.put("bathrooms", inspectorProfile.getBathrooms());
+        queryParams.put("garages", inspectorProfile.getGarages());
+        queryParams.put("property_type", inspectorProfile.getPropertyType());
+        queryParams.put("land_sqm_min", inspectorProfile.getLandSqmMin());
+        queryParams.put("land_sqm_max", inspectorProfile.getLandSqmMax());
+        queryParams.put("price_min", inspectorProfile.getPriceMin());
+        queryParams.put("price_max", inspectorProfile.getPriceMax());
 
-        queryParams.values().removeAll(Collections.singleton(null));
-
-        return estateDao.getEstates(queryParams);
+        List<Estate> estates = estateDao.getEstates(queryParams);
+        estates.sort((e1, e2) -> e2.getViewed().compareTo(e1.getViewed()));
+        return estates;
     }
 
     @PostMapping("/login")

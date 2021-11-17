@@ -14,8 +14,6 @@ public class Helpers {
                 .getAuthentication()
                 .getPrincipal();
 
-        System.out.println(id + " " + idFromToken);
-
         if (!Objects.equals(id, idFromToken)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Id and token do not match");
         }

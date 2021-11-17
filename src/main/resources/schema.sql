@@ -70,6 +70,11 @@ CREATE TABLE IF NOT EXISTS profiles
     bedrooms INTEGER,
     bathrooms INTEGER,
     garages INTEGER,
+    property_type VARCHAR,
+    land_sqm_min INTEGER,
+    land_sqm_max INTEGER,
+    price_min INTEGER,
+    price_max INTEGER,
 
     FOREIGN KEY(inspector_id) REFERENCES inspectors(inspector_id)
 );

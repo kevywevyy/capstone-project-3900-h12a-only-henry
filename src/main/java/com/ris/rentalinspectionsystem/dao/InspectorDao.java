@@ -40,9 +40,14 @@ public class InspectorDao {
         Profile newProfile = new Profile(
                 storedProfile.getProfileId(),
                 storedProfile.getInspectorId(),
-                profile.getBathrooms() == null ? storedProfile.getBathrooms() : profile.getBathrooms(),
                 profile.getBedrooms() == null ? storedProfile.getBedrooms() : profile.getBedrooms(),
-                profile.getGarages() == null ? storedProfile.getGarages() : profile.getGarages()
+                profile.getBathrooms() == null ? storedProfile.getBathrooms() : profile.getBathrooms(),
+                profile.getGarages() == null ? storedProfile.getGarages() : profile.getGarages(),
+                profile.getPropertyType() == null ? storedProfile.getPropertyType() : profile.getPropertyType(),
+                profile.getLandSqmMin() == null ? storedProfile.getLandSqmMin() : profile.getLandSqmMin(),
+                profile.getLandSqmMax() == null ? storedProfile.getLandSqmMax() : profile.getLandSqmMax(),
+                profile.getPriceMin() == null ? storedProfile.getPriceMin() : profile.getPriceMin(),
+                profile.getPriceMax() == null ? storedProfile.getPriceMax() : profile.getPriceMax()
         );
 
         return profilesRepository.save(newProfile);
@@ -54,6 +59,11 @@ public class InspectorDao {
                 new Profile(
                         null,
                         createdInspector.getInspectorId(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
                         null,
                         null,
                         null
