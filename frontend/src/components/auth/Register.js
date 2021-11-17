@@ -59,9 +59,10 @@ function Register() {
       password: hashString(password),
       email,
       address,
+      phone,
       type,
     });
-  }, [firstName, lastName, password, email, address, type]);
+  }, [firstName, lastName, password, email, address, phone, type]);
 
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
