@@ -4,6 +4,7 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -26,7 +27,7 @@ const propertyFilters = [
 function Profile() {
   const { user } = useContext(userContext);
   const inspectorId = getUserId(user.token);
-  const [options, setOptions] = useState({});
+  const [options, setOptions] = useState(null);
   const optionNumbers = [-1, 1, 2, 3, 4, 5];
   const history = useHistory();
 
@@ -80,7 +81,8 @@ function Profile() {
         padding: "0 0 16px 0",
       }}
     >
-      <Box
+      {!options && <CircularProgress />}
+      {!!options && <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -232,7 +234,7 @@ function Profile() {
         <Button variant="outlined" onClick={makeAPIRequest}>
           Save
         </Button>
-      </Box>
+      </Box>}
     </Box>
   );
 }
