@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Null;
 import java.util.*;
 
 @Component
@@ -33,6 +32,7 @@ public class EstateDao {
         List<String> queryArgs = new ArrayList<>();
 
         for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
+            if (queryParam.getValue() == null) continue;
             switch (queryParam.getKey()) {
                 case "land_sqm_min":
                     queryArgs.add(String.format("%s >= :%s", "land_sqm", queryParam.getKey()));

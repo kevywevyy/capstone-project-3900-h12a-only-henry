@@ -4,8 +4,6 @@ import com.ris.rentalinspectionsystem.model.Agent;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface AgentsRepository extends CrudRepository<Agent, Long> {
     Agent findByEmailAndPassword(String email, String password);

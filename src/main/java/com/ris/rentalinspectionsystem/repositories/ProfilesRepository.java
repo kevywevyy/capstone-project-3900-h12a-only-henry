@@ -1,11 +1,8 @@
 package com.ris.rentalinspectionsystem.repositories;
 
-import com.ris.rentalinspectionsystem.model.Inspector;
 import com.ris.rentalinspectionsystem.model.Profile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ProfilesRepository extends CrudRepository<Profile, Long> {
