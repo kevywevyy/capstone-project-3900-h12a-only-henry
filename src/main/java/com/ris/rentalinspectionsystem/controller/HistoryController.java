@@ -40,6 +40,7 @@ public class HistoryController {
     ) {
         Helpers.verifyId(inspectorId);
         historyDao.createHistory(inspectorId, estateId);
+        estateDao.addView(estateId);
         return estateDao.getEstate(estateId);
     }
 }
