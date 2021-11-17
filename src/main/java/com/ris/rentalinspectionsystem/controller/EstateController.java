@@ -34,7 +34,8 @@ public class EstateController {
             @RequestParam(required = false) Integer landSqmMax,
             @RequestParam(required = false) Integer priceMin,
             @RequestParam(required = false) Integer priceMax,
-            @RequestParam(required = false) Boolean open
+            @RequestParam(required = false) Boolean open,
+            @RequestParam(required = false) Integer viewed
     ) {
         Helpers.verifyId(agentId);
         Map<String, Object> queryParams = new HashMap();
@@ -48,6 +49,7 @@ public class EstateController {
         queryParams.put("price_min", priceMin);
         queryParams.put("price_max", priceMax);
         queryParams.put("open", open);
+        queryParams.put("viewed", viewed);
 
         queryParams.values().removeAll(Collections.singleton(null));
 

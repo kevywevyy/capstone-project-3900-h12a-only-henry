@@ -47,7 +47,8 @@ public class RowMappers {
                         rs.getInt("price"),
                         rs.getString("images"),
                         inspections,
-                        rs.getBoolean("open")
+                        rs.getBoolean("open"),
+                        rs.getInt("viewed")
                 );
 
                 estates.put(id, estate);
