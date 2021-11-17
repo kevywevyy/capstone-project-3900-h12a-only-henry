@@ -1,5 +1,6 @@
 package com.ris.rentalinspectionsystem.controller;
 
+import com.ris.rentalinspectionsystem.Helpers;
 import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class EstateController {
             @RequestParam(required = false) Integer priceMax,
             @RequestParam(required = false) Boolean open
     ) {
+        Helpers.verifyId(agentId);
         Map<String, Object> queryParams = new HashMap();
         queryParams.put("agent_id", agentId);
         queryParams.put("bedrooms", bedrooms);
@@ -57,6 +59,7 @@ public class EstateController {
             @PathVariable("agentId") Long agentId,
             @PathVariable("estateId") Long estateId
     ) {
+        Helpers.verifyId(agentId);
         return estateDao.getEstate(estateId);
     }
 
@@ -66,6 +69,7 @@ public class EstateController {
             @Valid @RequestBody Estate estate
     ) {
         try {
+            Helpers.verifyId(agentId);
             return estateDao.createEstate(agentId, estate);
         } catch (DbActionExecutionException e) { // not sure if it's this exception yet
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -78,6 +82,7 @@ public class EstateController {
             @PathVariable("estateId") Long estateId,
             @RequestBody Estate estate
     ) {
+        Helpers.verifyId(agentId);
         return estateDao.patchEstate(agentId, estateId, estate);
     }
 
@@ -88,6 +93,7 @@ public class EstateController {
             @Valid @RequestBody Estate estate
     ) {
         try {
+            Helpers.verifyId(agentId);
             return estateDao.putEstate(agentId, estateId, estate);
         } catch (DbActionExecutionException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

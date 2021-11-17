@@ -16,8 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 public class AuthenticationFilter extends BasicAuthenticationFilter {
+
+    // Entries are regex expressions.
+    List<String> authenticationExclusions = List.of("/api/agent/login", "/api/estates/.*");
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -25,6 +29,13 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+        for (String authenticationExclusion : authenticationExclusions) {
+            if (request.getRequestURI().matches(authenticationExclusion)) {
+                chain.doFilter(request, response);
+                return;
+            }
+        }
 
         String header = request.getHeader("Authorization");
         if (header == null) {
@@ -37,10 +48,11 @@ public class AuthenticationFilter extends BasicAuthenticationFilter {
                 .verify(token);
 
         DecodedJWT jwt = JWT.decode(token);
-        String uuid = jwt.getClaim("uuid").asString();
+        Long id = jwt.getClaim("id").asLong();
+
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-            uuid,
+            id,
             jwt,
             Collections.emptyList()
         ));
