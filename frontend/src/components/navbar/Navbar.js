@@ -58,7 +58,7 @@ function Navbar({ role, path }) {
     (currentRoute === "/property" || matched === "/property/:estateId");
 
   const logOut = () => {
-    setUserContext({ token: null });
+    setUserContext({ token: null, role: null });
     localStorage.removeItem(USER_KEY);
     history.push("/");
   };

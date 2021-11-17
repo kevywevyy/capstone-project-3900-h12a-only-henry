@@ -25,7 +25,7 @@ function PropertyViewPublic() {
   const [properties, setProperties] = useState(null);
   const [options, setOptions] = useState({});
   const [descending, setDescending] = useState(true);
-  const optionNumbers = [-1, 1, 2, 3, 4, 5, 6];
+  const optionNumbers = [-1, 1, 2, 3, 4, 5];
 
   const [{ inProgress, error, data }, makeAPIRequest] =
     useAPI(fetchAllProperties);
@@ -86,7 +86,6 @@ function PropertyViewPublic() {
                 <MenuItem key={`bedroom-options-${o}`} value={o}>
                   {o === -1 && "Any"}
                   {o === 1 && "1 Bedroom"}
-                  {o === 6 && ">5 Bedrooms"}
                   {o > 1 && o < 6 && `${o} Bedrooms`}
                 </MenuItem>
               ))}
@@ -107,7 +106,6 @@ function PropertyViewPublic() {
                 <MenuItem key={`bathrooms-options-${o}`} value={o}>
                   {o === -1 && "Any"}
                   {o === 1 && "1 Bathroom"}
-                  {o === 6 && ">5 Bathrooms"}
                   {o > 1 && o < 6 && `${o} Bathrooms`}
                 </MenuItem>
               ))}
@@ -128,7 +126,6 @@ function PropertyViewPublic() {
                 <MenuItem key={`garages-options-${o}`} value={o}>
                   {o === -1 && "Any"}
                   {o === 1 && "1 Garage"}
-                  {o === 6 && ">5 Garages"}
                   {o > 1 && o < 6 && `${o} Garages`}
                 </MenuItem>
               ))}

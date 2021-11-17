@@ -1,9 +1,8 @@
 import { Button, MenuItem, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
-import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import { usePlacesWidget } from "react-google-autocomplete";
@@ -45,7 +44,6 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [type, setType] = useState("");
   const history = useHistory();
-  const { setUserContext } = useContext(userContext);
   const { ref } = usePlacesWidget({
     apiKey: API.getMapsKey(),
     onPlaceSelected: (place) => setAddress(place.formatted_address),
@@ -71,7 +69,7 @@ function Register() {
     if (!inProgress && !error && !!data && (data.agentId || data.inspectorId)) {
       history.push("/");
     }
-  }, [data, history, setUserContext, error, inProgress]);
+  }, [data, history, error, inProgress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

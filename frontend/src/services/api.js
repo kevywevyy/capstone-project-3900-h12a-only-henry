@@ -59,9 +59,9 @@ class api {
     return response.data;
   }
 
-  async getAllInspectorProperties(inspectorId, param) {
+  async getAllInspectorProperties(inspectorId) {
     const response = await get({
-      url: `${this.host}/inspector/${inspectorId}/estates/all?open=true&${param}`,
+      url: `${this.host}/inspector/${inspectorId}/estates/all`,
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
