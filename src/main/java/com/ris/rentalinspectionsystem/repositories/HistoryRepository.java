@@ -1,7 +1,6 @@
 package com.ris.rentalinspectionsystem.repositories;
 
 import com.ris.rentalinspectionsystem.model.History;
-import com.ris.rentalinspectionsystem.model.Inspection;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

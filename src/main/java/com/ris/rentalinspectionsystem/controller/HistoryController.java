@@ -6,7 +6,6 @@ import com.ris.rentalinspectionsystem.dao.HistoryDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import com.ris.rentalinspectionsystem.model.History;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
