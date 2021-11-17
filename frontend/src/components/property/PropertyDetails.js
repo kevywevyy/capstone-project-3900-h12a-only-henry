@@ -247,7 +247,10 @@ function PropertyDetails() {
           <Divider sx={{ width: "100%", margin: "16px 0" }} />
           <Box sx={{ margin: "0 32px" }}>
             <Typography variant="h3">{property.title}</Typography>
-            <Typography variant="body1" sx={{ marginTop: "16px" }}>
+            <Typography
+              variant="body1"
+              sx={{ marginTop: "16px", whiteSpace: "pre-wrap" }}
+            >
               {property.description}
             </Typography>
           </Box>
