@@ -42,8 +42,9 @@ public class InspectorEstateController {
         queryParams.put("open", open);
 
         queryParams.values().removeAll(Collections.singleton(null));
-
-        return estateDao.getEstates(queryParams);
+        List<Estate> estateList = estateDao.getEstates(queryParams);
+        Collections.sort(estateList, (e1, e2) -> e2.getViewed().compareTo(e1.getViewed()));
+        return estateList;
     }
 
     @GetMapping("/{estateId}")
