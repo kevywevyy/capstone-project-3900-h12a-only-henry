@@ -24,6 +24,7 @@ import HouseBathroomPlaceholder from "../../assets/house-bathroom-placeholder.jp
 import HouseBackyardPlaceholder from "../../assets/house-backyard-placeholder.jpg";
 import { format } from "date-fns";
 import { ROLE_MANAGER } from "../../const";
+import { getUserId } from "../../lib/helper";
 
 function PropertyDetails() {
   const { estateId } = useParams();
@@ -31,18 +32,20 @@ function PropertyDetails() {
   const { user } = useContext(userContext);
   const [property, setProperty] = useState(null);
   const [open, setOpen] = useState(false);
+  const userId = getUserId(user.token);
+
   const fetchProperty = useCallback(async () => {
     const property = await (!!user.token
       ? user.role === ROLE_MANAGER
-        ? API.getProperty(user.token, estateId)
-        : API.getInspectorProperty(user.token, estateId)
+        ? API.getProperty(userId, estateId)
+        : API.getInspectorProperty(userId, estateId)
       : API.getPropertyPublic(estateId));
     const agent = await API.getUser(property.agent_id);
     return {
       property,
       agent,
     };
-  }, [user, estateId]);
+  }, [user, userId, estateId]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(fetchProperty);
 
@@ -59,25 +62,25 @@ function PropertyDetails() {
   }, [inProgress, error, data]);
 
   const closeProperty = useCallback(async () => {
-    await API.closeProperty(user.token, estateId);
+    await API.closeProperty(userId, estateId);
     makeAPIRequest();
-  }, [user, estateId, makeAPIRequest]);
+  }, [userId, estateId, makeAPIRequest]);
 
   const openProperty = useCallback(async () => {
-    await API.openProperty(user.token, estateId);
+    await API.openProperty(userId, estateId);
     makeAPIRequest();
-  }, [user, estateId, makeAPIRequest]);
+  }, [userId, estateId, makeAPIRequest]);
 
   const removeInspectionTimes = useCallback(
     async (inspectionId) => {
-      await API.removeInspectionTimes(user.token, estateId, inspectionId);
+      await API.removeInspectionTimes(userId, estateId, inspectionId);
       makeAPIRequest();
     },
-    [user, estateId, makeAPIRequest]
+    [userId, estateId, makeAPIRequest]
   );
 
   const isCreator =
-    user.role === ROLE_MANAGER && parseInt(user.token) === property?.agent_id;
+    user.role === ROLE_MANAGER && parseInt(userId) === property?.agent_id;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>

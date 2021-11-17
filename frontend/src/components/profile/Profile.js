@@ -5,20 +5,22 @@ import { useHistory } from "react-router";
 import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
+import { getUserId } from "../../lib/helper";
 
 function Profile() {
   const { user } = useContext(userContext);
+  const inspectorId = getUserId(user.token);
   const [options, setOptions] = useState({});
   const optionNumbers = [-1, 1, 2, 3, 4, 5, 6];
   const history = useHistory();
 
   const updateProfile = useCallback(() => {
-    return API.updateUserProfile(user.token, {
+    return API.updateUserProfile(inspectorId, {
       bedrooms: options.bedrooms === -1 ? null : options.bedrooms,
       bathrooms: options.bathrooms === -1 ? null : options.bathrooms,
       garages: options.garages === -1 ? null : options.garages,
     });
-  }, [user, options]);
+  }, [inspectorId, options]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(updateProfile);
 
@@ -26,7 +28,7 @@ function Profile() {
     (field) => {
       setOptions({ ...options, ...field });
     },
-    [options, setOptions, makeAPIRequest]
+    [options, setOptions]
   );
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function Profile() {
     if (!inProgress && !error && !!data) {
       history.push("/");
     }
-  }, [inProgress, error, data]);
+  }, [inProgress, error, data, history]);
 
   return (
     <Box

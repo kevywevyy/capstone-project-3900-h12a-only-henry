@@ -1,6 +1,7 @@
 // Helper functions
 
 import { addMinutes, addSeconds } from "date-fns";
+import jwtDecode from "jwt-decode";
 
 // Capitalizes the first letter of string
 export function capitalizeFirstLetter(string) {
@@ -29,4 +30,24 @@ export function getArriveAndDepatureTime(startTime, legs, propertiesToInspect) {
     currentTime = departAt;
   }
   return arriveDepartureTime;
+}
+
+export function hashString(str) {
+  var hash = 0;
+  if (str.length === 0) {
+    return hash;
+  }
+  for (var i = 0; i < str.length; i++) {
+    var char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+export function getUserId(token) {
+  if (!token) return -1;
+  const user = jwtDecode(token);
+  console.log("decodedToken", user);
+  return user;
 }

@@ -1,5 +1,4 @@
 import {
-  Button,
   CircularProgress,
   MenuItem,
   TextField,
@@ -13,16 +12,18 @@ import useAPI from "../../services/useApi";
 import PropertyCard from "./PropertyCard";
 import _ from "lodash";
 import userContext from "../../lib/context";
+import { getUserId } from "../../lib/helper";
 
 function PropertyViewInspector() {
   const [properties, setProperties] = useState(null);
   const [options, setOptions] = useState({});
   const { user } = useContext(userContext);
+  const inspectorId = getUserId(user.token);
   const optionNumbers = [-1, 1, 2, 3, 4, 5, 6];
 
   const fetchAllProperties = (params) => {
     return API.getAllInspectorProperties(
-      user.token,
+      inspectorId,
       qs.stringify(_.pickBy(params, (value, key) => value !== -1))
     );
   };

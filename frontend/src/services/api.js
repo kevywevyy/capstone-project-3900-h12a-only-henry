@@ -44,6 +44,9 @@ class api {
   async getAllAgentProperties(agentId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -51,6 +54,9 @@ class api {
   async getAllInspectorProperties(inspectorId, param) {
     const response = await get({
       url: `${this.host}/inspector/${inspectorId}/estates/all?open=true&${param}`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -58,6 +64,9 @@ class api {
   async getProperty(agentId, estateId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -72,6 +81,9 @@ class api {
   async getInspectorProperty(inspectorId, estateId) {
     const response = await get({
       url: `${this.host}/inspector/${inspectorId}/estates/${estateId}`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -79,6 +91,9 @@ class api {
   async addProperty(agentId, body) {
     const response = await post({
       url: `${this.host}/agent/${agentId}/estates`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
       body: {
         ...body,
         open: true,
@@ -90,6 +105,9 @@ class api {
   async editProperty(agentId, estateId, updatedState) {
     const response = await patch({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
       body: updatedState,
     });
     return response.data;
@@ -110,6 +128,9 @@ class api {
   async getHistory(inspectorId) {
     const response = await get({
       url: `${this.host}/inspector/${inspectorId}/history`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -125,6 +146,9 @@ class api {
   async getInspectionTimes(agentId, estateId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -132,6 +156,9 @@ class api {
   async addInspectionTimes(agentId, estateId, body) {
     const response = await post({
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
       body,
     });
     return response.data;
@@ -140,6 +167,9 @@ class api {
   async removeInspectionTimes(agentId, estateId, inspectionId) {
     const response = await remove({
       url: `${this.host}/agent/${agentId}/estates/${estateId}/inspections/${inspectionId}`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
     return response.data;
   }
@@ -154,6 +184,9 @@ class api {
   async updateUserProfile(inspectorId, body) {
     const response = await patch({
       url: `${this.host}/inspector/${inspectorId}/profile`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
       body,
     });
     return response.data;

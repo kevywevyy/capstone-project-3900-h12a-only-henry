@@ -12,6 +12,7 @@ import { Button, Typography, useTheme, Divider } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import userContext from "../../lib/context";
 import { Box } from "@mui/system";
+import { getUserId } from "../../lib/helper";
 
 const Nav = styled.div`
   display: flex;
@@ -90,7 +91,7 @@ function Navbar({ role, path }) {
             <>
               <Typography>{`Hello ${
                 isPropertyManager ? "Agent" : "Inspector"
-              } ${user.token}`}</Typography>
+              } ${getUserId(user.token)}`}</Typography>
               <Divider
                 orientation="vertical"
                 sx={{

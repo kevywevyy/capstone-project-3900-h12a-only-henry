@@ -12,6 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { getUserId } from "../../lib/helper";
 
 export const propertyTypes = [
   {
@@ -59,7 +60,7 @@ function PropertyAdd() {
   });
 
   const addProperty = useCallback(() => {
-    return API.addProperty(user.token, {
+    return API.addProperty(getUserId(user.token), {
       title,
       description,
       property_type: type,

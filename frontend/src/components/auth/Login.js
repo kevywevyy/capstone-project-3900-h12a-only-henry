@@ -4,16 +4,16 @@ import {
   FormGroup,
   Switch,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
-import { ROLE_GUEST, ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
+import { ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
 import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
+import { hashString } from "../../lib/helper";
 
 const LoginForm = styled.form`
   display: flex;
@@ -32,35 +32,29 @@ function Login() {
   const { setUserContext } = useContext(userContext);
   const history = useHistory();
 
-  // TODO: Uncomment once backend has support logging in
-  // const login = useCallback(() => {
-  //   return API.login({
-  //     email,
-  //     password,
-  //   });
-  // }, [email, password]);
-
-  // const [{ inProgress, error, data }, makeRequest] = useAPI(login);
-
-  // useEffect(() => {
-  //   if (data && data.token) {
-  //     // Updates state of user by setting a token
-  //     setUserContext({ token: data.token });
-  //     history.push("/");
-  //   }
-  // }, [data, history, setUserContext]);
-
-  const stubLogin = () => {
-    setUserContext({
-      token: email,
-      role: isManager ? ROLE_MANAGER : ROLE_INSPECTOR,
+  const login = useCallback(() => {
+    return API.login({
+      username: email,
+      password: hashString(password),
     });
-    history.push("/");
-  };
+  }, [email, password]);
+
+  const [{ inProgress, error, data }, makeAPIRequest] = useAPI(login);
+
+  useEffect(() => {
+    if (!inProgress && !error && !!data && data.token) {
+      // Updates state of user by setting a token
+      setUserContext({
+        token: data.token,
+        role: isManager ? ROLE_MANAGER : ROLE_INSPECTOR,
+      });
+      history.push("/");
+    }
+  }, [inProgress, error, data, history, setUserContext, isManager]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    stubLogin();
+    makeAPIRequest();
   };
 
   return (
@@ -98,10 +92,9 @@ function Login() {
         />
       </FormGroup>
       <Button type="submit" sx={{ marginTop: "8px" }}>
-        {/* {!inProgress ? "Login" : "Loading..."} */}
-        Login
+        {!inProgress ? "Login" : "Loading..."}
       </Button>
-      {/* {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>} */}
+      {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>}
     </LoginForm>
   );
 }
