@@ -32,12 +32,6 @@ function Profile() {
   );
 
   useEffect(() => {
-    if (!inProgress && !error && !data) {
-      makeAPIRequest();
-    }
-  }, [inProgress, error, data, makeAPIRequest]);
-
-  useEffect(() => {
     if (!inProgress && !error && !!data) {
       history.push("/");
     }
@@ -112,7 +106,7 @@ function Profile() {
           </MenuItem>
         ))}
       </TextField>
-      <Button variant="outlined" sx={{ marginTop: "16px" }}>
+      <Button variant="outlined" sx={{ marginTop: "16px" }} onClick={makeAPIRequest}>
         Save
       </Button>
     </Box>
