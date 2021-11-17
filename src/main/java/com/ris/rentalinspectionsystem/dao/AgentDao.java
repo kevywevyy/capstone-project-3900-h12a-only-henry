@@ -40,15 +40,10 @@ public class AgentDao {
 
     public String login(Login login) {
 
-        List<Agent> agents = agentsRepository.findByEmailAndPassword(login.getUsername(), login.getPassword());
-        if (agents.size() != 1) {
-            return null;
-        } else {
-            Agent agent = agents.get(0);
-            // Generate a token for the agent.
-            JWTCreator.Builder jwtBuilder = JWT.create().withClaim("id", agent.getAgentId());
-            return jwtBuilder.sign(Algorithm.HMAC256("rental-inspection-system"));
-        }
+        Agent agent = agentsRepository.findByEmailAndPassword(login.getUsername(), login.getPassword());
+
+        JWTCreator.Builder jwtBuilder = JWT.create().withClaim("id", agent.getAgentId());
+        return jwtBuilder.sign(Algorithm.HMAC256("rental-inspection-system"));
 
     }
 }

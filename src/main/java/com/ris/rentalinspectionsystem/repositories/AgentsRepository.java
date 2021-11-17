@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AgentsRepository extends CrudRepository<Agent, Long> {
-    List<Agent> findByEmailAndPassword(String email, String password);
+    Agent findByEmailAndPassword(String email, String password);
 }
