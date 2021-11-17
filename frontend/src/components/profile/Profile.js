@@ -82,159 +82,171 @@ function Profile() {
       }}
     >
       {!options && <CircularProgress />}
-      {!!options && <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "50%",
-          maxWidth: "400px",
-        }}
-      >
-        <Typography variant="h3" sx={{ marginTop: "16px" }}>
-          Property Preferences
-        </Typography>
-        <TextField
-          select
-          value={options.bedrooms || -1}
-          label="Bedrooms"
-          onChange={(e) =>
-            updateOptions({ bedrooms: parseInt(e.target.value) })
-          }
+      {!!options && (
+        <Box
           sx={{
-            marginTop: "16px",
+            display: "flex",
+            flexDirection: "column",
+            width: "50%",
+            maxWidth: "400px",
           }}
         >
-          {optionNumbers.map((o) => (
-            <MenuItem key={`bedroom-options-${o}`} value={o}>
-              {o === -1 && "Any"}
-              {o === 1 && "1 Bedroom"}
-              {o > 1 && o < 6 && `${o} Bedrooms`}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          value={options.bathrooms || -1}
-          label="Bathrooms"
-          onChange={(e) =>
-            updateOptions({ bathrooms: parseInt(e.target.value) })
-          }
-          sx={{
-            marginTop: "16px",
-          }}
-        >
-          {optionNumbers.map((o) => (
-            <MenuItem key={`bathrooms-options-${o}`} value={o}>
-              {o === -1 && "Any"}
-              {o === 1 && "1 Bathroom"}
-              {o > 1 && o < 6 && `${o} Bathrooms`}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          value={options.garages || -1}
-          label="Garages"
-          onChange={(e) => updateOptions({ garages: parseInt(e.target.value) })}
-          sx={{
-            marginTop: "16px",
-          }}
-        >
-          {optionNumbers.map((o) => (
-            <MenuItem key={`garages-options-${o}`} value={o}>
-              {o === -1 && "Any"}
-              {o === 1 && "1 Garage"}
-              {o > 1 && o < 6 && `${o} Garages`}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          select
-          label="Property Type"
-          value={options.property_type}
-          // TODO: possible bug with parseint
-          onChange={(e) => updateOptions({ property_type: e.target.value })}
-          sx={{
-            marginTop: "16px",
-          }}
-        >
-          {propertyFilters.map((o) => (
-            <MenuItem key={o.value} value={o.value}>
-              {o.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          InputProps={{
-            inputMode: "numeric",
-            pattern: "[0-9]*",
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          type="number"
-          label="Min Price"
-          helperText="per week"
-          value={options.price_min}
-          onChange={(e) =>
-            updateOptions({ price_min: parseInt(e.target.value) })
-          }
-          sx={{
-            marginTop: "16px",
-          }}
-        />
-        <TextField
-          required
-          InputProps={{
-            inputMode: "numeric",
-            pattern: "[0-9]*",
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          type="number"
-          label="Max Price"
-          helperText="per week"
-          value={options.price_max}
-          onChange={(e) =>
-            updateOptions({ price_max: parseInt(e.target.value) })
-          }
-          sx={{
-            marginTop: "16px",
-          }}
-        />
-        <TextField
-          required
-          InputProps={{
-            inputMode: "numeric",
-            pattern: "[0-9]*",
-            endAdornment: <InputAdornment position="end">sq m</InputAdornment>,
-          }}
-          type="number"
-          label="Min Land"
-          helperText=" "
-          value={options.land_sqm_min}
-          onChange={(e) =>
-            updateOptions({ land_sqm_min: parseInt(e.target.value) })
-          }
-        />
-        <TextField
-          required
-          InputProps={{
-            inputMode: "numeric",
-            pattern: "[0-9]*",
-            endAdornment: <InputAdornment position="end">sq m</InputAdornment>,
-          }}
-          type="number"
-          label="Max Land"
-          helperText=" "
-          value={options.land_sqm_max}
-          onChange={(e) =>
-            updateOptions({ land_sqm_max: parseInt(e.target.value) })
-          }
-        />
-        <Button variant="outlined" onClick={makeAPIRequest}>
-          Save
-        </Button>
-      </Box>}
+          <Typography variant="h3" sx={{ marginTop: "16px" }}>
+            Property Preferences
+          </Typography>
+          <TextField
+            select
+            value={options.bedrooms || -1}
+            label="Bedrooms"
+            onChange={(e) =>
+              updateOptions({ bedrooms: parseInt(e.target.value) })
+            }
+            sx={{
+              marginTop: "16px",
+            }}
+          >
+            {optionNumbers.map((o) => (
+              <MenuItem key={`bedroom-options-${o}`} value={o}>
+                {o === -1 && "Any"}
+                {o === 1 && "1 Bedroom"}
+                {o > 1 && o < 6 && `${o} Bedrooms`}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            value={options.bathrooms || -1}
+            label="Bathrooms"
+            onChange={(e) =>
+              updateOptions({ bathrooms: parseInt(e.target.value) })
+            }
+            sx={{
+              marginTop: "16px",
+            }}
+          >
+            {optionNumbers.map((o) => (
+              <MenuItem key={`bathrooms-options-${o}`} value={o}>
+                {o === -1 && "Any"}
+                {o === 1 && "1 Bathroom"}
+                {o > 1 && o < 6 && `${o} Bathrooms`}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            value={options.garages || -1}
+            label="Garages"
+            onChange={(e) =>
+              updateOptions({ garages: parseInt(e.target.value) })
+            }
+            sx={{
+              marginTop: "16px",
+            }}
+          >
+            {optionNumbers.map((o) => (
+              <MenuItem key={`garages-options-${o}`} value={o}>
+                {o === -1 && "Any"}
+                {o === 1 && "1 Garage"}
+                {o > 1 && o < 6 && `${o} Garages`}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            select
+            label="Property Type"
+            value={options.property_type}
+            // TODO: possible bug with parseint
+            onChange={(e) => updateOptions({ property_type: e.target.value })}
+            sx={{
+              marginTop: "16px",
+            }}
+          >
+            {propertyFilters.map((o) => (
+              <MenuItem key={o.value} value={o.value}>
+                {o.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            InputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
+            type="number"
+            label="Min Price"
+            helperText="per week"
+            value={options.price_min}
+            onChange={(e) =>
+              updateOptions({ price_min: parseInt(e.target.value) })
+            }
+            sx={{
+              marginTop: "16px",
+            }}
+          />
+          <TextField
+            required
+            InputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
+            type="number"
+            label="Max Price"
+            helperText="per week"
+            value={options.price_max}
+            onChange={(e) =>
+              updateOptions({ price_max: parseInt(e.target.value) })
+            }
+            sx={{
+              marginTop: "16px",
+            }}
+          />
+          <TextField
+            required
+            InputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              endAdornment: (
+                <InputAdornment position="end">sq m</InputAdornment>
+              ),
+            }}
+            type="number"
+            label="Min Land"
+            helperText=" "
+            value={options.land_sqm_min}
+            onChange={(e) =>
+              updateOptions({ land_sqm_min: parseInt(e.target.value) })
+            }
+          />
+          <TextField
+            required
+            InputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              endAdornment: (
+                <InputAdornment position="end">sq m</InputAdornment>
+              ),
+            }}
+            type="number"
+            label="Max Land"
+            helperText=" "
+            value={options.land_sqm_max}
+            onChange={(e) =>
+              updateOptions({ land_sqm_max: parseInt(e.target.value) })
+            }
+          />
+          <Button variant="outlined" onClick={makeAPIRequest}>
+            Save
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
