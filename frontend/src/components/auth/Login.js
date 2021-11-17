@@ -1,8 +1,16 @@
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
+import { ROLE_GUEST, ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
 import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
@@ -20,6 +28,7 @@ const LoginForm = styled.form`
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isManager, setIsManager] = useState(true);
   const { setUserContext } = useContext(userContext);
   const history = useHistory();
 
@@ -42,7 +51,10 @@ function Login() {
   // }, [data, history, setUserContext]);
 
   const stubLogin = () => {
-    setUserContext({ token: email });
+    setUserContext({
+      token: email,
+      role: isManager ? ROLE_MANAGER : ROLE_INSPECTOR,
+    });
     history.push("/");
   };
 
@@ -73,6 +85,18 @@ function Login() {
           marginTop: "8px",
         }}
       />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked
+              checked={isManager}
+              onChange={() => setIsManager(!isManager)}
+            />
+          }
+          label={isManager ? "Manager" : "Inspector"}
+        />
+      </FormGroup>
       <Button type="submit" sx={{ marginTop: "8px" }}>
         {/* {!inProgress ? "Login" : "Loading..."} */}
         Login

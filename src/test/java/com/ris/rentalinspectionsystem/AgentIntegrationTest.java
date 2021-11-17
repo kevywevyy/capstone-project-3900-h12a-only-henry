@@ -34,6 +34,7 @@ public class AgentIntegrationTest {
     public void createAgent() {
         Agent createdAgent = new Agent(
                 null,
+                null,
                 "firstName",
                 "lastName",
                 "email",
@@ -49,6 +50,7 @@ public class AgentIntegrationTest {
     @Test
     public void getAgent() {
         Agent createdAgent = new Agent(
+                null,
                 null,
                 "firstName",
                 "lastName",
@@ -67,6 +69,7 @@ public class AgentIntegrationTest {
     public void updateAgent() {
         Agent createdAgent = new Agent(
                 null,
+                null,
                 "firstName",
                 "lastName",
                 "email",
@@ -75,6 +78,7 @@ public class AgentIntegrationTest {
         );
 
         Agent updatedAgent = new Agent(
+                null,
                 null,
                 "newFirstName",
                 "newLastName",

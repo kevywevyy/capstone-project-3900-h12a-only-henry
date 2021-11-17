@@ -15,6 +15,8 @@ public class Inspector {
     @Id
     @Null
     private Long inspectorId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private final String password;
     @NotNull
     @JsonProperty("first_name")
     private final String firstName;
@@ -27,12 +29,14 @@ public class Inspector {
 
     public Inspector(
             Long inspectorId,
+            String password,
             String firstName,
             String lastName,
             String email,
             String phone
     ) {
         this.inspectorId = inspectorId;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -1,11 +1,14 @@
 CREATE TABLE IF NOT EXISTS agents
 (
     agent_id   BIGSERIAL PRIMARY KEY,
+    password   VARCHAR NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
     email      VARCHAR NOT NULL,
     phone      VARCHAR,
-    address    VARCHAR NOT NULL
+    address    VARCHAR NOT NULL,
+
+    UNIQUE(email, password)
 );
 
 CREATE TABLE IF NOT EXISTS estates(
@@ -22,6 +25,7 @@ CREATE TABLE IF NOT EXISTS estates(
     price INTEGER NOT NUll,
     images TEXT,
     "open" BOOLEAN NOT NULL,
+    viewed INTEGER NOT NULL,
 
     PRIMARY KEY(estate_id),
     FOREIGN KEY(agent_id) REFERENCES agents(agent_id)
@@ -39,10 +43,13 @@ CREATE TABLE IF NOT EXISTS inspections(
 CREATE TABLE IF NOT EXISTS inspectors
 (
     inspector_id BIGSERIAL PRIMARY KEY,
+    password VARCHAR NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
     email      VARCHAR NOT NULL,
-    phone      VARCHAR
+    phone      VARCHAR,
+
+    UNIQUE(email, password)
 );
 
 CREATE TABLE IF NOT EXISTS history

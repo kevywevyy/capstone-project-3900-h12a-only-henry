@@ -7,6 +7,7 @@ import userContext from "../../lib/context";
 import API from "../../services/api";
 import useAPI from "../../services/useApi";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { ROLE_INSPECTOR, ROLE_MANAGER } from "../../const";
 
 const RegisterForm = styled.form`
   display: flex;
@@ -20,11 +21,11 @@ const RegisterForm = styled.form`
 
 const userTypes = [
   {
-    value: "MANAGER",
+    value: ROLE_MANAGER,
     label: "Property Manager",
   },
   {
-    value: "INSPECTOR",
+    value: ROLE_INSPECTOR,
     label: "Property Inspector",
   },
 ];
@@ -61,9 +62,12 @@ function Register() {
   const [{ inProgress, error, data }, makeRequest] = useAPI(register);
 
   useEffect(() => {
-    if (data && data.agentId) {
+    if (data && (data.agentId || data.inspectorId)) {
       // Updates state of user by setting a token
-      setUserContext({ token: data.agentId });
+      setUserContext({
+        token: data.agentId || data.inspectorId,
+        role: data.agentId ? ROLE_MANAGER : ROLE_INSPECTOR,
+      });
       history.push("/");
     }
   }, [data, history, setUserContext]);

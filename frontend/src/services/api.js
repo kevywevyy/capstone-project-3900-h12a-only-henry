@@ -1,3 +1,4 @@
+import { ROLE_MANAGER } from "../const";
 import { get, post, patch, remove } from "./request";
 
 class api {
@@ -16,10 +17,20 @@ class api {
   }
 
   async register(body) {
-    const response = await post({
-      url: `${this.host}/agent`,
-      body,
-    });
+    let response;
+    if (body.type === ROLE_MANAGER) {
+      // Creates a property manager
+      response = await post({
+        url: `${this.host}/agent`,
+        body,
+      });
+    } else {
+      response = await post({
+        // Creates a property inspector
+        url: `${this.host}/inspector`,
+        body,
+      });
+    }
     return response.data;
   }
 
@@ -37,6 +48,13 @@ class api {
     return response.data;
   }
 
+  async getAllInspectorProperties(inspectorId, param) {
+    const response = await get({
+      url: `${this.host}/inspector/${inspectorId}/estates/all?open=true&${param}`,
+    });
+    return response.data;
+  }
+
   async getProperty(agentId, estateId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}/estates/${estateId}`,
@@ -47,6 +65,13 @@ class api {
   async getPropertyPublic(estateId) {
     const response = await get({
       url: `${this.host}/estates/${estateId}`,
+    });
+    return response.data;
+  }
+
+  async getInspectorProperty(inspectorId, estateId) {
+    const response = await get({
+      url: `${this.host}/inspector/${inspectorId}/estates/${estateId}`,
     });
     return response.data;
   }
@@ -79,6 +104,13 @@ class api {
 
   async openProperty(agentId, estateId) {
     const response = await this.editProperty(agentId, estateId, { open: true });
+    return response.data;
+  }
+
+  async getHistory(inspectorId) {
+    const response = await get({
+      url: `${this.host}/inspector/${inspectorId}/history`,
+    });
     return response.data;
   }
 
@@ -115,6 +147,14 @@ class api {
   async getUser(agentId) {
     const response = await get({
       url: `${this.host}/agent/${agentId}`,
+    });
+    return response.data;
+  }
+
+  async updateUserProfile(inspectorId, body) {
+    const response = await patch({
+      url: `${this.host}/inspector/${inspectorId}/profile`,
+      body,
     });
     return response.data;
   }

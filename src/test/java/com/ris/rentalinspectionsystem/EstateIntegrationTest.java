@@ -33,6 +33,7 @@ public class EstateIntegrationTest {
     private void setup() {
         Agent newAgent = new Agent(
                 null,
+                null,
                 "firstName",
                 "lastName",
                 "email",
@@ -84,7 +85,8 @@ public class EstateIntegrationTest {
                 2,
                 null,
                 null,
-                false
+                false,
+                null
         );
         restTemplate.postForObject(getUrl(), newEstate2, Estate.class);
         restTemplate.postForObject(getUrl(), createEstate(2), Estate.class);
@@ -114,7 +116,8 @@ public class EstateIntegrationTest {
                 agentNum,
                 null,
                 null,
-                false
+                false,
+                null
         );
     }
 

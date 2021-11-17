@@ -1,11 +1,11 @@
 package com.ris.rentalinspectionsystem.controller;
 
+import com.ris.rentalinspectionsystem.Helpers;
 import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.dao.HistoryDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import com.ris.rentalinspectionsystem.model.History;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +29,7 @@ public class HistoryController {
     public List<History> getHistory(
             @PathVariable("inspectorId") Long inspectorId
     ) {
+        Helpers.verifyId(inspectorId);
         return historyDao.getHistory(inspectorId);
     }
 
@@ -37,7 +38,9 @@ public class HistoryController {
             @PathVariable("inspectorId") Long inspectorId,
             @PathVariable("estateId") Long estateId
     ) {
+        Helpers.verifyId(inspectorId);
         historyDao.createHistory(inspectorId, estateId);
+        estateDao.addView(estateId);
         return estateDao.getEstate(estateId);
     }
 }

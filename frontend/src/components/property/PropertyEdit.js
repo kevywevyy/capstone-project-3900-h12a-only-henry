@@ -43,7 +43,7 @@ function PropertyEdit() {
 
   const updateProperty = useCallback(async () => {
     // TODO: Add some data validation
-    return API.editProperty(user.token, estateId, {
+    const result = await API.editProperty(user.token, estateId, {
       title,
       description,
       address,
@@ -54,6 +54,8 @@ function PropertyEdit() {
       land_sqm: landSqm,
       price,
     });
+    history.push(`/property/${estateId}`);
+    return result;
   }, [
     title,
     description,

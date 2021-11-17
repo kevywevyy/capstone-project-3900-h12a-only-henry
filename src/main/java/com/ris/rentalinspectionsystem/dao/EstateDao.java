@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Null;
 import java.util.*;
 
 @Component
@@ -72,6 +73,7 @@ public class EstateDao {
 
     public Estate createEstate(Long agentId, Estate estate) {
         estate.setAgentId(agentId);
+        estate.setViewed(0);
         return estatesRepository.save(estate);
     }
 
@@ -92,7 +94,8 @@ public class EstateDao {
                 estate.getPrice() == null ? originalEstate.getPrice() : estate.getPrice(),
                 estate.getImages() == null ? originalEstate.getImages() : estate.getImages(),
                 estate.getInspections() == null ? originalEstate.getInspections() : estate.getInspections(),
-                estate.getOpen() == null ? originalEstate.getOpen() : estate.getOpen()
+                estate.getOpen() == null ? originalEstate.getOpen() : estate.getOpen(),
+                estate.getViewed() == null ? originalEstate.getViewed() : 0
         );
 
         return estatesRepository.save(newEstate);
@@ -102,5 +105,13 @@ public class EstateDao {
         estate.setAgentId(agentId);
         estate.setEstateId(estateId);
         return estatesRepository.save(estate);
+    }
+
+    public void addView(Long estateId) {
+        Estate prev = getEstate(estateId);
+        if (prev != null) {
+            prev.setViewed((prev.getViewed() + 1));
+            estatesRepository.save(prev);
+        }
     }
 }
