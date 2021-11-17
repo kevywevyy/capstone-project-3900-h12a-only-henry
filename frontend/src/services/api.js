@@ -189,6 +189,16 @@ class api {
     return response.data;
   }
 
+  async getUserProfile(inspectorId) {
+    const response = await get({
+      url: `${this.host}/inspector/${inspectorId}/profile`,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+    return response.data;
+  }
+
   async updateUserProfile(inspectorId, body) {
     const response = await patch({
       url: `${this.host}/inspector/${inspectorId}/profile`,
