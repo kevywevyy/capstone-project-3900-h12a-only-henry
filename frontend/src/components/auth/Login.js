@@ -33,19 +33,22 @@ function Login() {
   const history = useHistory();
 
   const login = useCallback(() => {
-    return API.login({
-      username: email,
-      password: hashString(password),
-    });
-  }, [email, password]);
+    return API.login(
+      {
+        username: email,
+        password: hashString(password),
+      },
+      isManager
+    );
+  }, [email, password, isManager]);
 
   const [{ inProgress, error, data }, makeAPIRequest] = useAPI(login);
 
   useEffect(() => {
-    if (!inProgress && !error && !!data && data.token) {
+    if (!inProgress && !error && !!data) {
       // Updates state of user by setting a token
       setUserContext({
-        token: data.token,
+        token: data,
         role: isManager ? ROLE_MANAGER : ROLE_INSPECTOR,
       });
       history.push("/");
@@ -56,6 +59,8 @@ function Login() {
     e.preventDefault();
     makeAPIRequest();
   };
+
+  console.log(data);
 
   return (
     <LoginForm onSubmit={handleSubmit}>

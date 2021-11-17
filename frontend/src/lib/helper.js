@@ -48,6 +48,5 @@ export function hashString(str) {
 export function getUserId(token) {
   if (!token) return -1;
   const user = jwtDecode(token);
-  console.log("decodedToken", user);
-  return user;
+  return user.id;
 }
