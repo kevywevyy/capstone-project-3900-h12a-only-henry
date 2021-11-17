@@ -15,6 +15,7 @@ import {
   Divider,
   CircularProgress, Dialog, DialogTitle, DialogContent, TextField,
 } from "@mui/material";
+import Contact from "../contact/Contact"
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
 import HouseLivingRoomPlaceholder from "../../assets/house-living-room-placeholder.jpg";
@@ -72,19 +73,38 @@ function PropertyDetails() {
       [user, estateId, makeAPIRequest]
   );
 
-  const [form, setForm] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    message: ''
-  });
 
-  const handleChange = (prop) => (event) => {
-    setForm({ ...form, [prop]: event.target.value });
-  };
+  // const [form, setForm] = useState({
+  //   topic: '',
+  //   address: '',
+  //   message: '',
+  //   first_name: '',
+  //   last_name: '',
+  //   email: '',
+  //   phone: ''
+  // });
+  // const submitContactForm = useCallback(async () => {
+  //   const response = await API.sendEmail(
+  //     property?.agent_id,
+  //     {
+  //       topic: form.topic,
+  //       address: property?.address,
+  //       message: form.message,
+  //       first_name: form.first_name,
+  //       last_name: form.last_name,
+  //       email: form.email,
+  //       phone: form.phone
+  //     }
+  //   )
+  //   setOpen(false);
+  //   return response;
+  // }, [property, form]);
+  //
+  // const handleChange = (prop) => (event) => {
+  //   setForm({ ...form, [prop]: event.target.value });
+  // };
 
   const isCreator = parseInt(user.token) === property?.agent_id;
-  console.log(property);
   return (
       <Box sx={{ display: "flex", flexDirection: "column", padding: "32px" }}>
         {inProgress && <CircularProgress />}
@@ -316,65 +336,7 @@ function PropertyDetails() {
                     </Button>
                   </Box>
                 )}
-                {!isCreator && (
-                  <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
-                    <DialogTitle sx={{ textAlign: "center" }}>Enquiry to {property.agent.first_name} {property.agent.last_name}</DialogTitle>
-                    <DialogContent dividers>
-                      <Box
-                        component="form"
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          padding: "16px",
-                          "> div:not(:first-of-type)": {
-                            marginTop: "16px",
-                          }
-                        }}
-                      >
-                        <TextField
-                          id="outlined-multiline-static"
-                          label="Message"
-                          multiline
-                          rows={4}
-                          value={form.message}
-                          onChange={handleChange('message')}
-                          defaultValue="Default Value"
-                        />
-                        <TextField
-                          required
-                          value={form.fullName}
-                          onChange={handleChange('fullName')}
-                          label="Full Name"
-                        />
-                        <TextField
-                          required
-                          value={form.email}
-                          onChange={handleChange('email')}
-                          label="Email"
-                        />
-                        <TextField
-                          value={form.phoneNumber}
-                          onChange={handleChange('phoneNumber')}
-                          label="Phone Number"
-                        />
-                      </Box>
-                    </DialogContent>
-                    <Button
-                        onClick={() => {
-                          console.log(form.message);
-                          console.log(form.fullName);
-                          console.log(form.email);
-                          console.log(form.phoneNumber);
-                          setOpen(false);
-                        }}
-                        sx={{
-                          margin: "8px 0",
-                        }}
-                    >
-                      Send Enquiry
-                    </Button>
-                  </Dialog>
-                )}
+                {!isCreator && <Contact property={property} open={open} setOpen={setOpen}/>}
               </Box>
             </Grid>
         )}
