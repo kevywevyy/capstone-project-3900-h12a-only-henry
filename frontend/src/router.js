@@ -139,7 +139,7 @@ export const inspectorPaths = [
 function Layout({ Content, user, activePath }) {
   return (
     <>
-      <Navbar role={!!user.token ? user.role : ROLE_GUEST} path={activePath} />
+      <Navbar role={!!user.role ? user.role : ROLE_GUEST} path={activePath} />
       <Page>
         <Content />
       </Page>
@@ -154,7 +154,7 @@ function Router() {
   let activePath;
   if (user.role === ROLE_MANAGER) activePath = managerPaths;
   if (user.role === ROLE_INSPECTOR) activePath = inspectorPaths;
-  if (!user.token) activePath = paths;
+  if (!user.token || !user.role) activePath = paths;
 
   return (
     <BrowserRouter>

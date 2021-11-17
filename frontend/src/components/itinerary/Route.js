@@ -160,7 +160,7 @@ function Route() {
           </Dialog>
         )}
       {isLoaded && !!userAddress && (
-        <Grid container>
+        <Grid container sx={{ padding: "0 0 16px 0" }}>
           <Grid item xs={12}>
             <GoogleMap
               id="inspection-route"

@@ -97,7 +97,11 @@ function Login() {
       <Button type="submit" sx={{ marginTop: "8px" }}>
         {!inProgress ? "Login" : "Loading..."}
       </Button>
-      {!!error && <Box sx={{ color: "error.main" }}>{error}</Box>}
+      {!!error && (
+        <Box sx={{ color: "error.main" }}>
+          Username or password is incorrect
+        </Box>
+      )}
     </LoginForm>
   );
 }

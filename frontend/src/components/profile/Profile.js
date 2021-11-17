@@ -106,7 +106,11 @@ function Profile() {
           </MenuItem>
         ))}
       </TextField>
-      <Button variant="outlined" sx={{ marginTop: "16px" }} onClick={makeAPIRequest}>
+      <Button
+        variant="outlined"
+        sx={{ marginTop: "16px" }}
+        onClick={makeAPIRequest}
+      >
         Save
       </Button>
     </Box>
