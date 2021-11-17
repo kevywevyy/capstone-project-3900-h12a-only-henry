@@ -49,7 +49,7 @@ function Profile() {
   useEffect(async () => {
     const userProfile = await API.getUserProfile(inspectorId);
     Object.keys(userProfile).map(function (key, index) {
-      userProfile[key] = userProfile[key] || -1;
+      userProfile[key] = userProfile[key] === null ? -1 : userProfile[key];
     });
     setOptions({
       ...userProfile,
@@ -152,7 +152,7 @@ function Profile() {
           label="Property Type"
           value={options.type}
           // TODO: possible bug with parseint
-          onChange={(e) => updateOptions({ type: e.target.value })}
+          onChange={(e) => updateOptions({ property_type: e.target.value })}
           sx={{
             marginTop: "16px",
           }}
