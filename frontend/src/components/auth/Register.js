@@ -71,7 +71,7 @@ function Register() {
     if (!inProgress && !error && !!data && (data.agentId || data.inspectorId)) {
       history.push("/");
     }
-  }, [data, history, setUserContext]);
+  }, [data, history, setUserContext, error, inProgress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
