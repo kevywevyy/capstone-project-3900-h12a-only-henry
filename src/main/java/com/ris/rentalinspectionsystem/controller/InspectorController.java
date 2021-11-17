@@ -84,7 +84,14 @@ public class InspectorController {
             @Valid @RequestBody Login login
     ) {
         try {
-            return inspectorDao.login(login);
+            String token = inspectorDao.login(login);
+            if (token == null) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "The username or password is incorrect"
+                );
+            }
+            return token;
         } catch (DbActionExecutionException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
