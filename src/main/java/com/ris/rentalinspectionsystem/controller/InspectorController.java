@@ -4,6 +4,7 @@ import com.ris.rentalinspectionsystem.dao.EstateDao;
 import com.ris.rentalinspectionsystem.dao.InspectorDao;
 import com.ris.rentalinspectionsystem.model.Estate;
 import com.ris.rentalinspectionsystem.model.Inspector;
+import com.ris.rentalinspectionsystem.model.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.http.HttpStatus;
@@ -76,5 +77,16 @@ public class InspectorController {
         queryParams.values().removeAll(Collections.singleton(null));
 
         return estateDao.getEstates(queryParams);
+    }
+
+    @PostMapping("/login")
+    public String login(
+            @Valid @RequestBody Login login
+    ) {
+        try {
+            return inspectorDao.login(login);
+        } catch (DbActionExecutionException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 }

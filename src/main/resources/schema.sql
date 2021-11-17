@@ -42,10 +42,13 @@ CREATE TABLE IF NOT EXISTS inspections(
 CREATE TABLE IF NOT EXISTS inspectors
 (
     inspector_id BIGSERIAL PRIMARY KEY,
+    password VARCHAR NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
     email      VARCHAR NOT NULL,
-    phone      VARCHAR
+    phone      VARCHAR,
+
+    UNIQUE(email, password)
 );
 
 CREATE TABLE IF NOT EXISTS history
