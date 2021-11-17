@@ -5,7 +5,6 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import API from "../../services/api";
-import PropTypes from 'prop-types';
 
 function Contact({ property, open, setOpen }) {
   const [form, setForm] = useState({
@@ -126,9 +125,5 @@ function Contact({ property, open, setOpen }) {
     </Dialog>
   );
 }
-Contact.propTypes = {
-  property: PropTypes.object,
-  open: PropTypes.bool,
-  setOpen: PropTypes.func
-};
+
 export default Contact;
