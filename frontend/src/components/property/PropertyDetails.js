@@ -15,8 +15,13 @@ import {
   Divider,
   CircularProgress,
 } from "@mui/material";
+import Contact from "../contact/Contact";
 import { PropertyFeaturesComponent } from "./PropertyCard";
 import HousePlaceholder from "../../assets/house-placeholder.jpg";
+import HouseLivingRoomPlaceholder from "../../assets/house-living-room-placeholder.jpg";
+import HouseKitchenPlaceholder from "../../assets/house-kitchen-placeholder.jpg";
+import HouseBathroomPlaceholder from "../../assets/house-bathroom-placeholder.jpg";
+import HouseBackyardPlaceholder from "../../assets/house-backyard-placeholder.jpg";
 import { format } from "date-fns";
 import { ROLE_MANAGER } from "../../const";
 
@@ -25,7 +30,7 @@ function PropertyDetails() {
   const history = useHistory();
   const { user } = useContext(userContext);
   const [property, setProperty] = useState(null);
-
+  const [open, setOpen] = useState(false);
   const fetchProperty = useCallback(async () => {
     const property = await (!!user.token
       ? user.role === ROLE_MANAGER
@@ -81,100 +86,171 @@ function PropertyDetails() {
         <Grid container>
           <Grid
             item
-            xs={6}
+            xs={12}
             sx={{
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              flexDirection: "row",
             }}
           >
-            <Box
+            <Grid container>
+              <Grid item xs={12} sx={{ my: 2, mx: 1 }}>
+                <CardMedia
+                  component="img"
+                  sx={{ width: "100%", height: "100%" }}
+                  image={property.images || HousePlaceholder}
+                  alt="House Pic"
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", flexDirection: "row", my: 1 }}
+              >
+                <Grid container spacing={1}>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      my: 1,
+                      mr: 1,
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      sx={{ width: "100%", height: "50%", mb: 0.5 }}
+                      image={property.images || HouseLivingRoomPlaceholder}
+                      alt="Living Room Pic"
+                    />
+                    <CardMedia
+                      component="img"
+                      sx={{ width: "100%", height: "50%", mt: 0.5 }}
+                      image={property.images || HouseKitchenPlaceholder}
+                      alt="Kitchen Pic"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1}>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{ display: "flex", flexDirection: "column", my: 1 }}
+                  >
+                    <CardMedia
+                      component="img"
+                      sx={{ width: "100%", height: "50%", mb: 0.5 }}
+                      image={property.images || HouseBathroomPlaceholder}
+                      alt="Bathroom Pic"
+                    />
+                    <CardMedia
+                      component="img"
+                      sx={{ width: "100%", height: "50%", mt: 0.5 }}
+                      image={property.images || HouseBackyardPlaceholder}
+                      alt="Backyard Pic"
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Box>
+            <Grid
+              item
+              xs={12}
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {property.open && (
-                <Typography variant="subtitle1" sx={{ color: "success.main" }}>
-                  OPEN
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  margin: "0 32px",
+                }}
+              >
+                {property.open && (
+                  <Typography variant="h6" sx={{ color: "success.main" }}>
+                    OPEN
+                  </Typography>
+                )}
+                {!property.open && (
+                  <Typography variant="h6" sx={{ color: "error.main" }}>
+                    CLOSED
+                  </Typography>
+                )}
+                <Typography variant="h2">{property.address}</Typography>
+                <PropertyFeaturesComponent
+                  bedrooms={property.bedrooms}
+                  bathrooms={property.bathrooms}
+                  garages={property.garages}
+                  property_type={property.property_type}
+                />
+                <Typography
+                  variant="body"
+                  sx={{ marginTop: "8px", fontSize: "20px" }}
+                >{`$${property.price} /per week`}</Typography>
+                <Typography variant="body" sx={{ marginTop: "8px" }}>
+                  {`${property.land_sqm}`} m<sup>2</sup>
                 </Typography>
-              )}
-              {!property.open && (
-                <Typography variant="subtitle1" sx={{ color: "error.main" }}>
-                  CLOSED
-                </Typography>
-              )}
-              <Typography variant="h2">{property.address}</Typography>
-              <PropertyFeaturesComponent
-                bedrooms={property.bedrooms}
-                bathrooms={property.bathrooms}
-                garages={property.garages}
-                property_type={property.property_type}
-              />
-              <Typography
-                variant="body"
-                sx={{ marginTop: "8px" }}
-              >{`$${property.price} per week`}</Typography>
-              <Typography variant="body" sx={{ marginTop: "8px" }}>
-                {`${property.land_sqm} sq m`}
-              </Typography>
-              {isCreator && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    marginTop: "16px",
-                  }}
-                >
-                  <Button
-                    color="secondary"
-                    variant="outlined"
-                    onClick={() => history.push(`/property/${estateId}/edit`)}
+                {isCreator && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      marginTop: "16px",
+                    }}
                   >
-                    <EditIcon />
-                    Edit
-                  </Button>
-                  {property.open && (
                     <Button
-                      color="error"
+                      color="secondary"
                       variant="outlined"
-                      onClick={closeProperty}
-                      sx={{ marginLeft: "16px" }}
+                      onClick={() => history.push(`/property/${estateId}/edit`)}
                     >
-                      <CloseIcon />
-                      Close
+                      <EditIcon />
+                      Edit
                     </Button>
-                  )}
-                  {!property.open && (
-                    <Button
-                      variant="outlined"
-                      onClick={openProperty}
-                      sx={{ marginLeft: "16px" }}
-                    >
-                      <HomeIcon />
-                      Open
-                    </Button>
-                  )}
-                </Box>
-              )}
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <CardMedia
-              component="img"
-              sx={{ width: "100%" }}
-              image={property.images || HousePlaceholder}
-              alt="House Pic"
-            />
-          </Grid>
+                    {property.open && (
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        onClick={closeProperty}
+                        sx={{ marginLeft: "16px" }}
+                      >
+                        <CloseIcon />
+                        Close
+                      </Button>
+                    )}
+                    {!property.open && (
+                      <Button
+                        variant="outlined"
+                        onClick={openProperty}
+                        sx={{ marginLeft: "16px" }}
+                      >
+                        <HomeIcon />
+                        Open
+                      </Button>
+                    )}
+                  </Box>
+                )}
+              </Box>
+            </Grid>
+          </Box>
           <Divider sx={{ width: "100%", margin: "16px 0" }} />
           <Box sx={{ margin: "0 32px" }}>
-            <Typography variant="h2">{property.title}</Typography>
+            <Typography variant="h3">{property.title}</Typography>
             <Typography variant="body1" sx={{ marginTop: "16px" }}>
               {property.description}
             </Typography>
-            <Typography variant="h3" mt={4}>
+          </Box>
+          <Divider sx={{ width: "100%", margin: "16px 0" }} />
+          <Box sx={{ margin: "0 32px" }}>
+            <Typography variant="h4" mt={4}>
               Inspection Times
             </Typography>
             {property.inspection_dates.length === 0 && (
@@ -206,6 +282,38 @@ function PropertyDetails() {
                   )}
                 </Box>
               )
+            )}
+          </Box>
+          <Divider sx={{ width: "100%", margin: "16px 0" }} />
+          <Box sx={{ margin: "0 32px" }}>
+            <Typography variant="h4" mt={4}>
+              Agent Details
+            </Typography>
+            <Typography variant="body1" sx={{ marginTop: "16px" }}>
+              {`Agent Name: ${property.agent.first_name} ${property.agent.last_name}`}
+            </Typography>
+            <Typography variant="body" sx={{ marginTop: "8px" }}>
+              {`Agent Email: ${property.agent.email}`}
+            </Typography>
+            {!!property.agent.phone && (
+              <Typography variant="body" sx={{ marginTop: "8px" }}>
+                {`Agent Mobile: ${property.agent.email}`}
+              </Typography>
+            )}
+            {!isCreator && (
+              <Box>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  sx={{ marginTop: "16px" }}
+                  onClick={() => setOpen(true)}
+                >
+                  Contact Host
+                </Button>
+              </Box>
+            )}
+            {!isCreator && (
+              <Contact property={property} open={open} setOpen={setOpen} />
             )}
           </Box>
         </Grid>

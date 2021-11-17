@@ -113,7 +113,7 @@ function Navbar({ role, path }) {
           )}
           {(isPublicPropertyPage || isLoginPage) && (
             <Button variant="filled" onClick={() => history.push("/register")}>
-              Don't have an account? Register here
+              Don't have an account? Register
             </Button>
           )}
           {isPropertyManager && (

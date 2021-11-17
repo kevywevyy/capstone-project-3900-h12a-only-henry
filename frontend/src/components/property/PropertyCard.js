@@ -33,7 +33,7 @@ const PropertyFeaturesContainer = styled.div`
 function Features({ num, icon }) {
   return (
     <PropertyFeatures>
-      <Typography variant="caption">{num}</Typography>
+      <Typography variant="h5">{num}</Typography>
       {icon}
     </PropertyFeatures>
   );
@@ -52,7 +52,7 @@ export function PropertyFeaturesComponent({
       <Features num={garages} icon={<GarageIcon />} />
       <Divider orientation="vertical" sx={{ marginLeft: "8px" }} />
       <PropertyFeatures>
-        <Typography variant="caption">
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
           {capitalizeFirstLetter(property_type)}
         </Typography>
       </PropertyFeatures>
@@ -107,7 +107,9 @@ function PropertyCard({ property, minify }) {
             property_type={property_type}
           />
           <Typography variant="caption">{`Listed at $${price}/week`}</Typography>
-          <Typography variant="caption">{`${land_sqm} m2`}</Typography>
+          <Typography variant="caption">
+            {`${land_sqm}`}m<sup>2</sup>
+          </Typography>
         </Box>
         {!minify && (
           <Button onClick={() => history.push(`/property/${id}`)}>
