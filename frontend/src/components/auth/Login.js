@@ -60,6 +60,8 @@ function Login() {
     makeAPIRequest();
   };
 
+  console.log(data);
+
   return (
     <LoginForm onSubmit={handleSubmit}>
       <TextField

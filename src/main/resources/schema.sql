@@ -62,3 +62,14 @@ CREATE TABLE IF NOT EXISTS history
     FOREIGN KEY(inspector_id) REFERENCES inspectors(inspector_id),
     FOREIGN KEY(estate_id) REFERENCES estates(estate_id)
 );
+
+CREATE TABLE IF NOT EXISTS profiles
+(
+    profile_id BIGSERIAL PRIMARY KEY,
+    inspector_id BIGINT,
+    bedrooms INTEGER,
+    bathrooms INTEGER,
+    garages INTEGER,
+
+    FOREIGN KEY(inspector_id) REFERENCES inspectors(inspector_id)
+);

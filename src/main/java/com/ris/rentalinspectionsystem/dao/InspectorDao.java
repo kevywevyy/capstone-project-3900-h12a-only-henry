@@ -5,7 +5,9 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ris.rentalinspectionsystem.model.Inspector;
 import com.ris.rentalinspectionsystem.model.Login;
+import com.ris.rentalinspectionsystem.model.Profile;
 import com.ris.rentalinspectionsystem.repositories.InspectorsRepository;
+import com.ris.rentalinspectionsystem.repositories.ProfilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +17,55 @@ import java.util.List;
 public class InspectorDao {
 
     private final InspectorsRepository inspectorsRepository;
+    private final ProfilesRepository profilesRepository;
 
     @Autowired
-    public InspectorDao(InspectorsRepository inspectorsRepository) { this.inspectorsRepository = inspectorsRepository; }
+    public InspectorDao(
+            InspectorsRepository inspectorsRepository,
+            ProfilesRepository profilesRepository
+    ) {
+        this.inspectorsRepository = inspectorsRepository;
+        this.profilesRepository = profilesRepository;
+    }
 
     public List<Inspector> getInspectors() { return (List<Inspector>) inspectorsRepository.findAll(); }
 
     public Inspector getInspector(Long id) { return inspectorsRepository.findById(id).orElse(null); }
 
-    public Inspector createInspector(Inspector inspector) { return inspectorsRepository.save(inspector); }
+    public Profile getProfile(Long inspectorId) { return profilesRepository.findByInspectorId(inspectorId); }
+
+    public Profile patchProfile(Long inspectorId, Profile profile) {
+
+        Profile storedProfile = profilesRepository.findByInspectorId(inspectorId);
+        Profile newProfile = new Profile(
+                storedProfile.getProfileId(),
+                storedProfile.getInspectorId(),
+                profile.getBathrooms() == null ? storedProfile.getBathrooms() : profile.getBathrooms(),
+                profile.getBedrooms() == null ? storedProfile.getBedrooms() : profile.getBedrooms(),
+                profile.getGarages() == null ? storedProfile.getGarages() : profile.getGarages()
+        );
+
+        return profilesRepository.save(newProfile);
+    }
+
+    public Inspector createInspector(Inspector inspector) {
+        Inspector createdInspector = inspectorsRepository.save(inspector);
+        createProfile(
+                new Profile(
+                        null,
+                        createdInspector.getInspectorId(),
+                        null,
+                        null,
+                        null
+                )
+
+        );
+        return createdInspector;
+    }
+
+    public Profile createProfile(Profile profile) {
+        return profilesRepository.save(profile);
+    }
 
     public Inspector putInspector(Long inspectorId, Inspector inspector) {
         inspector.setInspectorId(inspectorId);
