@@ -302,9 +302,11 @@ function PropertyDetails() {
               {`Agent Email: ${property.agent.email}`}
             </Typography>
             {!!property.agent.phone && (
-              <Typography variant="body" sx={{ marginTop: "8px" }}>
-                {`Agent Mobile: ${property.agent.email}`}
-              </Typography>
+              <div>
+                <Typography variant="body" sx={{ marginTop: "8px" }}>
+                  {`Agent Mobile: ${property.agent.phone}`}
+                </Typography>
+              </div>
             )}
             {!isCreator && (
               <Box>
