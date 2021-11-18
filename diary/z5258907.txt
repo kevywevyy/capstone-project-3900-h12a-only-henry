@@ -33,4 +33,13 @@ some pages as he was unsure of where and what to put on future pages. This requi
 and design some new pages according to changes in idea over time
 
 Wk 8
-I was in charge of styling the pages that
+I was in charge of styling the pages for the frontend. After the second demo, we were given some feedback on some
+UI issues on our website and I was in charge in making changes and fixing those problems
+
+Wk 9
+In week 9, I helped create the contact form for the inspectors (both logged in or as guests) on the frontend
+that could automatically send email to the agent's email address about their enquiries.
+
+Wk 10
+Helped the remaining members with pair programming on bugs they couldn't fix. Started laying out the final project report
+as well as made the presentation on canva which would be presented on the day of the final demo.
