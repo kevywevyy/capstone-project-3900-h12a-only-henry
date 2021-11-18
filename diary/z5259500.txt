@@ -38,4 +38,5 @@ Finished RIS-17 and got started on RIS-18 where the backend had to keep track on
 the order of objects that were returned within certain endpoints such that the most-viewed properties were listed first as a recommendation to inspectors.
 
 Week 10
-Completed some quality assurance testing before the final demo. Any bugs that occured in the backend were identified were fixed.
+Completed some quality assurance testing before the final demo. Any bugs that occured in the backend were identified were fixed. This week, we as a group started to work on
+the final project report and cleaned up the code for the project. 
