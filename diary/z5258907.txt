@@ -26,3 +26,11 @@ Our sprint 1 composed of our project being able to:
 - filter properties
 - close and open properties
 - inspectors contacting the manager via auto generated email.
+
+Wk 7
+Approaching the second demo, one of my team members needed help on the frontend and therefore I decided to help redesign
+some pages as he was unsure of where and what to put on future pages. This required me to update the balsamiq flowchart
+and design some new pages according to changes in idea over time
+
+Wk 8
+I was in charge of styling the pages that
