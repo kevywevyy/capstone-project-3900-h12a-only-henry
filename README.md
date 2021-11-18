@@ -1,16 +1,32 @@
-# Setup
+# User Documentation/Manual
+To run the project, follow the project setup for the frontend and the backend. Then, the project can be accessed at `localhost:3000`.
+## Project Setup - Frontend
 
-Here are the steps to run the project locally.
+The frontend is located in the `/frontend` directory of the project.
+### Dependencies
+npm
+Project is created using React so we need Node.js and npm to run the project and install the dependencies
+Installation guide: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+nvm
+Node version management to ensure that the correct node version is used when installing the packages
+Installation guide: https://github.com/nvm-sh/nvm
 
-1. Install Docker
-2. Create a docker volume to store your data: `docker volume create --name=property-management-data`
-3. Run the application: `./gradlew bootJar && docker-compose up --build -d && docker logs rental-inspection-system_web_1 -f`
+### Running the Project
+Before running the project, move into the frontend directory and the user needs to run `nvm use` to ensure the right node version is used. Follow the instructions to install the appropriate node version.
+Once the node version is installed, run `npm install` to install the packages necessary to run the project
+After the packages are installed, run `npm run start` to start the project on localhost port 3000 which you can access at `localhost:3000`
+## Project Setup - Backend
+### Dependencies
+Docker
+The backend can be deployed on any operating system under the condition that docker is installed.
+Follow these instructions to install docker
+Docker-compose
+Docker-compose creates the networking between the java backend and the postgreSQL database.
+Follow these instructions to install docker-compose
 
-# Pushing to this repository
-1. Add the remote
-`git remote add <REMOTE_NAME> git@github.com:unsw-cse-comp3900-9900-21T3/capstone-project-3900-h12a-only-henry.git`
-2. Push to remote
-`git push -u <REMOTE_NAME> <BRANCH_NAME>`
+### Running the Project
+In the root project directory, run `./gradlew bootJar`. This creates an executable jar file.
+Run `docker-compose up --build -d`. This builds and runs the web and database docker containers.
 
 # Restarting the database
 `docker-compose down && docker volume rm property-management-data && docker volume create --name=property-management-data`
