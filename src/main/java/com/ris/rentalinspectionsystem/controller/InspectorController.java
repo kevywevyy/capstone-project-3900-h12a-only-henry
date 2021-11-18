@@ -86,6 +86,7 @@ public class InspectorController {
         queryParams.put("land_sqm_max", inspectorProfile.getLandSqmMax());
         queryParams.put("price_min", inspectorProfile.getPriceMin());
         queryParams.put("price_max", inspectorProfile.getPriceMax());
+        queryParams.put("open", true);
 
         List<Estate> estates = estateDao.getEstates(queryParams);
         estates.sort((e1, e2) -> e2.getViewed().compareTo(e1.getViewed()));
